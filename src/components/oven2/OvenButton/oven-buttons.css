@@ -1,0 +1,36 @@
+
+@import '../colors/palette.css' ;
+@import '../fonts/IBM/ibm-fonts.css' ;
+
+.css-oven-button{
+    height: 40px !important;
+    border-radius: 3px !important;
+    font-size: 13px !important;
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+    white-space: nowrap;
+}
+
+.css-background-oven-button-jh2b2g12{
+    background-color: var(--oven-nice-blue) !important;
+    color: #f1f3f4 !important;
+    font-weight: 400 ;
+}
+
+.css-light-j7fh31{
+    color: var(--oven-nice-darker-blue) !important;
+    background-color: var(--oven-pure-white) !important;
+
+}
+
+
+.css-bordered-oven-button-jh2bg12{
+    border: 2px solid var(--oven-nice-darker-blue) !important;
+}
+
+.button-oven-disable{
+    border-color: var(--oven-disable) !important;
+    color: var(--oven-disable) !important ;
+    cursor: not-allowed !important;
+    background-color: white !important;
+}

@@ -1,0 +1,32 @@
+.dialog-paper{
+    min-width: 600px;
+    min-height: 300px;
+    background-color: white;
+    border: 1px solid var(--oven-mid-gray);
+    border-radius: 3px;
+    font-family: 'robotothin';
+    position: relative;
+    max-height: 85%;
+    overflow: auto;
+}
+
+._jhj2n123{
+    /* background-color: var(--oven-mid-gray) ; */
+    width: 100%;
+    /* height: 40px; */
+    /* border-bottom: 1px solid var(--oven-light-gray); */
+    padding: 10px 10px 10px 10px;
+}
+
+._jsj123{
+    position: absolute;
+    right: 10px;
+}
+
+._jeh123{
+    width: 100%;
+    height: calc(100% - 40px );
+    position: relative;
+    overflow: auto;
+    padding: 10px 10px 10px 10px;
+}
