@@ -29,9 +29,7 @@ export default function OvenContextmenu(props) {
 
   function customClasses(item,defaults=''){
     var classes = defaults +" "
-    
     if (item.danger == true ){ classes = classes + " danger-menu-item" }
-
     return classes
   }
 
@@ -64,7 +62,6 @@ export default function OvenContextmenu(props) {
 
 
   const renderMenuItem = (item ,subItems ) => {
-
     return (
       <MenuItem 
           className={customClasses(item , 'menuitem default-haj32')} 
@@ -99,29 +96,21 @@ export default function OvenContextmenu(props) {
   }
 
   function handleNewEvent(event){
-
       setOpenSubMenu(false)
-
       if (event == null ){ return }
-
       $(_mainMenuRef.current).show()
-      
-      // var loc = {'x' : 0 , 'y' : 0}
-
       const menuWidth = $(contextMenu.current).width()
       const menuHeight = $(contextMenu.current).height()
       const containerheight = $('body').height()
       const containerWidth = $('body').width()
       const deltaX = containerWidth - event.pageX
       const deltaY =  containerheight -  event.pageY
-
       if ( deltaX < menuWidth + 30 ){
         location.x = event.pageX - ( menuWidth )
       }
       else {
         location.x = event.pageX
       }
-
       if ( deltaY < menuHeight + 30 ){
         location.y = event.pageY - ( menuHeight )
       }
@@ -132,9 +121,11 @@ export default function OvenContextmenu(props) {
 
 
   useEffect( () => {
-    handleNewEvent(props.event)
+    if ( props.event){
+      event?.preventDefault()
+      handleNewEvent(props.event)
+    }
   } , [props.event])
-
 
 
   function handleClickAwayEvent(){
@@ -160,21 +151,18 @@ export default function OvenContextmenu(props) {
 
     }
     setPinnedItems(fn)
-
   } , [props.menuItems])
 
 
   return (
 
     <ClickAwayListener onClickAway={handleClickAwayEvent} >
-
       <div ref={ _mainMenuRef } style={{ position : 'relative' , 'display' :  'none' }}>
         <div ref={contextMenu} className="context-menu-wrapper" style={{
             top : location.y + 10 + 'px' ,
             left : location.x + 'px' ,
             overflow:'auto'
         }} >
-
             <div className='pinned-top-hor-items'>
               <div className='pinned-icon-holder'>
                 { 
@@ -196,10 +184,8 @@ export default function OvenContextmenu(props) {
 
               </div>
             </div>
-              
             <MarginBox margin={5} />
             <Divider />
-            
             {
              props.menuItems.map( item => 
               {
@@ -212,11 +198,8 @@ export default function OvenContextmenu(props) {
               }
               ) 
              }
-        
         </div>
-
         {
-
           openSubMenu == true ? 
               <div ref={subContextMenu} className="context-menu-wrapper" style={{
                 top :  subMenuLocation.y ,
@@ -224,16 +207,13 @@ export default function OvenContextmenu(props) {
                 overflow:'auto' ,
                 'transform' : 'translateY(-50%)'
                }} 
-               onMouseLeave= {() => setOpenSubMenu(false )}
+               onMouseLeave= {() => setOpenSubMenu(false)}
                >
               { renderSubMenuItem() }
               
           </div> : null
-
         }
-
       </div>
-
     </ClickAwayListener>
   )
 }

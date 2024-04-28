@@ -49,6 +49,7 @@ export default function BlankContextMenu(props) {
   }
 
     useEffect( () => {
+      console.log('new event ..')
         handleNewEvent(props.event)
     } , [props.event])
 

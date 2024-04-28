@@ -21,7 +21,9 @@ OvenHeadline.args = {
     userselect : true , 
     oargs : {
         background: '#e4e6f1' ,
-        id : getRandomId() ,
+        id : getRandomId() , 
+        marginLeft : 100 , 
+        paddingRight : 15
     } ,
     fontFamily : 'open_sansregular' ,
     textPixel : 20 

@@ -4,6 +4,7 @@ import '../components/oven2/fonts/nokia/nokia-fonts.css'
 import CustomFonts from './fontsbuilder/fonts';
 import '../components/oven2/fonts/IBM/ibm-fonts.css'
 import '../components/oven2/fonts/roboto/roboto.css'
+import '../components/oven2/fonts/openSans/stylesheet.css'
 export default {
     title : 'Oven Fonts' , 
 }

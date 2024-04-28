@@ -4,7 +4,6 @@ export function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-
 export var parseUrl =  function(target){
     const url = `${window.location.href}`
     const queryString = url.substring(url.indexOf("?") + 1);
