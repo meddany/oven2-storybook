@@ -3,9 +3,9 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import React, { useState , useRef, useEffect } from 'react'
 import './style.css'
-import '@/oven/fonts/openSans/stylesheet.css'
-import '@/oven/fonts/nokia/nokia-fonts.css'
-import '@/oven/colors/palette.css'
+import '../fonts/openSans/stylesheet.css'
+import '../fonts/nokia/nokia-fonts.css'
+import '../colors/palette.css'
 
 export default function OvenTabs(props) {
 
@@ -27,7 +27,7 @@ export default function OvenTabs(props) {
     }
 
     return (
-        <div ref={_ref}   className='oven-c-tabs' >
+        <div ref={_ref} className='oven-c-tabs' >
             <Tabs defaultIndex={ options.firstSelected == true ? 0 : -1 }  onSelect={_onChange} >
                 <TabList>
                     {

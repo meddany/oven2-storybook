@@ -28,13 +28,15 @@ const Template = args => {
     )
 }
 
-export const OvenContextmenuTemplate = Template.bind({})
-OvenContextmenuTemplate.args = {
+export const EnhancedContextmenuTemplate = Template.bind({})
+EnhancedContextmenuTemplate.args = {
     menuItems : [
         { 
-        label : 'Open Context1' ,
-        action : function(){ console.log('menu triggered.') } ,
-        pinned : 'both' , 
+        label : 'select option' ,
+        action : function(value){ console.log(value , ' selected ') } , 
+        custom : true ,
+        type : 'select' ,
+        options : ['1' , '2' , 3 ] ,
         child: <FileOpenIcon sx={{color : '#029cfd'}} />
         } ,
         { 
@@ -63,42 +65,6 @@ OvenContextmenuTemplate.args = {
         } ,
         { 
         label : 'Open Contex6t' ,
-        action : function(){ console.log('menu triggered.') } ,
-        pinned : 'both' , 
-        child: <FileOpenIcon sx={{color : '#029cfd'}} />
-        } ,
-        { 
-        label : 'Open Context7' ,
-        action : function(){ console.log('menu triggered.') } ,
-        pinned : 'both' , 
-        child: <FileOpenIcon sx={{color : '#029cfd'}} />
-        } ,
-        { 
-        label : 'Open Context8' ,
-        action : function(){ console.log('menu triggered.') } ,
-        pinned : 'both' , 
-        child: <FileOpenIcon sx={{color : '#029cfd'}} />
-        } ,
-        { 
-        label : 'Open Context9' ,
-        action : function(){ console.log('menu triggered.') } ,
-        pinned : 'both' , 
-        child: <FileOpenIcon sx={{color : '#029cfd'}} />
-        } ,
-        { 
-        label : 'Open Context10' ,
-        action : function(){ console.log('menu triggered.') } ,
-        pinned : 'both' , 
-        child: <FileOpenIcon sx={{color : '#029cfd'}} />
-        } ,
-        { 
-        label : 'Open Context11' ,
-        action : function(){ console.log('menu triggered.') } ,
-        pinned : 'both' , 
-        child: <FileOpenIcon sx={{color : '#029cfd'}} />
-        } ,
-        { 
-        label : 'Open Context12' ,
         action : function(){ console.log('menu triggered.') } ,
         pinned : 'both' , 
         child: <FileOpenIcon sx={{color : '#029cfd'}} />
@@ -174,6 +140,13 @@ OvenContextmenuTemplate.args = {
 
     ] ,
     blurOverlay : false,
-    menuHeight: 26
+    menuHeight: 30 ,
+    menuItemBorder : 5  ,
+    sideIcons : false ,
+    sideIconsSideBorder : false , 
+    sideIconsSideBackground : false ,
+    enableAnimations : true , 
+    animationMotion : 'slide'
+
 }
 

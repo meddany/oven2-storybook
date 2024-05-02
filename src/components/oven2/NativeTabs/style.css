@@ -1,0 +1,21 @@
+.oven-c-tabs li {
+    border-radius: 0px;
+    font-family: 'nokia_pure_textlight' ;
+    font-size: 14px;
+    transition: all 50ms ease-in-out;
+    padding-bottom: 10px;
+}
+
+.oven-c-tabs ul {
+
+}
+
+.react-tabs__tab--disabled{
+    cursor: not-allowed;
+}
+.oven-c-tabs .react-tabs__tab--selected {
+    font-family: 'nokia_pure_textlight' ;
+    border-top: 3px solid #0074e8 ;
+    font-weight: 600;
+    background-color: #fff;
+}   

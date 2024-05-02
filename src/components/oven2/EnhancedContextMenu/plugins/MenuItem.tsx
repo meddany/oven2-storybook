@@ -8,190 +8,196 @@ import MenuBox from './MenuBox';
 import { getRandomId } from '../../commonsjs/common';
 import EnhancedMenuContext from './Context';
 import {createTheme} from '@mui/material';
-
 import $ from 'jquery'
+import { getIconSideStyle , getClassesForSideBar  } from './SideIcons';
+import FileOpenIcon from '@mui/icons-material/FileOpen';
+import MuiSelectBox from '../../MuiSelectBox/MuiSelectBox';
 
-const theme = createTheme({
-    overrides: {
-      MuiMenuItem: {
-        root: {
-          '&:hover': {
-            backgroundColor: 'var(--oven-nice-blue)',
-          },
-        },
-      },
-    },
-  });
+
 
 
 function getStyles(options){
     return {
         fontSize : options.menuItemFontSize ,
         fontFamily: options.menuFontFamily ,
-        borderRadius: 300 ,
+        borderRadius: options.menuItemBorder ,
         pointerEvents: 'all' , 
+        paddingTop: 7
     }
 }
 
-const GlobalMenuItem = forwardRef( ({item , options , style , index , children , onMouseEnter , onMouseLeave , labelBy , nativeid , groupid } , ref ) => {
-    const { addSubPaper , getParentMenu , tmps   } = useContext(EnhancedMenuContext)
+function renderSelectBox(item){
+    return (
+        <div style={{width : '100%' , pointerEvents: 'all' , background : 'white'}} >
+            <MuiSelectBox 
+            options={item.options}
+            size='small'
+            multiple={false}
+            label={item.label}
+            />
+        </div>
+    )
+}
+
+const GlobalMenuItem = forwardRef( ({item , options , style , index , children , onMouseEnter , onMouseLeave , labelBy , nativeid , groupid , onClick } , ref ) => {
+    const { tmps  } = useContext(EnhancedMenuContext)
     
+
     function handleOnClick(event){
-        item.action(event,ref)
+        if ( item.custom == true & item.type == 'select'){
+            stopEventSpreading( true )
+            return
+        }
+        if ( onClick ){
+            onClick(event , ref )
+        }
     }
 
     if ( item.danger ){
         style.backgroundColor = `var(--oven-light-red)` 
         style.color = `var(--oven-danger-red)` 
     } 
-    return (
-        <MenuItem
-            className='cm-custom-menu-item'
-            menu-index={index}
-            sx={{height : options.menuHeight}} 
-            ref={ref}
-            groupid={groupid}
-            nativeid={nativeid}
-            onMouseEnter={onMouseEnter ? onMouseEnter : ()=>{}}
-            onMouseLeave={onMouseLeave ? onMouseLeave : ()=>{}}
-            style={style}
-            theme={theme}
-            onClick={ item.action ?  (e) => {handleOnClick(e)} : () => {}}
-            disabled={ item.disable ? true : false }
-        >   
-            { labelBy == 'label' ? item.label : children  }
 
-        </MenuItem>
+    if ( item.custom ){
+        style.backgroundColor= 'transparent'
+    }
+
+    function getChilds(item){
+        if ( item.custom == true && item.type == 'select' ) { return renderSelectBox(item) }
+        else if ( item.labelBy == 'label'  ) { return item.label }
+        else if ( item.labelBy != 'label'  && item.custom != true ) { return children }
+    }   
+
+    function getClassesIU(item){
+        const classes = ['custom-mui-dim', 'cm-custom-menu-item' , 'prevent---hide' , 'slide-left']
+        if ( item.custom != true ){classes.push('custom-mui-hover-color')}
+        return classes.join(' ')
+    }
+
+    return (
+        <Stack groupid={groupid} className={getClassesIU(item)}  direction={'row'}>  
+            <div style={{wdith : '0px' , height : '100%' , background : 'transparent'}} >
+                <div className={getClassesForSideBar(options)} style={{width : '100%' , height : options.menuHeight , position : 'relative'}} >
+                    {
+                        options.sideBarIcons ? <FileOpenIcon /> : null 
+                    }
+                </div>
+            </div>
+            <MenuItem
+                menu-index={index}
+                sx={{height : options.menuHeight , width : '100%'}} 
+                ref={ref}
+                groupid={groupid}
+                nativeid={nativeid}
+                onMouseEnter={onMouseEnter ? onMouseEnter : ()=>{}}
+                onMouseLeave={onMouseLeave ? onMouseLeave : ()=>{}}
+                style={style}
+                disableRipple={ item.custom ? true : false }
+                disableTouchRipple={ item.custom ? true : false }
+                onClick={onClick}
+                disabled={ item.disable ? true : false }
+            >   
+                <Stack direction={'row'} style={{width : '100%'}}>
+                    <div>
+                        { getChilds(item)  }
+                    </div>
+                </Stack>
+            </MenuItem>
+        </Stack>
     )
 })
 
-function RenderMainMenuSingleItem({ item , options , index , children  , nativeid , groupid }){
+function RenderMainMenuSingleItem({ type , items , options , index , children  , nativeid , groupid , menuRef }){
     const ref = useRef()
-    const { addSubPaper } = useContext(EnhancedMenuContext)
+    const { tmps , updateMenuBoxItems , updateOnScreenBackButton , updatesequenceArray } = useContext(EnhancedMenuContext)
     const style = getStyles(options)
-    return (
-        <GlobalMenuItem groupid={groupid} nativeid={nativeid} index={index} ref={ref} item={item} options={options} style={style} labelBy={"label"} />
-    )
-}
-
-
-function RenderSubMenuSingleItem({ item , options , index , nativeid , groupid }){
-    const ref = useRef()
-    const { addSubPaper , getParentMenu , tmps  } = useContext(EnhancedMenuContext)
-    const style = getStyles(options)
-    const subMenuRef = useRef()
-    const key = getRandomId()
-    const items = item.subItems
-
-    const handleOnMouseExit = (event) => {
-        console.log(tmps.current.lastCreatedMenuBox)
-        setTimeout( () => {
-            const clickedGroupId = $(event.target).attr('groupid')
-            const newSelectedGroup= tmps.current.newSelectedGroup
-            if ( clickedGroupId != newSelectedGroup ){
-                addSubPaper( prev => {
-                    // console.log(prev)
-                    const fn = []
-                    prev.map( elem => {
-                        if ( elem.ref ){
-                            if ( $(elem.ref.current).find('li').attr('groupid') != clickedGroupId ){
-                                fn.push(elem)
-                            }
-                        }
-                    })
-                    return fn 
-                }  )
-            }
-            else{
-                const menu = $(subMenuRef.current).closest('.enh-cm-box')
-                // console.log(menu)
-            }
-        } , 50)
+    
+    const handleOnMoseClick = (event) => {
+        tmps.current.lastClickedMenuLabel = items.label
+        if ( items.subItems ){
+            event.stopPropagation()
+            updateMenuBoxItems( prev => items.subItems)
+            updateOnScreenBackButton(true)
+            updatesequenceArray('push' , items.subItems )
+        }
+    }
+    
+    const handleOnBackClick = (event) =>  {
+        tmps.current.preventMenuHide=true
+        tmps.current.renderMenuInSequenceArray.pop()
+        const previousItems = tmps.current.renderMenuInSequenceArray[tmps.current.renderMenuInSequenceArray.length - 1 ]
+        if ( tmps.current.renderMenuInSequenceArray.length == 1 ){
+            updateOnScreenBackButton(false)
+        }
+        updateMenuBoxItems( prev => previousItems  )
+        updatesequenceArray('flush' , tmps.current.renderMenuInSequenceArray )
     }
 
-    function checkIfOkToCreateMenu(){
-        const itemNid = items[0]['nativeid']
-        const elements = $(`[nativeid="${itemNid}"]`)
-        if ( elements.length >= 1 ){
-            return false
-        }
-        return true
-    }   
-
-    const handleOnMoseEnter=(event)=>{
-        tmps.current.newSelectedGroup = $(event.target).attr('groupid')
-        tmps.current.newSelectedNative = $(event.target).attr('nativeid')
-        const { X , Y } = getMousePosition(event)
-        const id = getRandomId()
-        if ( ! checkIfOkToCreateMenu()) { return <></>}
-        addSubPaper( prev => {
-            console.log('trigger')
-            const subIndex = prev.length
-            tmps.current.lastCreatedMenuBox=subMenuRef
-            const fn = [
-                ...prev , 
-                <MenuBox sub={true} index={subIndex} id={id} key={key} options={options} ref={subMenuRef} >
-                    {
-                        items.map( (item, index) => {
-                            tmps.current.onScreenIds.push(item.nativeid)
-                            return (
-                                <SingleMenuItem groupid={groupid} nativeid={item.nativeid} index={index} key={'__'+index} item={item} options={options} />
-                            )
-                        })
-                    } 
-                </MenuBox>
-            ]
-            return fn 
-        } )
-        
-        function positionSubMenu(){
-            const thisMenu = $(`#${id}`)
-            const parentMenu = thisMenu.prev()
-            const thisItem = event.target
-            const MenuBoxWidth = thisMenu.width()
-            const MenuBoxHeight = thisMenu.width()
-            const thisItemFarFromTop = ( parseInt( $(thisItem).attr('menu-index')) + 1 )  * (options.menuHeight )
-            if ( ! parentMenu.css('top')){ 
-                thisMenu.remove()
-                return
-             }
-            const top = parseInt(parentMenu.css('top').replace('px' , ''))
-            const left = parseInt(parentMenu.css('left').replace('px' , ''))
-            var y = top + thisItemFarFromTop - 20 - parentMenu.scrollTop()
-            var x = left + parentMenu.width() + 20
-            var pageSizeW = document.body.clientWidth;
-            var pageSizeH = document.body.clientHeight;
-            if (x + MenuBoxWidth >= pageSizeW) { x = pageSizeW - MenuBoxWidth*2.1 - options.extraPadding ; }
-            thisMenu.css('top' , y )
-            thisMenu.css('left' , x )
-            thisMenu.css('opacity' , 1 )
-            thisMenu.css('position' , 'absolute' )
-        }
-
-        setTimeout( () => {
-            positionSubMenu()
-        } , 100 )
-
-    }
-
-    return (
-        <GlobalMenuItem groupid={groupid} nativeid={nativeid} labelBy={"children"} index={index} ref={ref} item={item} options={options} style={style} onMouseEnter={handleOnMoseEnter} onMouseLeave={handleOnMouseExit} >
+    if (type == 'back'){
+        // const label = tmps.current.lastClickedMenuLabel
+        return (
+            <GlobalMenuItem 
+            groupid={'bkbtn'} 
+            nativeid={getRandomId()} 
+            labelBy={"children"} 
+            index={index} 
+            ref={ref} 
+            item={{label : ''}} 
+            options={options} 
+            style={style} 
+            onClick={handleOnBackClick}
+            >
             <Stack direction={'row'} alignItems={'center'} justifyContent={'center'} style={{pointerEvents: 'none'}} >
-              <p style={{width : '100%'}} >{item.label}</p>
+              <p style={{ marginLeft : '10px' ,width : '100%' , color : '#b2b3b5'}} >Back</p>
+              <p style={{ display : 'none' }} >prevent---hide</p>
+                <div style={{position : 'absolute' , left : '0px' , transform : 'rotate(180deg)' , pointerEvents: 'none' }} >
+                    <KeyboardArrowRightIcon sx={{height : '100%' , paddingTop : '20%', color : '#029cfd'}} style={{pointerEvents: 'none'}} />
+                </div> 
+            </Stack> 
+        </GlobalMenuItem> 
+        )
+    }
+
+    return (
+        <GlobalMenuItem 
+            groupid={groupid} 
+            nativeid={nativeid} 
+            labelBy={"children"} 
+            index={index} 
+            ref={ref} 
+            item={items} 
+            options={options} 
+            style={style} 
+            onClick={handleOnMoseClick}
+            >
+            <Stack direction={'row'} alignItems={'center'} justifyContent={'center'} style={{pointerEvents: 'none'}} >
+              <p style={{width : '100%'}} >{items.label}</p>
                 <div style={{position : 'absolute' , right : '0px'}} >
-                     <KeyboardArrowRightIcon sx={{height : '100%' , paddingTop : '20%'}} />
+                    {
+                        items.subItems ? <KeyboardArrowRightIcon sx={{height : '100%' , paddingTop : '20%'}} /> : <></>
+                    }
                 </div> 
             </Stack> 
         </GlobalMenuItem>
     )
 }
 
-export default function SingleMenuItem({ item , options , index , nativeid , groupid  }) {
+export default function SingleMenuItem({ type , item , options , index , nativeid , groupid , menuRef   }) {
+    
     return (
-        <>
+        <div style={{pointerEvents: 'none'}} type={type} groupid={groupid} >
             {
-                ! item.subItems ? <RenderMainMenuSingleItem groupid={groupid} nativeid={nativeid} index={index} item={item} options={options} /> : <RenderSubMenuSingleItem groupid={groupid} nativeid={nativeid} index={index} item={item} options={options} />
+                <RenderMainMenuSingleItem 
+                    groupid={groupid} 
+                    nativeid={nativeid} 
+                    index={index} 
+                    items={item} 
+                    options={options}
+                    menuRef={menuRef}
+                    type={type}
+                    
+                />
             }
-        </>
+        </div>
     )
 }

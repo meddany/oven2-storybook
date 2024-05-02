@@ -18,13 +18,11 @@ const OvenRichEditor = props => {
     useEffect( () => {
         if (editor.current) {
             editor.current.setContents(props.defaultText)
-            console.log(editor.current)
         }
     } , [props.defaultText])
 
 
     useEffect( () => {
-        console.log('a')
         if ( props.disable === false ){
             editor.current.disabled()
         }
@@ -50,7 +48,6 @@ const OvenRichEditor = props => {
                 "mode": "classic",
                 "rtl": false,
                 "katex": "window.katex",
-                // "imageGalleryUrl": "https://etyswjpn79.execute-api.ap-northeast-1.amazonaws.com/suneditor-demo",
                 "videoFileInput": false,
                 "tabDisable": false,
                 "buttonList": [
@@ -87,11 +84,7 @@ const OvenRichEditor = props => {
                         "imageGallery",
                         "fullScreen",
                         "showBlocks",
-                        // "codeView",
                         "preview",
-                        // "print",
-                        // "save",
-                        // "template"
                     ]
                 ],
                 "lang(In nodejs)": "en"
