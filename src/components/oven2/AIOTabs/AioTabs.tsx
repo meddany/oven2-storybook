@@ -4,8 +4,9 @@ import { Stack } from '@mui/material'
 import NativeTabs from '../NativeTabs/NativeTabs'
 import './styles.css'
 import $ from 'jquery'
-import { getRandomId } from '../commonsjs/common'
+import { getRandomId } from '../utils/common'
 import MuiTabs from '../MuiTabs/MuiTabs'
+
 export const TabsContext = createContext(null)
 
 const Body = ( {children  } ) => {

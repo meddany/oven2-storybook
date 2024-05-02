@@ -2,8 +2,8 @@
 import React, { useEffect, useRef, useState, forwardRef } from 'react';
 import Draggable from 'react-draggable';
 import './style.css';
-import { getRandomId } from '@/commons/common';
 import $  from 'jquery'
+import { getRandomId } from '../utils/common';
 
 const DragBox = forwardRef((props, ref) => {
   const [contentOptions, setContentOptions] = useState({});

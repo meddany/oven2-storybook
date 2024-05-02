@@ -2,7 +2,7 @@
 import React, { forwardRef, useEffect, useState , useContext } from 'react';
 import EnhancedMenuContext from './Context';
 import $ from 'jquery'
-import { getRandomId } from '../../commonsjs/common';
+import { getRandomId } from '../../utils/common';
 
 function getClasses(options){
   const classes = ['enh-cm-box']

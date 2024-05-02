@@ -3,7 +3,7 @@ import React  from 'react'
 import "./styles.css"
 import Headline from '../Headlines/Headline';
 import { Stack } from '@mui/material';
-import { getRandomId } from '../commonsjs/common';
+import { getRandomId } from '../utils/common';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import copy from 'copy-to-clipboard';
 import CustomIconButton from '../CustomIconButton/CustomIconButton';

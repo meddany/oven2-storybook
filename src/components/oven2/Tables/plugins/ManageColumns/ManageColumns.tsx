@@ -4,7 +4,8 @@ import './styles.css'
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { Stack } from '@mui/material';
-import Headline from '@/oven/Headlines/Headline';
+// import Headline from '@/oven/Headlines/Headline';
+import Headline from '../../../Headlines/Headline';
 
 
 export default function ManageColumns(props) {
@@ -22,7 +23,7 @@ export default function ManageColumns(props) {
 
     return (
         <div>
-            <Stack className='_jsansns'>
+            {/* <Stack className='_jsansns'>
                 {
                     rows.map( (item , index ) => {
                         
@@ -40,7 +41,7 @@ export default function ManageColumns(props) {
                         )
                     })
                 }
-            </Stack>
+            </Stack> */}
         
         </div>
     )

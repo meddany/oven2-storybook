@@ -9,12 +9,12 @@ import CloseIcon from '@mui/icons-material/Close';
 import MarginBox from '../MarginDiv/Margin'
 
 export default function DialogPaper(props) {
-    const {anyflex , anyloading , setDialogOptions } =useContext(GlobalContext)
+    // const {anyflex , anyloading , setDialogOptions } =useContext(GlobalContext)
 
 
-    function _handleClose(){
-        setDialogOptions(prev => ({...prev , open : false , content : null}) )
-    }
+    // function _handleClose(){
+    //     setDialogOptions(prev => ({...prev , open : false , content : null}) )
+    // }
 
     
     return (
@@ -23,13 +23,13 @@ export default function DialogPaper(props) {
                 <MarginBox margin={10} />
                 <Headline color='black' padding={10} size='mid' >{props.header}</Headline>
                 <MarginBox margin={10} />
-                <div className='_jsj123'>
+                {/* <div className='_jsj123'>
                     <CustomIconButton 
                         title='Close' 
                         onClick={(e) => {_handleClose()}}
                         icon={<CloseIcon />}
                     />
-                </div>
+                </div> */}
 
 
             </Stack>

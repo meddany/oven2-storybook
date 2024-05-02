@@ -8,7 +8,7 @@ import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
 import UnfoldLessIcon from '@mui/icons-material/UnfoldLess';
 import Headline from '../Headlines/Headline';
 import CollapsableContainerContext from './CollapsableContainerContext';
-import { getRandomId } from '../commonsjs/common';
+import { getRandomId } from '../utils/common';
 import $ from 'jquery'
 
 export default function CollapsableContainer(props) {

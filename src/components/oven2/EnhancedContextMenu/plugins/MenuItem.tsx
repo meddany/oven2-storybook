@@ -5,7 +5,7 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import {Stack} from '@mui/material';
 import { getMousePosition } from './GetLocations';
 import MenuBox from './MenuBox';
-import { getRandomId } from '../../commonsjs/common';
+import { getRandomId } from '../../utils/common';
 import EnhancedMenuContext from './Context';
 import {createTheme} from '@mui/material';
 import $ from 'jquery'
