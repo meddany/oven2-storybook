@@ -1,9 +1,9 @@
 // @ts-nocheck
 import React from 'react'
-import Headline from '../../components/oven2/Headlines/Headline';
+import { Headline } from '../../components/oven2';
 import '../../components/oven2/colors/palette.css'
 import { Stack } from '@mui/material';
-import MarginBox from '../../components/oven2/MarginDiv/Margin';
+import {MarginBox} from '../../components/oven2';
 
 const cssVariables = [
     { name: 'oven-light-gray', value: '#ecebeb' },

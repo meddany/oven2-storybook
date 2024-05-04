@@ -14,7 +14,7 @@ export default defineConfig({
   build : {
     minify : false , 
     lib : {
-      entry : path.resolve(__dirname , './src/components/oven2/index.ts'),
+      entry : path.resolve(__dirname , './src/components/oven2/index.tsx'),
       name : '@easy_utils_dev/oven2',
       fileName :  'oven2'
     } ,
@@ -40,7 +40,6 @@ export default defineConfig({
 
       ],
       output : {
-        entryFileNames: '[name]/index.js',
         globals : {
           react : 'React',
          'react-dom' : 'ReactDOM'

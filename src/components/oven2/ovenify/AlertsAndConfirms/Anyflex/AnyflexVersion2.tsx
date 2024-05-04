@@ -2,7 +2,7 @@
 import React, { useEffect , useContext, useState,useRef } from 'react'
 import './style.css'
 import '../../../fonts/openSans/stylesheet.css'
-import OvenButton from '../../../OvenButton/OvenButton';
+import OvenButton from '../../../Buttons/OvenButton/OvenButton';
 import { getRandomId } from '@/commons/common';
 import { Stack } from '@mui/material';
 import { useOvenify } from '../../OvenGlobalState';

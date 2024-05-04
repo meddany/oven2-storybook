@@ -2,7 +2,7 @@
 import React , {useContext} from 'react'
 import './styles.css'
 import { Stack } from '@mui/material'
-import Headline from '../../../Headlines/Headline'
+import Headline from '../../components/oven2/Paragraph/Headlines/Headline'
 import CloseIcon from '@mui/icons-material/Close';
 import MarginBox from '../../../MarginDiv/Margin'
 import CustomIconButton from '../../../CustomIconButton/CustomIconButton'

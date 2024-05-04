@@ -3,7 +3,7 @@ import React, { useEffect , useContext, useState } from 'react'
 import { ProgressSpinner } from 'primereact/progressspinner';
 import './style.css'
 import { Stack } from '@mui/material';
-import Headline from '../../../Headlines/Headline';
+import Headline from '../../components/oven2/Paragraph/Headlines/Headline';
 import CustomIconButton from '@/oven/CustomIconButton/CustomIconButton';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { useOvenify } from '../../OvenGlobalState';
