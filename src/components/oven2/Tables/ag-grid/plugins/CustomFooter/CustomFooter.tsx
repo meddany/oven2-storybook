@@ -8,7 +8,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { Stack } from '@mui/material';
 import InfoIcon from '@mui/icons-material/Info';
-
+import { callback } from '../../callbacks/callback';
 function CustomFooter(props) {
 
     const { ref , table } = useContext(TableGlobalContext)
@@ -17,23 +17,18 @@ function CustomFooter(props) {
     const register = useCallback( () => {
         if ( ! table.api  ){ return }
 
-        table.api.registerEvent('onCellClicked' , () => {
-            const cell =  table.api.getSelectedCell()
+        const cell =  table.api.getSelectedCell()
             var cellText = cell.value
             
             if( cellText == null ||  cellText == undefined ){
                 cellText = ''
             }
-
             setInnerTxt( prev => {
-
-                if ( cellText.toString().includes('[') && cellText.toString().includes(']') ){
-
+                if ( callback.isCellAsArray(cell.value) ){
                     const _cellArray = JSON.parse(cellText)
                     return(
                     <Stack direction={'row'} spacing={1} alignItems={'center'} >
                         <InfoIcon sx={{color : '#124191'}} />
-
                         <Select
                             value={_cellArray[0]}
                             size='small'
@@ -45,13 +40,9 @@ function CustomFooter(props) {
                         } )}
 
                         </Select>     
-
                       </Stack>
-
-                                     
                       )
                 }
-
                 else {
                     return(
                         <Stack direction={'row'} spacing={1} >
@@ -60,33 +51,19 @@ function CustomFooter(props) {
                         </Stack>
                     )
                 }
-
-                
             } )
-        })
-
-
-
     } , [table.api])
 
 
     useEffect( () => {
-
-        register()
-        
-        // return () => {
-        //     table.api.clearCustomEventRegisters()
-        // }
-
-    } , [table.api])
+        if(! callback.ready ){return }
+        callback.addOnCellSelectEvent( register )
+    } , [callback.ready])
 
 
     return (
         <div className='oven-c-footer'>
-
             { innerTxt }
-
-
         </div>
     )
 }

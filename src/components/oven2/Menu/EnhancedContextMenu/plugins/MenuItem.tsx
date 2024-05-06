@@ -19,7 +19,12 @@ import { GlobalMenuItem } from './GlobalMenuItem';
 export default function SingleMenuItem({ type , item , options , index , nativeid , groupid , menuRef   }) {
     
     const ref = useRef()
-    const { tmps , updateMenuBoxItems , updateOnScreenBackButton , updatesequenceArray , clearEvent  } = useContext(EnhancedMenuContext)
+    const { updateAndGetBoxLocation , tmps , updateMenuBoxItems , updateOnScreenBackButton , updatesequenceArray , clearEvent  } = useContext(EnhancedMenuContext)
+
+    useEffect( () => {
+        if ( ! item ){ return }
+        updateAndGetBoxLocation()
+    } , [item])
 
     const handleOnMoseClick = (event) => {
         tmps.current.lastClickedMenuLabel = item.label
@@ -68,7 +73,6 @@ export default function SingleMenuItem({ type , item , options , index , nativei
             </GlobalMenuItem> 
         )
     }
-
 
     return (
         <GlobalMenuItem 

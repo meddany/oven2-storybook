@@ -22,6 +22,7 @@ export default function EnhancedContextMenu(props) {
     const [ items , setItems ] = useState([])
     const [ open , setOpen ] = useState(false)
     const tmps = useRef({})
+    
     const [ isOnScreenSubMenu , setIsOnScreenSubMenu ] = useState(false)
     const [ menuItemsInsertionCompleted , setMenuItemsInsertionCompleted ] = useState(false)
     const [ alreadyHidden , setAlreadyHidden ] = useState(false)
@@ -45,6 +46,7 @@ export default function EnhancedContextMenu(props) {
         event : event ? event : null 
 
     })
+    const callback = useRef({options : options})
 
     const parseAndInsertnativeid = (items) => {
         items.map( (item,index) => {
@@ -87,15 +89,16 @@ export default function EnhancedContextMenu(props) {
         else if ( method == 'flush'){tmps.current.renderMenuInSequenceArray=content}
     }
     
-
+    function updateAndGetBoxLocation(){
+        const {X , Y } = getLocations(options.event , ref , options )
+        setOptions( prev => ({...prev , locationX: X , locationY: Y}))
+        setOptions( prev => ({...prev , event : event  }))
+    }
 
     useEffect( () => {
-        // console.log('updaring new location .. ' , event )
         if(!event){return}
         if( ! options.locationX ){
-            const {X , Y } = getLocations(options.event , ref , options )
-            setOptions( prev => ({...prev , locationX: X , locationY: Y}))
-            setOptions( prev => ({...prev , event : event  }))
+            updateAndGetBoxLocation()
         }   
         return () => {
             setOptions( prev => ({...prev, event : null }))
@@ -129,7 +132,8 @@ export default function EnhancedContextMenu(props) {
             updateOnScreenBackButton : setIsOnScreenSubMenu ,
             updatesequenceArray : updatesequenceArray ,
             clearEvent : clearEvent ,
-            menu : menuRef
+            menu : menuRef ,
+            updateAndGetBoxLocation : updateAndGetBoxLocation 
             }}
          >
             { 

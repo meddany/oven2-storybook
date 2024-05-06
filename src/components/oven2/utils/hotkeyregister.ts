@@ -9,14 +9,18 @@ export function convertToPlusKeys(extra , key){
     const keys2 = key
     return (keys1 + "+"+keys2).toLowerCase()
 }
+export function disableHotkey(updatedItem){
+    // console.log(hotkey)
+    const index = updatedItem.index
+    registeredEvents[index]=updatedItem
+}
+
+function updateStore(items){
+    registeredEvents= items
+}
 
 export function hotkeyRegister(hotkey, extra ,action,  label  ,permenant) {
     const keys = convertToPlusKeys(extra , hotkey)
-    hotkeys(keys,(event,hotkeyEvent) => {
-        event.preventDefault()
-        action(event, hotkeyEvent )
-    } )
-
     const index = registeredEvents.length
     const item = {
         keys : keys,
@@ -24,8 +28,21 @@ export function hotkeyRegister(hotkey, extra ,action,  label  ,permenant) {
         extra : extra,
         action : action ,
         permenant : permenant,
-        label : label
+        label : label ,
+        enable: true,
+        index : index
     }
+
+    hotkeys(keys,(event,hotkeyEvent) => {
+        const litem = registeredEvents[index]
+        if( litem.enable == false ){
+            console.warn('event supressed! action will not be triggered')
+            return
+        }
+        event.preventDefault()
+        action(event, hotkeyEvent )
+    } )
+
     registeredEvents.push(item)
     return item
 }

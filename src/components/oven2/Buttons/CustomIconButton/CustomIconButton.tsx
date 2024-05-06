@@ -31,11 +31,10 @@ export default function CustomIconButton(props) {
                 style={props.styles}
                 className={defaultClasses.join(' ')}
                 disabled={disable}
-                onClick={ () => {
-                    if (props.disable != false ){
-                    props.onClick()
+                onClick={ (e) => {
+                    props.onClick(e)
+                    }
                 }
-            }}
             >
 
             {

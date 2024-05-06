@@ -9,7 +9,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { Box } from '@mui/material';
 import Zoom from '@mui/material/Zoom';
 import CustomIconButton from '../../../../Buttons/CustomIconButton/CustomIconButton';
-
+import { callback } from '../../callbacks/callback';
 const SearchField = (props) => {
 
     const inputRef = useRef(null);
@@ -22,9 +22,8 @@ const SearchField = (props) => {
         
     }
     const getTableSize = useCallback(() => {
-        console.log(options)
         if ( table.api ){
-            return table.api.getTableWidth()
+            return callback.getTableSize()
         }
         return 200
     } , [])
