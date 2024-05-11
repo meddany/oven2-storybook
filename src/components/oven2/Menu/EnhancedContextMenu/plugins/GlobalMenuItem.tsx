@@ -35,6 +35,7 @@ function getChilds(item , children , requireHotKeyRegister , shortcutKeys  ){
 function getClassesIU(item){
     const classes = ['custom-mui-dim', 'cm-custom-menu-item' , 'prevent---hide' , 'slide-left']
     if ( item.custom != true ){classes.push('custom-mui-hover-color')}
+    if ( item.danger ){classes.push('danger-menu-item')}
     return classes.join(' ')
 }
 
@@ -58,13 +59,13 @@ export const GlobalMenuItem = forwardRef( ({item , options , index , children , 
     const style = getStyles(options)
     
     useEffect( () => {
-        if ( item.hotkeys ){
-            if ( item.hotkeys.extra ){
-                setRequireHotKeyRegister( prev => true  )
-            }
+        console.log(item)
+        if ( item.hotkey ){
+            setRequireHotKeyRegister( prev => true  )
         }
         return () => {
             setRequireHotKeyRegister( prev => false  )
+            setShortcutKeys( prev => null )
         }
     } , [item])
 
@@ -72,9 +73,7 @@ export const GlobalMenuItem = forwardRef( ({item , options , index , children , 
     useEffect( () => {
         if ( requireHotKeyRegister == false ){ return }
         item.hotkeyUp=true
-        const keys = convertToPlusKeys(item.hotkeys.extra , item.hotkeys.key )
-        setShortcutKeys( prev => keys.toUpperCase() )
-
+        setShortcutKeys( prev => item.hotkey.toUpperCase() )
     } , [requireHotKeyRegister])
 
     function handleOnClick(event){
@@ -89,8 +88,8 @@ export const GlobalMenuItem = forwardRef( ({item , options , index , children , 
     }
 
     if ( item.danger ){
-        style.backgroundColor = '#dd3b4b'
-        style.color = `#fff` 
+        // style.backgroundColor = '#dd3b4b'
+        style.color = `#dd3b4b` 
     } 
     if ( item.customBgColor ){
         style.backgroundColor = item.customBgColor

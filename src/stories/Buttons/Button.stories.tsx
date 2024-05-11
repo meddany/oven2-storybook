@@ -44,5 +44,5 @@ MuiButton.args = {
     progressText: 'In Progress',
     progressColor : '#029cfd',
     theme : 'mui' ,
-    icon: <img src={TestIcon} />
+    icon: <img  alt='test' src={TestIcon} />
 }

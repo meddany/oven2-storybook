@@ -2,13 +2,15 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
 import dts from 'vite-plugin-dts'
+import { nodePolyfills } from 'vite-plugin-node-polyfills'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react() , dts({rollupTypes : true })],
+  plugins: [nodePolyfills({ include: ['fs', 'child_process'] }) ,react() , dts({rollupTypes : true })],
   resolve: {
     alias: {
-        '@': path.resolve(__dirname , './src/')
+        '@': path.resolve(__dirname , './src/') ,
+        child_process: 'rollup-plugin-node-polyfills/polyfills/child_process',
     },
   },
   build : {
@@ -37,6 +39,8 @@ export default defineConfig({
         '@mui/material',
         '@mui/material/styles',
         '@mui/styles',
+        'require',
+        'child_process'
 
       ],
       output : {

@@ -46,10 +46,10 @@ export const EnhancedContextmenuTemplate = Template.bind({})
 EnhancedContextmenuTemplate.args = {
     menuItems : [
         { 
-        label : 'Selectbox 1 in page with header' ,
+        label : 'Page 1' ,
         subItems : [
             {
-                label : 'Set update intervals' ,
+                label : 'Item 1' ,
                 custom : true ,
                 type : 'select' ,
                 frame : 'page' ,
@@ -65,7 +65,7 @@ EnhancedContextmenuTemplate.args = {
                 }
             } ,
             {
-                label : 'Set update intervals2' ,
+                label : 'Item 2' ,
                 custom : true ,
                 type : 'select' ,
                 frame : 'page' ,
@@ -81,7 +81,7 @@ EnhancedContextmenuTemplate.args = {
                 }
             } ,
             {
-                label : 'Update input text' ,
+                label : 'Item 3' ,
                 custom : true ,
                 type : 'custom' ,
                 element : <input type='text' /> ,
@@ -98,7 +98,7 @@ EnhancedContextmenuTemplate.args = {
                 }
             } ,
             {
-                label : 'Update radio' ,
+                label : 'Item 4' ,
                 custom : true ,
                 type : 'radio' ,
                 frame : 'page' ,
@@ -119,41 +119,38 @@ EnhancedContextmenuTemplate.args = {
 
         
         { 
-        label : 'Empty' ,
+        label : 'Item 2' ,
         action : function(){ console.log('menu triggered.') } ,
         pinned : 'both' , 
         child: <FileOpenIcon sx={{color : '#029cfd'}} /> ,
-        hotkeys : {
-            extra : {ctrl : true , alt : false , shift : false } ,
-            key : 'a'
-        }
+        hotkey : 'CTRL+ALT+SHIFT+A'
         } ,
         { 
-        label : 'Open Context3' ,
+        label : 'Item 3' ,
         action : function(){ console.log('menu triggered.') } ,
         pinned : 'both' , 
         child: <FileOpenIcon sx={{color : '#029cfd'}} />
         } ,
         { 
-        label : 'Open Context4' ,
+        label : 'Item 4' ,
         action : function(){ console.log('menu triggered.') } ,
         pinned : 'both' , 
         child: <FileOpenIcon sx={{color : '#029cfd'}} />
         } ,
         { 
-        label : 'Open Context5' ,
+        label : 'Item 5' ,
         action : function(){ console.log('menu triggered.') } ,
         pinned : 'both' , 
         child: <FileOpenIcon sx={{color : '#029cfd'}} />
         } ,
         { 
-        label : 'Open Contex6t' ,
+        label : 'Item 6' ,
         action : function(){ console.log('menu triggered.') } ,
         pinned : 'both' , 
         child: <FileOpenIcon sx={{color : '#029cfd'}} />
         } ,
         { 
-        label : 'Open Context13' ,
+        label : 'Item 7' ,
         action : function(){ console.log('menu triggered.') } ,
         pinned : 'both' , 
         child: <FileOpenIcon sx={{color : '#029cfd'}} />
@@ -162,6 +159,7 @@ EnhancedContextmenuTemplate.args = {
         label : 'Remove' ,
         action : function(){ console.log('menu removed.') } ,
         danger : true ,
+        hotkey : 'CTRL+ALT+SHIFT+D' ,
         },
         { 
         label : 'Disabled' ,
@@ -170,24 +168,21 @@ EnhancedContextmenuTemplate.args = {
         disable: true 
         },
         { 
-        label : '1st sub' ,
+        label : 'Item 8' ,
         subItems : [
             { 
-                label : '2nd sub', 
+                label : 'Item 1 Delete', 
                 subItems : [
                     { 
                         label : 'delete', 
                         action : function(){ console.log('first clicked')}  ,
                         danger : true ,
+                        hotkey : 'CTRL+ALT+SHIFT+X' ,
                     }
                 ] ,
             } ,
             { 
-                label : 'sub 23123', 
-                hotkeys : {
-                    extra : {ctrl : true , alt : false , shift : false } ,
-                    key : 'a'
-                },
+                label : 'Item 2 Shortcut', 
                 subItems : [
                     { 
                         label : 'delete', 

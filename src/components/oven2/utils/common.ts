@@ -62,9 +62,19 @@ export function getFullBandOfCf(cf, width, step = 6.25) {
         fullBand.unshift(freq - 0.625);
       }
     
-      console.log(fullBand);
       return fullBand;
     }
+
+
+    export function range(start,end, step=1) {
+      let result = [];
+      if( ! end ){ end=start ; start=0 }
+      for (let i = start; i < end; i += step) {
+          result.push(i);
+      }
+      return result;
+  }
+  
 
     
     

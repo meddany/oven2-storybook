@@ -15,6 +15,7 @@ import '../../colors/palette.css'
 import { BackMenuItem } from "./plugins/BackMenuItem";
 import { MenuRows } from "./plugins/MenuRows";
 import { MarginBox } from "../../Containers";
+import '../../OvenScrollbar/OvenScrollbar.css'
 export default function EnhancedContextMenu(props) {
     const ref = useRef(null)
     const { x , y  ,customHoverColor , minWidth , enableAnimations , animationMotion ,  menuItems ,event , blurOverlay , menuItemBorder , extraPadding , menuHeight , sideIconsSideBorder , sideIcons , sideIconsSideBackground  } = props;
@@ -31,7 +32,7 @@ export default function EnhancedContextMenu(props) {
         blurOverlay : true , 
         menuColor : '--oven-pure-white' ,
         menuItemFontSize : 13 ,
-        menuFontFamily : 'open_sansregular' ,
+        menuFontFamily : 'Roboto' ,
         menuHeight : 26 ,
         minWidth : minWidth ? minWidth : 'none',
         menuItemBorder : 300 ,
@@ -141,7 +142,7 @@ export default function EnhancedContextMenu(props) {
                     <div 
                         ref={ref} 
                         onClick={(event) => {handleClickAwayEvent(event, true , 'clkaway')}}
-                        className="enh-cm-paper"
+                        className="enh-cm-paper custom-scroll-bar"
                     >
                     <MenuBox sub={false} options={options} ref={menuRef} >
                         <BackMenuItem  isOnScreenSubMenu={isOnScreenSubMenu} ref={menuRef} options={options} />

@@ -2,7 +2,7 @@
 import $ from 'jquery';
 import hotkeys from 'hotkeys-js';
 
-const registeredEvents = []
+var registeredEvents = []
 export function convertToPlusKeys(extra , key){
     const trueKeys = Object.keys(extra).filter(key => extra[key] === true)
     const keys1 =  trueKeys.join('+')
@@ -32,7 +32,6 @@ export function hotkeyRegister(hotkey, extra ,action,  label  ,permenant) {
         enable: true,
         index : index
     }
-
     hotkeys(keys,(event,hotkeyEvent) => {
         const litem = registeredEvents[index]
         if( litem.enable == false ){
@@ -42,7 +41,6 @@ export function hotkeyRegister(hotkey, extra ,action,  label  ,permenant) {
         event.preventDefault()
         action(event, hotkeyEvent )
     } )
-
     registeredEvents.push(item)
     return item
 }

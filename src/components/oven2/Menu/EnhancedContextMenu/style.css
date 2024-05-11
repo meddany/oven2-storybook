@@ -49,7 +49,7 @@
 }
 
 .custom-mui-hover-color .MuiButtonBase-root:hover{
-  background : var(--hover-color) !important ;
+  background : var(--hover-color) ;
   /* background: linear-gradient(90deg, rgba(103,94,255,1) 0%, rgba(121,9,99,1) 52%, rgba(0,212,255,1) 100%) !important; */
   color: white !important;
 }
@@ -173,10 +173,15 @@
   font-family: Arial, sans-serif; 
   font-size:  8px; /* Adjust font size as needed */
   color: #999; /* Adjust color to your preference */
-  margin-left: 5px; /* Adjust spacing between item and hotkey */
+  margin-left: 15px; /* Adjust spacing between item and hotkey */
   position: relative;
   right: 0px;
   font-weight: 500;
   top: 0px;
   transform: translateY(0%);
+}
+
+
+.danger-menu-item:hover li{
+  background: #F03A47 !important; 
 }

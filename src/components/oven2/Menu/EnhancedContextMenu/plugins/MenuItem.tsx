@@ -65,7 +65,7 @@ export default function SingleMenuItem({ type , item , options , index , nativei
                 onClick={handleOnBackClick}
                 >
                 <Stack direction={'row'} alignItems={'center'} justifyContent={'center'} style={{pointerEvents: 'none'}} >
-                    <div style={{position : 'absolute' , left : '0px' , top : '-3px' , transform : 'rotate(180deg)' , pointerEvents: 'none', }} >
+                    <div style={{position : 'absolute' , left : '0px' , top : '-1.5px' , transform : 'rotate(180deg)' , pointerEvents: 'none', }} >
                         <KeyboardArrowRightIcon sx={{ position : 'relative' , left : '10px' , height : '100%' , paddingTop : '20%', color : '#029cfd'}} style={{pointerEvents: 'none'}} />
                     </div> 
                     <p style={{ marginLeft : '10px' ,width : '100%' , color : '#b2b3b5'}} >Back</p>
@@ -87,9 +87,9 @@ export default function SingleMenuItem({ type , item , options , index , nativei
             >
             <Stack direction={'row'} alignItems={'center'} justifyContent={'center'} style={{pointerEvents: 'none'}} >
                 <p style={{width : '100%'}} >{item.label}</p>
-                <div style={{position : 'absolute' , right : '0px'}} >
+                <div style={{position : 'absolute' , right : '0px', height : '100%'}} >
                     {
-                        item.subItems ? <KeyboardArrowRightIcon sx={{height : '100%' , paddingTop : '10%'}} /> : <></>
+                        item.subItems ? <KeyboardArrowRightIcon sx={{height : '100%'}} /> : <></>
                     }
                 </div> 
             </Stack> 
