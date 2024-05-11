@@ -26,10 +26,8 @@ export default defineConfig({
         'react-dom' ,
         "xlsx" ,
         "react-hooks-global-state",
-        "ag-grid-react" ,
         "@szhsin/react-menu" ,
         "file-saver" ,
-        "xlsx" ,
         "react-toastify" ,
         "react-toastify/dist/ReactToastify.css" , 
         '@emotion/react',
@@ -40,8 +38,11 @@ export default defineConfig({
         '@mui/material/styles',
         '@mui/styles',
         'require',
-        'child_process'
-
+        'child_process',
+        'ag-grid-react',
+        '@szhsin',
+        'clsx' ,
+        'primereact' ,
       ],
       output : {
         globals : {
