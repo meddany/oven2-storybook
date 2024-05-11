@@ -25,16 +25,16 @@ function MenuItemHeader(props){
     )
 }
 
-function getChilds(item , children , requireHotKeyRegister , shortcutKeys  ){
+function getChilds(item , children , requireHotKeyRegister , shortcutKeys , type  ){
     if ( item.custom == true && item.type == 'select' ) { return <ContextMenuSelectBox item={item} /> }
     if ( item.custom == true && item.type == 'custom' ) { return item.element }
     if ( item.custom == true && item.type == 'radio' ) { return <ContextMenuRadioGroups item={item} /> }
     else{ return <NormalMenuItemLabel requireHotKeyRegister={requireHotKeyRegister} shortcutKeys={shortcutKeys} children={children} />}
 } 
 
-function getClassesIU(item){
+function getClassesIU(item , type ){
     const classes = ['custom-mui-dim', 'cm-custom-menu-item' , 'prevent---hide' , 'slide-left']
-    if ( item.custom != true ){classes.push('custom-mui-hover-color')}
+    if ( item.custom != true && type != 'pinned'){classes.push('custom-mui-hover-color')}
     if ( item.danger ){classes.push('danger-menu-item')}
     return classes.join(' ')
 }
@@ -52,14 +52,13 @@ export function getStyles(options){
 }
 
 
-export const GlobalMenuItem = forwardRef( ({item , options , index , children , onMouseEnter , onMouseLeave , labelBy , nativeid , groupid , onClick } , ref ) => {
+export const GlobalMenuItem = forwardRef( ({type , item , options , index , children , onMouseEnter , onMouseLeave , labelBy , nativeid , groupid , onClick } , ref ) => {
     const { clearEvent , tmps  } = useContext(EnhancedMenuContext)
     const [ requireHotKeyRegister , setRequireHotKeyRegister] = useState('')
     const [ shortcutKeys , setShortcutKeys ] = useState('')
     const style = getStyles(options)
     
     useEffect( () => {
-        console.log(item)
         if ( item.hotkey ){
             setRequireHotKeyRegister( prev => true  )
         }
@@ -82,8 +81,10 @@ export const GlobalMenuItem = forwardRef( ({item , options , index , children , 
             return
         }
         else if ( onClick ){
-            event.stopPropagation()
-            onClick(event , ref )
+            if (! item.disable ){
+                event.stopPropagation()
+                onClick(event , ref )
+            }
         }
     }
 
@@ -113,7 +114,7 @@ export const GlobalMenuItem = forwardRef( ({item , options , index , children , 
 
 
     return (
-        <Stack groupid={groupid} className={getClassesIU(item)} style={{width : '100%' , position: 'relative' , '--hover-color' : options.customHoverColor  }} >  
+        <Stack groupid={groupid} className={getClassesIU(item, type)} style={{width : '100%' , position: 'relative' , '--hover-color' : options.customHoverColor  }} >  
             <MenuItem
                 menu-index={index}
                 style={{ height : style.height , width : style.width, position : 'relative'}} 
@@ -132,7 +133,7 @@ export const GlobalMenuItem = forwardRef( ({item , options , index , children , 
                 <Stack  style={{ height: style.height   ,width : '100%', position : 'relative'}}>
                     <MenuItemHeader item={item} />
                     { 
-                        getChilds(item , children , requireHotKeyRegister , shortcutKeys  ) 
+                        getChilds(item , children , requireHotKeyRegister , shortcutKeys , type ) 
                     }
 
                 </Stack>

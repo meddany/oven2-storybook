@@ -15,7 +15,7 @@ export const BackMenuItem = forwardRef( (props, ref ) => {
                         options={options} 
                         type="back" 
                     />
-                    <div style={{paddingBottom : '10px'}} />
+                    <div style={{paddingBottom : '5px'}} />
                 </> 
                 : 
                     null 

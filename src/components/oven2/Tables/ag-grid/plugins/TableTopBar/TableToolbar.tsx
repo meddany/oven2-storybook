@@ -11,6 +11,7 @@ import { callback } from "../../callbacks/callback";
 import { IconButton as OvenIconButton } from "../../../../Buttons";
 export const Tabletoolbar = forwardRef(( props, ref ) =>{
     const { options ,  table , toolbarBtns  } = useContext(TableGlobalContext);
+    
     return(
         <>
             {
@@ -28,7 +29,17 @@ export const Tabletoolbar = forwardRef(( props, ref ) =>{
                             onClick={table.api.refresh}
                             title='Refresh'
                             icon={<RefreshIcon  />}
-                            disable={callback.api.options.onRefreshButtonDisable ? true : false}
+                            disable={
+                                () => {
+                                    try {
+                                        const s = callback.api.options.onRefreshButtonDisable  ?  true :  false
+                                        return s
+                                    }
+                                    catch(error){
+                                        return false
+                                    }
+                                }
+                            }
                         />
 
                         <OvenIconButton 

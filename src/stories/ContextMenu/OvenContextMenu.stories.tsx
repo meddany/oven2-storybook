@@ -121,7 +121,7 @@ EnhancedContextmenuTemplate.args = {
         { 
         label : 'Item 2' ,
         action : function(){ console.log('menu triggered.') } ,
-        pinned : 'both' , 
+        pinned : true, 
         child: <FileOpenIcon sx={{color : '#029cfd'}} /> ,
         hotkey : 'CTRL+ALT+SHIFT+A'
         } ,
@@ -146,14 +146,10 @@ EnhancedContextmenuTemplate.args = {
         { 
         label : 'Item 6' ,
         action : function(){ console.log('menu triggered.') } ,
-        pinned : 'both' , 
-        child: <FileOpenIcon sx={{color : '#029cfd'}} />
         } ,
         { 
         label : 'Item 7' ,
         action : function(){ console.log('menu triggered.') } ,
-        pinned : 'both' , 
-        child: <FileOpenIcon sx={{color : '#029cfd'}} />
         } ,
         { 
         label : 'Remove' ,

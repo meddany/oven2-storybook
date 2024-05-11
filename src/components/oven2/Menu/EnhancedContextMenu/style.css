@@ -10,7 +10,6 @@
     left: 0px;
     width: 100vw;
     height: 100vh;
-    /* z-index: 99; */
     pointer-events: auto;
     z-index: 300 ;
 }
@@ -29,11 +28,10 @@
     border-radius: 3px;
     min-width: 180px;
     min-height: 30px;
-    border: 1px solid var(--oven-mid-gray);
-    max-height:  calc(100% - 150px) ;
-    overflow-y: auto;
     overflow-x: hidden;
     z-index: 301 ;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    padding-top: 10px;
 }
 
 .enh-cm-side-icon-container *{
@@ -41,9 +39,7 @@
     height: 100%;
 }
 
-.custom-mui-dim *{
-  /* max-height: 30px !important; */
-}
+
 .custom-mui-dim .css-1pysi21-MuiFormLabel-root-MuiInputLabel-root{
   line-height : .8 !important;
 }

@@ -42,6 +42,7 @@ export var callback = {
                 {
                   label : 'Copy Cell' ,
                   action : callback.copySingleCell ,
+                  hotkey: "CTRL+C" ,
                   hotkeys : {
                     extra : {ctrl : true , alt : false , shift : false } ,
                     key : 'c'
@@ -50,6 +51,7 @@ export var callback = {
                 {
                   label : 'Copy Header & Cell' ,
                   action : callback.copyHeaderAndCell ,
+                  hotkey: "CTRL+ALT+C" ,
                   hotkeys : {
                     extra : {ctrl : true , alt : true , shift : false } ,
                     key : 'c'
@@ -276,6 +278,7 @@ export var callback = {
           {
             label : 'Toggle row color',
             action : callback.changeRowColor ,
+            hotkey: "shift+h" ,
             hotkeys : {
               extra : {ctrl : false , alt : false , shift : true } ,
               key : 'h'
@@ -284,6 +287,7 @@ export var callback = {
           {
             label : 'Reset row color',
             action : ()=>{callback.changeRowColor('reset')} ,
+            hotkey: "shift+c" ,
             hotkeys : {
               extra : {ctrl : false , alt : false , shift : true } ,
               key : 'c'
@@ -309,6 +313,7 @@ export var callback = {
           {
             label : 'Save preferences',
             action : callback.savePrefernces ,
+            hotkey: "shift+s" ,
             hotkeys : {
               extra : {ctrl : false , alt : false , shift : true } ,
               key : 's'
@@ -317,6 +322,7 @@ export var callback = {
           {
             label : 'Restore preferences',
             action : callback.restoreState ,
+            hotkey: "shift+r" ,
             hotkeys : {
               extra : {ctrl : false , alt : false , shift : true } ,
               key : 'r'
@@ -332,6 +338,7 @@ export var callback = {
               {
                 label : 'Excel',
                 action : callback.exportAsExcel,
+                hotkey: "shift+x" ,
                 hotkeys : {
                   extra : {ctrl : false , alt : false , shift : true } ,
                   key : 'x'
@@ -367,7 +374,7 @@ export var callback = {
                 header : 'Row Heighlight colors' ,
                 frameOptions : {
                   // width : '250px' ,
-                  // height : '300px'
+                  // height : '200px'
                  } ,
               },
               {

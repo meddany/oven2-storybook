@@ -31,7 +31,6 @@
   import ManageColumns from "../plugins/ManageColumns/ManageColumns"
   import { getRandomId } from '../../utils/common';
   import 'ag-grid-community/styles/ag-grid.css';
-  // import './themes/ag-grid-light_1.css'
   import 'ag-grid-community/styles/ag-theme-alpine.css';
   import './ag-grid-custom.css';
 

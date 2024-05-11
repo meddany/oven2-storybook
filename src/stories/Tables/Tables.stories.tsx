@@ -28,16 +28,12 @@ const Template = args => {
     return (
         <Stack style={{width : 'calc(100vw)' , height : 'calc(100vh - 80px)', position : 'relative'}} >
             <Button theme='mui' bordered={true} light={true} children="DO SOMETHING" onClick={() => {
-                console.log('refresh table..')
+                console.log('refresh table..' , callback)
                 getData().then( data => {
-                    console.log(data)
-                    updateArgs({
-                        dataset : data
-                    })
+                    callback.current.updateRowsData(data)
                 })
-
             }} />
-            <DataTable {...args} ahmed={true} ref={callback} />
+            <DataTable {...args} ref={callback} />
         </Stack>
     )
 }

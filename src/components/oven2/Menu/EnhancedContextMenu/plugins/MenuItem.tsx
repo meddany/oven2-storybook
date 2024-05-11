@@ -16,30 +16,42 @@ import '../../../colors/palette.css'
 import { GlobalMenuItem } from './GlobalMenuItem';
 
 
-export default function SingleMenuItem({ type , item , options , index , nativeid , groupid , menuRef   }) {
+export default function SingleMenuItem({ type , item , options , index , nativeid , groupid , menuRef  , children  }) {
     
     const ref = useRef()
-    const { updateAndGetBoxLocation , tmps , updateMenuBoxItems , updateOnScreenBackButton , updatesequenceArray , clearEvent  } = useContext(EnhancedMenuContext)
+    const { clearPinnedItems , updatePinnedItems , updateAndGetBoxLocation , tmps , updateMenuBoxItems , updateOnScreenBackButton , updatesequenceArray , clearEvent  } = useContext(EnhancedMenuContext)
 
     useEffect( () => {
         if ( ! item ){ return }
         updateAndGetBoxLocation()
+        if ( item.pinned == true || item.pinned == 'both'){
+            updatePinnedItems( prev => ([...prev , item]))
+        }
     } , [item])
 
     const handleOnMoseClick = (event) => {
-        tmps.current.lastClickedMenuLabel = item.label
-        if ( item.subItems ){
-            event.stopPropagation()
-            updateMenuBoxItems( prev => item.subItems)
-            updateOnScreenBackButton(true)
-            updatesequenceArray('push' , item.subItems )
-            return
+        if (type != 'pinned'){ 
+            if ( item.subItems ){
+                event.stopPropagation()
+                updateMenuBoxItems( prev => item.subItems)
+                updateOnScreenBackButton(true)
+                updatesequenceArray('push' , item.subItems )
+                const status = item.subItems.map( item => item.pinned ).includes(true)
+                if ( status == false ){
+                    clearPinnedItems()
+                }
+                return
+            }
+            if ( ! item.disable ){
+                item.action(item)
+                clearEvent()
+            }  
         }
-        item.action(item)
-        clearEvent()
-        
+        else if ( type == 'pinned'){
+            clearEvent()
+        }
     }
-    
+
     const handleOnBackClick = (event) =>  {
         event.stopPropagation()
         tmps.current.preventMenuHide=true
@@ -64,12 +76,28 @@ export default function SingleMenuItem({ type , item , options , index , nativei
                 options={options} 
                 onClick={handleOnBackClick}
                 >
-                <Stack direction={'row'} alignItems={'center'} justifyContent={'center'} style={{pointerEvents: 'none'}} >
-                    <div style={{position : 'absolute' , left : '0px' , top : '-1.5px' , transform : 'rotate(180deg)' , pointerEvents: 'none', }} >
-                        <KeyboardArrowRightIcon sx={{ position : 'relative' , left : '10px' , height : '100%' , paddingTop : '20%', color : '#029cfd'}} style={{pointerEvents: 'none'}} />
-                    </div> 
-                    <p style={{ marginLeft : '10px' ,width : '100%' , color : '#b2b3b5'}} >Back</p>
+                <Stack sx={{maxHeight: '30px'}} direction={'row'} alignItems={'center'} justifyContent={'center'} style={{pointerEvents: 'none'}} >
+                    <KeyboardArrowRightIcon sx={{ position : 'relative', color : '#029cfd'}} style={{pointerEvents: 'none' , transform: 'rotate(180deg)'}} />
+                    <p style={{width : '100%' , color : '#b2b3b5'}} >Back</p>
                 </Stack> 
+            </GlobalMenuItem> 
+        )
+    }
+
+    if (type == 'pinned'){
+        return (
+            <GlobalMenuItem 
+                groupid={groupid} 
+                nativeid={getRandomId()} 
+                labelBy={"children"} 
+                index={index} 
+                ref={ref} 
+                type={type}
+                item={{label : ''}} 
+                options={options} 
+                onClick={handleOnMoseClick}
+                >
+                { children }
             </GlobalMenuItem> 
         )
     }

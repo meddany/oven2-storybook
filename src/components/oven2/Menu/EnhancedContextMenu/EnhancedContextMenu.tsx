@@ -16,6 +16,8 @@ import { BackMenuItem } from "./plugins/BackMenuItem";
 import { MenuRows } from "./plugins/MenuRows";
 import { MarginBox } from "../../Containers";
 import '../../OvenScrollbar/OvenScrollbar.css'
+import PinnedItemsRow from "./plugins/PinnedItemsRow";
+import { Stack } from "@mui/material";
 export default function EnhancedContextMenu(props) {
     const ref = useRef(null)
     const { x , y  ,customHoverColor , minWidth , enableAnimations , animationMotion ,  menuItems ,event , blurOverlay , menuItemBorder , extraPadding , menuHeight , sideIconsSideBorder , sideIcons , sideIconsSideBackground  } = props;
@@ -23,7 +25,7 @@ export default function EnhancedContextMenu(props) {
     const [ items , setItems ] = useState([])
     const [ open , setOpen ] = useState(false)
     const tmps = useRef({})
-    
+    const [ pinnedItems , setPinnedItems ] = useState([])
     const [ isOnScreenSubMenu , setIsOnScreenSubMenu ] = useState(false)
     const [ menuItemsInsertionCompleted , setMenuItemsInsertionCompleted ] = useState(false)
     const [ alreadyHidden , setAlreadyHidden ] = useState(false)
@@ -114,14 +116,22 @@ export default function EnhancedContextMenu(props) {
 
     function clearEvent(){
         setOptions( prev => ({...prev, event : null }))
+        clearPinnedItems()
+    }
+
+    function clearPinnedItems(){
+        setPinnedItems( prev => [])
     }
 
     const handleClickAwayEvent = (event , force , source ) => {
-        // console.log(event , force , source )
         if ( source == 'clkaway'){
             clearEvent()
         }
     }
+
+    useEffect( ()=>{
+        console.log('updating pinned items ..' , pinnedItems)
+    } ,[pinnedItems] )
 
     return (
         <EnhancedMenuContext.Provider value={{
@@ -134,7 +144,10 @@ export default function EnhancedContextMenu(props) {
             updatesequenceArray : updatesequenceArray ,
             clearEvent : clearEvent ,
             menu : menuRef ,
-            updateAndGetBoxLocation : updateAndGetBoxLocation 
+            updateAndGetBoxLocation : updateAndGetBoxLocation ,
+            pinnedItems: pinnedItems ,
+            updatePinnedItems: setPinnedItems ,
+            clearPinnedItems : clearPinnedItems
             }}
          >
             { 
@@ -146,7 +159,10 @@ export default function EnhancedContextMenu(props) {
                     >
                     <MenuBox sub={false} options={options} ref={menuRef} >
                         <BackMenuItem  isOnScreenSubMenu={isOnScreenSubMenu} ref={menuRef} options={options} />
-                        <MenuRows items={items} options={options} ref={menuRef} />
+                        <PinnedItemsRow items={pinnedItems} ref={menuRef} options={options} />
+                        <div style={{width : '100%' , height: 'calc(100% - 600px)' , overflowY: 'auto', paddingBottom : '10px'}} >
+                            <MenuRows items={items} options={options} ref={menuRef} />
+                        </div>
                     </MenuBox>
                 </div>
                 : null 
