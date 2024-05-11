@@ -51,15 +51,6 @@ export default function EnhancedContextMenu(props) {
     })
     const callback = useRef({options : options})
 
-    const parseAndInsertnativeid = (items) => {
-        items.map( (item,index) => {
-            item.nativeid = getRandomId()
-            if ( item.subItems ){ 
-                parseAndInsertnativeid(item.subItems)
-            }
-        })
-    }
-
     function reset(){
         setItems(prev => menuItems )
         updatesequenceArray('flush' , [menuItems] )
@@ -72,8 +63,7 @@ export default function EnhancedContextMenu(props) {
             event.preventDefault()
             tmps.current.renderMenuInSequenceArray=[]
             tmps.current.lastClickedenulabel = ''
-            parseAndInsertnativeid(menuItems) 
-            reset()           
+            reset()          
         }
         if ( extraPadding ){ setOptions( prev => ({...prev , extraPadding }))}
         if ( menuHeight ){setOptions( prev => ({...prev , menuHeight }))}
@@ -94,8 +84,8 @@ export default function EnhancedContextMenu(props) {
     
     function updateAndGetBoxLocation(){
         const {X , Y } = getLocations(options.event , ref , options )
-        setOptions( prev => ({...prev , locationX: X , locationY: Y}))
         setOptions( prev => ({...prev , event : event  }))
+        setOptions( prev => ({...prev , locationX: X , locationY: Y}))
     }
 
     useEffect( () => {
@@ -108,7 +98,7 @@ export default function EnhancedContextMenu(props) {
             setOptions( prev => ({...prev, locationX : false }))
             setOptions( prev => ({...prev, locationY : false }))
         }
-    } , [ options.event])
+    } , [ event ])
 
     useEffect( () => {
         blurOverlay ? $(ref.current).addClass('blur-overylay') : $(ref.current).removeClass('blur-overylay')
@@ -117,7 +107,6 @@ export default function EnhancedContextMenu(props) {
     function clearEvent(){
         setOptions( prev => ({...prev, event : null }))
         clearPinnedItems()
-        tmps.current.menuHeight=0
     }
 
     function clearPinnedItems(){
@@ -131,20 +120,22 @@ export default function EnhancedContextMenu(props) {
     }
 
     return (
-        <EnhancedMenuContext.Provider value={{
-            mainRef : ref ,
-            tmps ,
-            options,
-            handleClickAwayEvent , 
-            updateMenuBoxItems: setItems ,
-            updateOnScreenBackButton : setIsOnScreenSubMenu ,
-            updatesequenceArray : updatesequenceArray ,
-            clearEvent : clearEvent ,
-            menu : menuRef ,
-            updateAndGetBoxLocation : updateAndGetBoxLocation ,
-            pinnedItems: pinnedItems ,
-            updatePinnedItems: setPinnedItems ,
-            clearPinnedItems : clearPinnedItems
+        <EnhancedMenuContext.Provider 
+            value=
+            {{
+                mainRef : ref ,
+                tmps ,
+                options,
+                handleClickAwayEvent , 
+                updateMenuBoxItems: setItems ,
+                updateOnScreenBackButton : setIsOnScreenSubMenu ,
+                updatesequenceArray : updatesequenceArray ,
+                clearEvent : clearEvent ,
+                menu : menuRef ,
+                updateAndGetBoxLocation : updateAndGetBoxLocation ,
+                pinnedItems: pinnedItems ,
+                updatePinnedItems: setPinnedItems ,
+                clearPinnedItems : clearPinnedItems
             }}
          >
             { 
@@ -153,12 +144,11 @@ export default function EnhancedContextMenu(props) {
                         ref={ref} 
                         onClick={(event) => {handleClickAwayEvent(event, true , 'clkaway')}}
                         className="enh-cm-paper custom-scroll-bar"
-                        style={{opacity : 0 }}
                     >
                     <MenuBox sub={false} options={options} ref={menuRef} >
                         <BackMenuItem  isOnScreenSubMenu={isOnScreenSubMenu} ref={menuRef} options={options} />
                         <PinnedItemsRow items={pinnedItems} ref={menuRef} options={options} />
-                        <div style={{width : '100%' , maxHeight : '60vh' ,height: tmps.current.menuHeight , overflowY: 'auto', paddingBottom : '10px'}} >
+                        <div className='adjust-height' style={{width : '100%' , maxHeight : '60vh', overflowY: 'auto', paddingBottom : '10px'}} >
                             <MenuRows items={items} options={options} ref={menuRef} />
                         </div>
                     </MenuBox>

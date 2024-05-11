@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React , { forwardRef, useContext, useEffect, useRef, useState } from 'react'
+import React , { forwardRef, memo, useContext, useEffect, useRef, useState } from 'react'
 import { MenuItem } from '@mui/material'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import {Stack} from '@mui/material';
@@ -16,18 +16,15 @@ import '../../../colors/palette.css'
 import { GlobalMenuItem } from './GlobalMenuItem';
 
 
-export default function SingleMenuItem({ totalLength , type , item , options , index , nativeid , groupid , menuRef  , children  }) {
+function SingleMenuItem({ totalLength , type , item , options , index , nativeid , groupid , menuRef  , children  }) {
     
     const ref = useRef()
     const { clearPinnedItems , updatePinnedItems , updateAndGetBoxLocation , tmps , updateMenuBoxItems , updateOnScreenBackButton , updatesequenceArray , clearEvent  } = useContext(EnhancedMenuContext)
 
     useEffect( () => {
         if ( ! item ){ return }
-        const currentHeight = tmps.current.menuHeight ? tmps.current.menuHeight :  0
-        tmps.current.menuHeight = currentHeight + options.menuHeight
         if ( totalLength == index + 1){
-            setTimeout( () => {
-                $('.enh-cm-paper').css('opacity', 1)
+            setTimeout(() => {
                 updateAndGetBoxLocation()
             } , 50)
         }
@@ -61,7 +58,6 @@ export default function SingleMenuItem({ totalLength , type , item , options , i
 
     const handleOnBackClick = (event) =>  {
         event.stopPropagation()
-        tmps.current.menuHeight=0
         clearPinnedItems()
         tmps.current.preventMenuHide=true
         tmps.current.renderMenuInSequenceArray.pop()
@@ -134,3 +130,5 @@ export default function SingleMenuItem({ totalLength , type , item , options , i
     )
 
 }
+
+export default memo(SingleMenuItem)

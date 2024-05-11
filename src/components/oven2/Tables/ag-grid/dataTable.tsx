@@ -108,7 +108,6 @@ const DataTable = forwardRef((props ,callbackRef ) => {
       setOptions( prev => ({...prev , ...props.options}))
     }
     if ( props.dataset){
-      console.log(props.dataset)
       onGridReady()
       callback.registerHoykeys()
       callback.loadShortcutPreferences()
@@ -185,18 +184,15 @@ const DataTable = forwardRef((props ,callbackRef ) => {
   // =============================================================================
   const onGridReady = () => {
     createCallbacks()
-    console.log(`onGridReady called .. `)
-    var response
-    response = {'data' : props.dataset}
     // set the rows data which came from api request or passed through the component
-    setRowData(response.data) 
+    setRowData(prev => props.dataset ) 
     // Genreate the headers for the table automatically ( most of the cases this is required)
     if ( options.autoGenerateHeaders === true || props.autoGenerateHeaders === undefined) {
-      callback.autoApplyHeaders(response.data,options)
+      callback.autoApplyHeaders( props.dataset,options)
       if (!options.disableContextMenu){
         $(document).on('contextmenu', callback.api.mtable , callback.stopContextMenuDefaults )
       }
-      updatedState.current.api.data = response.data
+      updatedState.current.api.data = props.dataset
       callback.restoreState()
     }    
   };

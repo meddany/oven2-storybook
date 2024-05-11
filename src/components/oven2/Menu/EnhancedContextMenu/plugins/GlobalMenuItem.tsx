@@ -10,6 +10,8 @@ import { NormalMenuItemLabel } from "./NormalMenuItemLabel";
 import { MarginBox } from "../../../Containers";
 import { Headline } from "../../../Paragraph/Headlines";
 import ContextMenuRadioGroups from "./ContextMenuRadioGroups";
+import $ from 'jquery'
+
 function MenuItemHeader(props){
     const { item } = props;
     return (
@@ -25,9 +27,16 @@ function MenuItemHeader(props){
     )
 }
 
+function ReturnItemAsElement(element){
+    return (
+        <div className='prevent---hide' style={{width : '100%' , pointerEvents: 'all' , background : 'white'}} >
+            {element.element}
+        </div>
+    )
+}
 function getChilds(item , children , requireHotKeyRegister , shortcutKeys , type  ){
     if ( item.custom == true && item.type == 'select' ) { return <ContextMenuSelectBox item={item} /> }
-    if ( item.custom == true && item.type == 'custom' ) { return item.element }
+    if ( item.custom == true && item.type == 'custom' ) { return <ReturnItemAsElement element={item.element} /> }
     if ( item.custom == true && item.type == 'radio' ) { return <ContextMenuRadioGroups item={item} /> }
     else{ return <NormalMenuItemLabel requireHotKeyRegister={requireHotKeyRegister} shortcutKeys={shortcutKeys} children={children} />}
 } 
@@ -130,7 +139,6 @@ export const GlobalMenuItem = forwardRef( ({type , item , options , index , chil
                 onClick={handleOnClick}
                 disabled={ item.disable ? true : false }
             >   
-                
                 <Stack  style={{ height: style.height   ,width : '100%', position : 'relative'}}>
                     <MenuItemHeader item={item} />
                     { 

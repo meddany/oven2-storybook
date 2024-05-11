@@ -201,16 +201,17 @@ export var callback = {
     // =================================================================================
 
     autoApplyHeaders : (data) => {
-        const props = callback.api.updatedState.current.api.props
-        const options = callback.api.options
-        var headers = callback.generateHeaders( data , props.hiddenColumns , props )
-        if (options.enableMultiRowSelection == true ){
-          callback.api.current.api.updateColumnDef(headers)
-        }
-        else if (options.enableMultiRowSelection == false ){
-            callback.api.current.api.resetColumnDef(headers)
-        }
-        return headers
+      console.log('auto apply header s.. ')
+      const props = callback.api.updatedState.current.api.props
+      const options = callback.api.options
+      var headers = callback.generateHeaders( data , props.hiddenColumns , props )
+      if (options.enableMultiRowSelection == true ){
+        callback.api.current.api.updateColumnDef(headers)
+      }
+      else if (options.enableMultiRowSelection == false ){
+          callback.api.current.api.resetColumnDef(headers)
+      }
+      return headers
     } ,
 
     // =================================================================================
@@ -380,6 +381,9 @@ export var callback = {
                 type : 'custom',
                 element : callback.GetPaginationInputBox() ,
                 header : 'Table pagination size' ,
+                frameOptions : {
+                height : '65px'
+                } ,
               },
             ]
           } ,
@@ -392,7 +396,7 @@ export var callback = {
         if ( !callback.api.options ){ return <></>}
         const paginationPageSize= callback.api.options.paginationPageSize
         return (
-            <Stack direction={'row'} alignItems={'start'} justifyContent={'start'} >
+            <Stack  direction={'row'} alignItems={'start'} justifyContent={'start'} >
               <TextField inputProps={{min : 10 , max:1000}} defaultValue={paginationPageSize} type='number' sx={{width : '100%' }} label="Page Size" size='small'
                 onChange={(e) => {
                   let pageSizeNumber = e.target.value

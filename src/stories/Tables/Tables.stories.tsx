@@ -30,7 +30,8 @@ const Template = args => {
             <Button theme='mui' bordered={true} light={true} children="DO SOMETHING" onClick={() => {
                 console.log('refresh table..' , callback)
                 getData().then( data => {
-                    callback.current.updateRowsData(data)
+                    console.log('data received.')
+                    updateArgs({dataset : data })
                 })
             }} />
             <DataTable {...args} ref={callback} />
