@@ -16,14 +16,21 @@ import '../../../colors/palette.css'
 import { GlobalMenuItem } from './GlobalMenuItem';
 
 
-export default function SingleMenuItem({ type , item , options , index , nativeid , groupid , menuRef  , children  }) {
+export default function SingleMenuItem({ totalLength , type , item , options , index , nativeid , groupid , menuRef  , children  }) {
     
     const ref = useRef()
     const { clearPinnedItems , updatePinnedItems , updateAndGetBoxLocation , tmps , updateMenuBoxItems , updateOnScreenBackButton , updatesequenceArray , clearEvent  } = useContext(EnhancedMenuContext)
 
     useEffect( () => {
         if ( ! item ){ return }
-        updateAndGetBoxLocation()
+        const currentHeight = tmps.current.menuHeight ? tmps.current.menuHeight :  0
+        tmps.current.menuHeight = currentHeight + options.menuHeight
+        if ( totalLength == index + 1){
+            setTimeout( () => {
+                $('.enh-cm-paper').css('opacity', 1)
+                updateAndGetBoxLocation()
+            } , 50)
+        }
         if ( item.pinned == true || item.pinned == 'both'){
             updatePinnedItems( prev => ([...prev , item]))
         }
@@ -54,6 +61,8 @@ export default function SingleMenuItem({ type , item , options , index , nativei
 
     const handleOnBackClick = (event) =>  {
         event.stopPropagation()
+        tmps.current.menuHeight=0
+        clearPinnedItems()
         tmps.current.preventMenuHide=true
         tmps.current.renderMenuInSequenceArray.pop()
         const previousItems = tmps.current.renderMenuInSequenceArray[tmps.current.renderMenuInSequenceArray.length - 1 ]

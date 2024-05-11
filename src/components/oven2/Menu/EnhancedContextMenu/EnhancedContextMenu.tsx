@@ -117,6 +117,7 @@ export default function EnhancedContextMenu(props) {
     function clearEvent(){
         setOptions( prev => ({...prev, event : null }))
         clearPinnedItems()
+        tmps.current.menuHeight=0
     }
 
     function clearPinnedItems(){
@@ -128,10 +129,6 @@ export default function EnhancedContextMenu(props) {
             clearEvent()
         }
     }
-
-    useEffect( ()=>{
-        console.log('updating pinned items ..' , pinnedItems)
-    } ,[pinnedItems] )
 
     return (
         <EnhancedMenuContext.Provider value={{
@@ -156,11 +153,12 @@ export default function EnhancedContextMenu(props) {
                         ref={ref} 
                         onClick={(event) => {handleClickAwayEvent(event, true , 'clkaway')}}
                         className="enh-cm-paper custom-scroll-bar"
+                        style={{opacity : 0 }}
                     >
                     <MenuBox sub={false} options={options} ref={menuRef} >
                         <BackMenuItem  isOnScreenSubMenu={isOnScreenSubMenu} ref={menuRef} options={options} />
                         <PinnedItemsRow items={pinnedItems} ref={menuRef} options={options} />
-                        <div style={{width : '100%' , height: 'calc(100% - 600px)' , overflowY: 'auto', paddingBottom : '10px'}} >
+                        <div style={{width : '100%' , maxHeight : '60vh' ,height: tmps.current.menuHeight , overflowY: 'auto', paddingBottom : '10px'}} >
                             <MenuRows items={items} options={options} ref={menuRef} />
                         </div>
                     </MenuBox>

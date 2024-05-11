@@ -22,7 +22,7 @@
     width: auto;
     height: auto ;
     position: fixed;
-    background-color: blue;
+    /* background-color: blue; */
     z-index: 100;
     padding: 10px 5px 10px 5px;
     border-radius: 3px;
@@ -30,8 +30,9 @@
     min-height: 30px;
     overflow-x: hidden;
     z-index: 301 ;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.133), 0 0.6px 2px rgba(0, 0, 0, 0.1);
     padding-top: 10px;
+    transition: all 50ms ease-in-out;
 }
 
 .enh-cm-side-icon-container *{

@@ -25,7 +25,7 @@ const PinnedItemsRow = forwardRef( (props, ref ) => {
                                             key={index}
                                             icon={item.child}
                                             onClick={item.action}
-                                            title={'sdasd'}
+                                            title={item.label}
                                         />
                                     )
                                 })

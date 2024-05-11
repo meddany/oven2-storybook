@@ -226,14 +226,14 @@ export var callback = {
         const tid= callback.api.options.tid
         var state = callback.api.updatedState.current.api.gridRef.api.getColumnState();
         window.localStorage.setItem(`_tState_${tableName}_${tid}`, JSON.stringify(state));
-        console.log('table saved!')
+        // console.log('table saved!')
         window.state = callback.api.updatedState.current.api.gridRef.api.getColumnState()
     } ,
     
     // =================================================================================
     saveShortcutsPrefernces : () => {
         const items = getAllKeyCodes().data
-        console.log(items)
+        // console.log(items)
         const tableName= callback.api.options.tableName
         const tid= callback.api.options.tid
         window.localStorage.setItem(`tState_${tableName}_${tid}_shortcuts`, JSON.stringify(items));
@@ -254,7 +254,7 @@ export var callback = {
                 }
             })
         })
-        console.log('shortcuts loaded!')
+        // console.log('shortcuts loaded!')
     }  ,
     // =================================================================================
     restoreState : () => {
@@ -266,7 +266,7 @@ export var callback = {
               applyOrder: true,
             });
           }
-          catch(error){console.warn(error)}
+          catch(error){}
     } ,
     reset : () => {
         callback.api.updatedState.current.api.gridRef.api.setRowData([]);
@@ -355,8 +355,6 @@ export var callback = {
                     custom : true ,
                     type : 'custom' ,
                     frameOptions: {
-                        width : '30vw' ,
-                        height : '70vh'
                     },
                     element: <TableShortcutsElement />
                 }
@@ -373,8 +371,6 @@ export var callback = {
                 element : callback.GetColorElementBox() ,
                 header : 'Row Heighlight colors' ,
                 frameOptions : {
-                  // width : '250px' ,
-                  // height : '200px'
                  } ,
               },
               {
@@ -396,15 +392,14 @@ export var callback = {
         if ( !callback.api.options ){ return <></>}
         const paginationPageSize= callback.api.options.paginationPageSize
         return (
-            <Stack direction={'row'} alignItems={'start'} justifyContent={'start'}>
-              <TextField inputProps={{min : 10 , max:1000}} defaultValue={paginationPageSize} type='number' sx={{width : '100px' }} label="Page Size" size='small'
+            <Stack direction={'row'} alignItems={'start'} justifyContent={'start'} >
+              <TextField inputProps={{min : 10 , max:1000}} defaultValue={paginationPageSize} type='number' sx={{width : '100%' }} label="Page Size" size='small'
                 onChange={(e) => {
                   let pageSizeNumber = e.target.value
                   if ( pageSizeNumber <= 10 ){
                     e.target.value = 10
                     return
                   }
-                //   setPaginationPageSize(e.target.value)
                 callback.api.updatePageSize(e)
                 }}
               />
@@ -439,13 +434,13 @@ export var callback = {
     // =================================================================================
 
     registerHoykeys : () => {
-        hotkeyRegister( 'c' , {ctrl : true , alt : false , shift : false } , callback.copySingleCell , 'Copy Table cell' )
-        hotkeyRegister( 'c' , {ctrl : true , alt : true , shift : false } , callback.copyHeaderAndCell   ,  'Copy Table header and cell' )
-        hotkeyRegister( 'h' , {ctrl : false , alt : false , shift : true } , callback.changeRowColor  , 'Switch row color for selected table rows.' )
-        hotkeyRegister( 'c' , {ctrl : false , alt : false , shift : true } , () => {callback.changeRowColor('reset')}  , 'Reset the row color for all rows')
-        hotkeyRegister( 's' , {ctrl : false , alt : false , shift : true } , callback.savePrefernces , 'Save table preferences' )
-        hotkeyRegister( 'r' , {ctrl : false , alt : false , shift : true } , callback.restoreState , 'Restore table preferences' )
-        hotkeyRegister( 'x' , {ctrl : false , alt : false , shift : true } , callback.exportAsExcel , 'Export the current table data into excel.' )
+        hotkeyRegister( 'ctrl+c' , callback.copySingleCell , 'Copy Table cell' )
+        hotkeyRegister( 'ctrl+alt+c' , callback.copyHeaderAndCell   ,  'Copy Table header and cell' )
+        hotkeyRegister( 'shift+h' , callback.changeRowColor  , 'Switch row color for selected table rows.' )
+        hotkeyRegister( 'shift+c'  , () => {callback.changeRowColor('reset')}  , 'Reset the row color for all rows')
+        hotkeyRegister( 'shift+s' , callback.savePrefernces , 'Save table preferences' )
+        hotkeyRegister( 'shift+r' , callback.restoreState , 'Restore table preferences' )
+        hotkeyRegister( 'shift+x'  , callback.exportAsExcel , 'Export the current table data into excel.' )
     } ,
 
     // =================================================================================

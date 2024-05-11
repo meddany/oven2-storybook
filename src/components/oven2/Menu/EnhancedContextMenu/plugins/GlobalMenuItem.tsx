@@ -33,7 +33,8 @@ function getChilds(item , children , requireHotKeyRegister , shortcutKeys , type
 } 
 
 function getClassesIU(item , type ){
-    const classes = ['custom-mui-dim', 'cm-custom-menu-item' , 'prevent---hide' , 'slide-left']
+    // const classes = ['custom-mui-dim', 'cm-custom-menu-item' , 'prevent---hide' , 'slide-left']
+    const classes = ['custom-mui-dim', 'cm-custom-menu-item' , 'prevent---hide']
     if ( item.custom != true && type != 'pinned'){classes.push('custom-mui-hover-color')}
     if ( item.danger ){classes.push('danger-menu-item')}
     return classes.join(' ')
