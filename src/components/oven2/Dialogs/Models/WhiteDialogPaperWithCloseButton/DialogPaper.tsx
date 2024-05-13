@@ -1,35 +1,31 @@
 // @ts-nocheck
 import React , {useContext} from 'react'
 import './styles.css'
-import GlobalContext from '@/components/Contexts/GlobalContext'
 import { Stack } from '@mui/material'
-import CustomIconButton from '../CustomIconButton/CustomIconButton'
-import Headline from '../Headlines/Headline'
+import Headline from '../../components/oven2/Paragraph/Headlines/Headline'
 import CloseIcon from '@mui/icons-material/Close';
-import MarginBox from '../MarginDiv/Margin'
+import MarginBox from '../../../MarginDiv/Margin'
+import CustomIconButton from '../../../CustomIconButton/CustomIconButton'
 
 export default function DialogPaper(props) {
-    // const {anyflex , anyloading , setDialogOptions } =useContext(GlobalContext)
-
-
-    // function _handleClose(){
-    //     setDialogOptions(prev => ({...prev , open : false , content : null}) )
-    // }
-
-    
+    function _handleClose(){
+        if ( props.onClose ){
+            props.onClose()
+        }
+    }
     return (
         <div style={props.style} className={'dialog-paper' + " "+props.className} >
             <Stack className='_jhj2n123' direction={'row'} alignItems={'center'} >
                 <MarginBox margin={10} />
                 <Headline color='black' padding={10} size='mid' >{props.header}</Headline>
                 <MarginBox margin={10} />
-                {/* <div className='_jsj123'>
+                <div className='_jsj123'>
                     <CustomIconButton 
                         title='Close' 
                         onClick={(e) => {_handleClose()}}
                         icon={<CloseIcon />}
                     />
-                </div> */}
+                </div>
 
 
             </Stack>

@@ -24,6 +24,6 @@ export default function Headline(props) {
     } , [props.size  , props.oargs , props.userselect , props.fontFamily , props.textPixel  ])
 
   return (
-    <label {...oargs}  className={props.className} style={{ ...oargs ,  fontSize: size , fontFamily , position:'relative' , paddingLeft : props.padding  , userSelect : userSelect , pointerEvents : 'none' , color : props.color}} >{props.children}</label>
+    <label {...oargs}  className={props.className} style={{ fontSize: size , fontFamily , position:'relative' , paddingLeft : props.padding  , userSelect : userSelect , pointerEvents : 'none' , color : props.color , ...oargs }} >{props.children}</label>
   )
 }

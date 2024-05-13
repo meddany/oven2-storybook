@@ -5,9 +5,10 @@ import CustomFonts from './fontsbuilder/fonts';
 import '../../components/oven2/fonts/IBM/ibm-fonts.css'
 import '../../components/oven2/fonts/roboto/roboto.css'
 import '../../components/oven2/fonts/openSans/stylesheet.css'
+// import '../../components/oven2/fonts/lato/stylesheet.css'
 
 export default {
-    title : 'Oven Fonts' , 
+    title : 'Fonts' , 
 }
 
 const nokiaOptions = [
@@ -22,7 +23,6 @@ const nokiaOptions = [
             'nokia_pure_textregular'
 ]
 export const Nokia = CustomFonts(nokiaOptions)
-
 
 const openSansOptions = [
             'open_sansbold',
@@ -70,5 +70,10 @@ const robotoOptions = [
     'robotothin_italic'
     ]
 export const Roboto = CustomFonts(robotoOptions)
+
+const latoOptions = [
+    'Lato'
+];
+export const Lato = CustomFonts(latoOptions)
 
 

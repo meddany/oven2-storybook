@@ -5,27 +5,47 @@ import './styles.css'
 import LongText from './LongText'
 
 export default {
-  title: 'AppFrame',
+  title: 'components/Frames',
   component: AppFrame,
+  tags: ['autodocs'] ,
+  args : {
+    topbar : true ,
+    bgcolor : 'var(--oven-light-gray)' ,
+    topbarColor : 'yellow' ,
+    footerColor : 'yellow' ,
+    width : '100vw' ,
+    height : '30vh' ,
+    body : true ,
+    footer : true , 
+    frameClasses: [],
+    bodyClasses: [],
+    enableCustomScrollbar : true , 
+    topbarClasses: [],
+    topbarContent : "top bar content" ,
+    bodyContent : "body content" ,
+    footerContent : "footer bar content" ,
+  }
 }
 
 const Template = (args) => <AppFrame {...args} />
 
-export const MainAppFrame = Template.bind({})
+/**
+Complete app frame for my application, is has top , body and footer content
+*/
+export const CompleteAppFrame = Template.bind({})
 
-MainAppFrame.args = {
-    topbar : true ,
-    bgcolor : 'var(--oven-light-gray)' ,
-    width : '100vw' ,
-    height : '100vh' ,
-    body : true ,
-    footer : true , 
-    frameClasses: ['test-bdy'],
-    bodyClasses: [],
-    enableCustomScrollbar : true , 
-    topbarClasses: [],
-    topbarContent : <Headline color='#fff' >top bar content here </Headline> ,
-    bodyContent : <LongText /> ,
-    footerContent : <Headline color='#fff' >footer bar content here </Headline> ,
-    
+
+export const BodyOnly = Template.bind({})
+BodyOnly.args={
+  body : true,
+  footer : false , 
+  topbar : false
+}
+
+
+export const TopBarAndBody = Template.bind({})
+TopBarAndBody.args={
+  body : true,
+  footer : false , 
+  topbar : true
 }
