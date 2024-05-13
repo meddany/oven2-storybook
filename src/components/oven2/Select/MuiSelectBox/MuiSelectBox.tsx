@@ -63,7 +63,7 @@ export default function MuiSelectBox(props) {
             {...props.muiArgs}
             sx={{
               height: options.maxHeight,
-              width : '100%'
+              width : options.maxWidth ? options.maxWidth : '100%'
             }}
           >
             {

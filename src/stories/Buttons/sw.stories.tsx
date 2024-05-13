@@ -7,7 +7,7 @@ import { Switch }from '../../components/oven2'
 import '../../../src/components/oven2/colors/palette.css'
 
 export default {
-    title : 'Switch/Android' , 
+    title : 'Components/Switch' , 
     component : Switch  , 
 }
 
@@ -24,8 +24,6 @@ export const AndroidSwitchTheme = Template.bind({})
 
 AndroidSwitchTheme.args = {
     theme : 'android',
-    // label : 'android theme' ,
-    // color : 'var(--oven-teal-mid-green)'
     defaultChecked:true ,
     onChange: (event, value) => {
         console.log('swtich status enable : ' , value)
