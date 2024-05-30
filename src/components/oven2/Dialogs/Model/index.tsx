@@ -1,1 +1,0 @@
-export { DialogPaper as Dialog } from './DialogPaper'

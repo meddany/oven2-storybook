@@ -1,0 +1,44 @@
+.css-ii8jj3 .css-ii8jj5{
+    top: 8px;
+    position: absolute;
+    left: 15px;
+    user-select: none;
+    pointer-events: none;
+    transition: all .3s ease-in-out;
+    opacity: 1;
+}
+
+.css-ii8jj3 .css-ii8jj4{
+    top: 30px;
+    position: absolute;
+    left: 15px;
+    user-select: none;
+    pointer-events: none;
+    transition: all .3s ease-in-out;
+    opacity: 0;
+}
+
+.css-ii8jj3 .css-ii8jj5.has-text{
+    animation: input-text-animation-placeholder
+    linear 0.3s forwards;
+}
+.css-ii8jj3 .css-ii8jj4.has-text{
+    animation: input-text-animation
+    linear 0.3s forwards;
+}
+
+
+@keyframes input-text-animation-placeholder {
+    100% {
+        top: 0px;
+        /* left: 0px; */
+        opacity: 0;
+    }
+}
+@keyframes input-text-animation {
+    100% {
+        top: -25px;
+        left: 0px;
+        opacity: 1;
+    }
+}

@@ -1,1 +1,0 @@
-export { MuiAndroidSwitch } from './MuiAndroidSwitch'

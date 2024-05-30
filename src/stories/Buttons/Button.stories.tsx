@@ -1,80 +1,89 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
-import PropTypes from 'prop-types';
-import { useArgs } from '@storybook/store';
-import TestIcon from '../../img/icon.png'
-import { useRef } from 'react';
-import { Button }from '../../components/oven2'
+import { ComponentStory, ComponentMeta } from '@storybook/react';
+import React, { useRef } from 'react';
+import { Button } from '@/components';
+import ShareIcon from '../../components/icons/share.svg'
 
-
-const meta = {
-    title : 'components/Buttons' , 
-    component : Button  , 
-    tags: ['autodocs'] ,
-    argTypes : { onClick : { action : 'handleClick' } },
-    propTypes : {
-        children : PropTypes.node,
-        onClick : PropTypes.func,
-        light : PropTypes.bool,
-        title : PropTypes.string,
-        bordered : PropTypes.bool,
-        background : PropTypes.string,
-        disable : PropTypes.bool,
-        oargs : PropTypes.object,
-        progress : PropTypes.bool,
-        progressText : PropTypes.string,
-        progressColor : PropTypes.string,
-        theme : PropTypes.string,
-        danger : PropTypes.bool,
-        icon : PropTypes.node,
-    },
-    parameters : {
-        docs : {
-            // canvas : {sourceState : 'shown'},
-            code : {type : 'code'},
-        }
-    },
-    args : {
-        children: 'Click Me' ,
-        light : true,
-        title : 'Hover Clicking Me', 
-        bordered: false,
-        background: false || '#fff' ,
-        disable : false,
-        oargs : {},
-        progress: false ,
-        progressText: 'In Progress',
-        progressColor : '#029cfd',
-        theme : 'mui' ,
-        danger : false ,
-        // icon: <img  alt='test' src={TestIcon} />
+export default {
+  title: 'Components/Button',
+  component: Button,
+  args: {
+    children : 'CLICK HERE',
+    disable : false ,
+    disableAfterClick: false ,
+    autoFocus : false ,
+    addClass : [] ,
+    size : 'lg' ,
+    tooltip: null,
+    onClick: (e,ref)=>{
+      console.log(e,ref)
     }
+  },
+} as ComponentMeta<typeof Button>;
+
+const Template: ComponentStory<typeof Button> = (args) => {
+  const ref = useRef()
+  return (
+    <div className='m-2.5' >
+      <Button ref={ref} {...args} />
+    </div>
+  )
+} 
+
+export const Basic = Template.bind({});
+
+export const DisableAfterClick = Template.bind({});
+DisableAfterClick.args={
+  disableAfterClick: true,
+}
+export const Minimal = Template.bind({});
+Minimal.args={
+  variant: 'minimal_border',
+}
+export const TooltipButton = Template.bind({});
+TooltipButton.args={
+  variant: 'minimal_border',
+  tooltip: 'this is tooltip is ok ?'
+}
+export const Secondary = Template.bind({});
+Secondary.args={
+  variant: 'secondary',
+  tooltip: 'this is tooltip is ok ?'
 }
 
-export default meta;
-
-const Template = args => {
-    const [ _ , updateArgs ] = useArgs();
-    const ref = useRef()
-    return <Button {...args} />
+export const MinimalNoBorder = Template.bind({});
+MinimalNoBorder.args={
+  variant: 'minimal_no_border',
+}
+export const AutoFocus = Template.bind({});
+AutoFocus.args={
+  variant:'minimal_no_border' ,
+  autoFocus : true , 
 }
 
-
-/**
- * Simple Button based on MUI theme.
- */
-export const Basic = Template.bind({})
-
-
-/**
- * Danger Button
- */
-export const Danger = Template.bind({})
-Danger.args={
-    danger : true
+export const DangerButton = Template.bind({});
+DangerButton.args={
+  variant: 'danger',
+  children : "REMOVE CONNECTION"
+}
+export const DangerButtonWithWhiteText = Template.bind({});
+DangerButtonWithWhiteText.args={
+  variant: 'danger_white_text',
+  children : "REMOVE CONNECTION"
 }
 
+export const AddCustomClass = Template.bind({});
+AddCustomClass.args={
+  addClass: ['bg-yellow-400'] 
+}
 
-export const Bordered = Template.bind({})
-Bordered.args={
-    bordered : true
+export const SmallSize = Template.bind({});
+SmallSize.args={
+  size:'lg'
+}
+
+export const ButtonWithIcon = Template.bind({});
+ButtonWithIcon.args={
+  icon: <img className='text-white' src={ShareIcon} alt='s' />
 }

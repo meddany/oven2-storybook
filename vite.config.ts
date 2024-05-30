@@ -2,23 +2,21 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
 import dts from 'vite-plugin-dts'
-import { nodePolyfills } from 'vite-plugin-node-polyfills'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [nodePolyfills({ include: ['fs', 'child_process'] }) ,react() , dts({rollupTypes : true })],
+  plugins: [react() , dts({rollupTypes : true })],
   resolve: {
     alias: {
-        '@': path.resolve(__dirname , './src/') ,
-        child_process: 'rollup-plugin-node-polyfills/polyfills/child_process',
+        '@': path.resolve(__dirname , './src') ,
     },
   },
   build : {
     minify : false , 
     lib : {
-      entry : path.resolve(__dirname , './src/components/oven2/index.tsx'),
-      name : '@easy_utils_dev/oven2',
-      fileName :  'oven2'
+      entry : path.resolve(__dirname , './src/components/nextgen/index.tsx'),
+      name : '@nextgen/react',
+      fileName :  'nextgen'
     } ,
     rollupOptions : {
       external : [
