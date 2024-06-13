@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React , { useRef } from 'react';
+import React , { useRef , useEffect , useState } from 'react';
 import { DataTable } from '@/components';
 import { data } from '@/components/playground-data/datatableitems'
 
@@ -13,11 +13,24 @@ export default {
 
 
 const Template = (args) => {
+    const [ d , setD ] = useState([])
+    const callback = useRef({})
+
+    useEffect ( () => {
+      setTimeout( () => {
+        setD( prev => data)
+      } , 13000)
+    } , [] )
+
     return (
         <>
             <div className='w-[95vw] h-[95vh] relative' >
                 <DataTable  
-                  {...args} />
+                  {...args} 
+                  dataset={d}
+                  callback={callback}
+                  ref={callback}
+                  />
             </div>
         </>
     );
@@ -44,5 +57,5 @@ Basic.args={
   onDataChange : (e,data,callback) => {
     console.log('data change triggered ...' , e, data, callback)
   } ,
-  dataset: data
+  // dataset: data
 }

@@ -121,6 +121,15 @@ export const DataTable = forwardRef((props ,callbackRef ) => {
   }
 
   useEffect( () => {
+    if ( props.dataset ){
+      setShowTableSpinner(true)
+      preGridReady()
+      buildTable()
+      setShowTableSpinner(false)
+    }
+  } , [props.dataset])
+
+  useEffect( () => {
     console.log('updating dataset ...')
     if ( ! props.dataset ){ return }
     if ( props.options ){
@@ -391,13 +400,6 @@ export const DataTable = forwardRef((props ,callbackRef ) => {
                   enableCellTextSelection = {true}
                   onGridReady={() => { 
                     $(table.current).find('.ag-horizontal-left-spacer').remove()
-                    preGridReady()
-                    if ( props.dataset){
-                      buildTable()
-                    }
-                    setTimeout( () => {
-                      setShowTableSpinner( false )
-                    } , 1200)
                     }}
                   onRowDoubleClicked={ (e) => {
                     if (props.onRowDoubleClicked) {
