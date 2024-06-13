@@ -122,6 +122,7 @@ export const DataTable = forwardRef((props ,callbackRef ) => {
 
   useEffect( () => {
     if ( props.dataset ){
+      console.log('updating dataset ...')
       setShowTableSpinner(true)
       preGridReady()
       buildTable()
@@ -130,14 +131,10 @@ export const DataTable = forwardRef((props ,callbackRef ) => {
   } , [props.dataset])
 
   useEffect( () => {
-    console.log('updating dataset ...')
     if ( ! props.dataset ){ return }
     if ( props.options ){
       setOptions( prev => ({...prev , ...props.options}))
     }
-    // if ( props.dataset){
-    //   buildTable()
-    // }
     if ( props.menuItems ){
       global.updateMenuItems()
     }
