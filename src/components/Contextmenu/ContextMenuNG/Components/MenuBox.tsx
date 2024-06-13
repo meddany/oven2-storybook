@@ -2,7 +2,7 @@
 import React, { forwardRef, useState , useRef, useEffect } from 'react'
 import {ScrollArea} from '../../../Containers/ScrollArea'
 import { PinnedMenuItem } from './MenuItems'
-import { Separator } from "../../../ui/separator"
+import $ from 'jquery'
 import {
     Card,
     CardContent,
@@ -15,7 +15,7 @@ import { useRandomId } from '../../../utils/utils'
 import { Label } from '@radix-ui/react-label'
 
 const vrs = cva(
-    "min-w-[240px] p-0 overflow-hidden pb-1" ,
+    "min-w-[240px] p-0 overflow-hidden" ,
     {
         variants : {
             border : {
@@ -43,6 +43,7 @@ export const MenuBox = forwardRef( (props, ref ) => {
     const [ subMenuLocation , setSubMenuLocation] = useState({x: 0, y: 0})
     const [ subItems , setSubItems] = useState([])
     const [ title , setTitle ] = useState( null )
+
     useEffect( () => {
         if ( items ){
             if ( items.items ){
@@ -63,34 +64,44 @@ export const MenuBox = forwardRef( (props, ref ) => {
         }
     }
 
+
+    const locateMenuOnScreen = (loc) => {
+        const menu = document.getElementById(id)
+        if(!menu){return}
+        const rect = menu.getBoundingClientRect();
+        const screenW = window.innerWidth
+        const deltaw = screenW - (rect.x + (msize.x*2) + 10 )
+        if ( deltaw <= 10 ){
+            loc.x = -loc.x 
+        }
+        return loc
+    }
+
     const handleOnHover=(e,item)=>{
         if(! item.subItems){ 
             setShowSubMenu(false)
             return
          }
         if ( ! item.disabled){
-            console.log(title , role )
             const loc = {
                 x : msize.x - 10 ,
                 y :  title && role == 'main' ? e.target.offsetTop + 70 : e.target.offsetTop
             } 
-            const menu = document.getElementById(id)
-            if(!menu){return}
-            const rect = menu.getBoundingClientRect();
-            const screenW = window.innerWidth
-            const deltaw = screenW - (rect.x + (msize.x*2) + 10 )
-            if ( deltaw <= 10 ){
-                loc.x = -loc.x 
-            }
-            setSubMenuLocation(loc)
+            const nloc = locateMenuOnScreen(loc)
+
+            setSubMenuLocation(nloc)
             setSubItems( item.subItems )
             setShowSubMenu(true)
         }
     }
-    const handleOnMouseExit=()=>{
-        // setShowSubMenu(false)
+    
+    const updateMenuLocation = ({x,y}) => {
+        if ( ref ){
+            if ( ref.current ){
+                $(ref.current).css('transform', 'translate(' + x + 'px,' + y + 'px)');
+            }
+        }
     }
-
 
     return (
         <div ref={ref} id={id} className='shadow-lg bg-transparent absolute top-0 left-0' style={{transform : `translate(${location.x}px,${location.y}px)`, opacity: role == 'main' ? 0 : 1 }}>
@@ -99,7 +110,7 @@ export const MenuBox = forwardRef( (props, ref ) => {
                     <CardContent className='w-full p-1'>
                         {
                             role == 'main' ?
-                            <Label className='text-lg p-3 font-medium'>{title}</Label> 
+                                title  ? <Label className='text-lg p-3 font-medium'>{title}</Label>  : null
                             : null
                         }
                         <PinnedMenuItem onClick={handleOnClick}  border={border} pinned={true} items={data ? data?.filter( item => item.pinned || item.pinned == 'both' ) : []} />
@@ -116,7 +127,6 @@ export const MenuBox = forwardRef( (props, ref ) => {
                                                         label={item.label} 
                                                         onClick={handleOnClick} 
                                                         onHover={(e)=>{handleOnHover(e,item)}} 
-                                                        onExit={handleOnMouseExit} 
                                                         seperator={item.seperator} 
                                                         disabled={item.disabled}
                                                         shortcut={item.shortcut}

@@ -10,10 +10,9 @@ export const ContextMenu = forwardRef( (props, ref ) => {
     const rref= useRef({})
     const mainMenuRef = useRef()
     const id = useRandomId()
-    const [ ev , setEv ] = useState()
     const [ documentEvent , setDocumentEvent ] = useState(null)
     const [ location ] = useMouseLocation(documentEvent,mainMenuRef)
-    const { items, event } = props
+    const { items, event , fixedLocation } = props
 
     function handleMouseLocation(event){
         event.preventDefault()
@@ -39,7 +38,17 @@ export const ContextMenu = forwardRef( (props, ref ) => {
 
     return(
         <Model hideOnContextMenu={true} bodyClick={true} ref={ref || rref } variant='transparent' >
-            <MenuBox ref={mainMenuRef} id={id} modelRef={rref} role='main' location={location} items={items} {...props} />
+            <MenuBox 
+                ref={mainMenuRef} 
+                id={id} 
+                modelRef={rref} 
+                role='main' 
+                location={location} 
+                items={items} 
+                {...props} 
+                event={documentEvent} 
+                fixedLocation={fixedLocation}
+                />
         </Model>
     )
 })

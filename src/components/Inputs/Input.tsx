@@ -136,45 +136,48 @@ export const AllInput = forwardRef((props, ref) => {
 
 
     return (
-        <div id={id} name={id} className='relative css-ii8jj3' >
-            <div className='relative flex items-center' >
-                <p className='css-ii8jj4 opacity-0 font-geist text-[15px]'>{capitalizeFirstLetter(title||"")}</p>
-                <p className='text-muted-foreground css-ii8jj5 font-geist text-[15px]'>{capitalizeFirstLetter(placeholder||title||"")}</p>
-                
-            </div>
-            <div className='flex justify-center items-center'>
-                <Input 
-                    {...props }
-                    defaultValue={defaultValue}
-                    ref={ref||rref}
-                    id={id2}
-                    name={id2}
-                    variant='secondary'
-                    className={cn(vrs({invalid,type,size}) , className )}
-                    onKeyUp={handleInput}
-                    placeholder=''
-                    type={ttype}
-                />
-                {
-                    type == 'password' ? 
-                        <div className='absolute right-[5px] h-full top-[4px]'>
-                            <SwapIconButton icon1={<EyeOff />} icon2={<Eye />} 
-                                onClick={handleClick}
-                                />
-                        </div>
-                    : null
-                }
-                {
-                    description ? 
-                        <div className='overflow-visible left-0 top-[30px] space-x-1 text-[12px] select-none absolute h-full flex items-center text-nowrap'>
-                            <Info className='w-[15px] text-blue-500 ' />
-                            <div className='overflow-visible flex pr-2' >
-                                {extraInfo}
+        <div>
+            <div id={id} name={id} className='relative css-ii8jj3' >
+                <div className='relative flex items-center' >
+                    <p className='css-ii8jj4 opacity-0 font-geist text-[15px]'>{capitalizeFirstLetter(title||"")}</p>
+                    <p className='text-muted-foreground css-ii8jj5 font-geist text-[15px]'>{capitalizeFirstLetter(placeholder||title||"")}</p>
+                    
+                </div>
+                <div className='flex justify-center items-center'>
+                    <Input 
+                        {...props }
+                        defaultValue={defaultValue}
+                        ref={ref||rref}
+                        id={id2}
+                        name={id2}
+                        variant='secondary'
+                        className={cn(vrs({invalid,type,size}) , className )}
+                        onKeyUp={handleInput}
+                        placeholder=''
+                        type={ttype}
+                    />
+                    {
+                        type == 'password' ? 
+                            <div className='absolute right-[5px] h-full top-[4px]'>
+                                <SwapIconButton icon1={<EyeOff />} icon2={<Eye />} 
+                                    onClick={handleClick}
+                                    />
                             </div>
-                        </div>
-                    : null
-                }
+                        : null
+                    }
+                    {
+                        description ? 
+                            <div className='overflow-visible left-0 top-[30px] space-x-1 text-[12px] select-none absolute h-full flex items-center text-nowrap'>
+                                <Info className='w-[15px] text-blue-500 ' />
+                                <div className='overflow-visible flex pr-2' >
+                                    {extraInfo}
+                                </div>
+                            </div>
+                        : null
+                    }
+                </div>
             </div>
         </div>
+
     )
 })

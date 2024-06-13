@@ -1,17 +1,17 @@
 {
-  "name": "@leivir/react",
+  "name": "@leivir/nextgen",
   "private": false,
   "version": "1.0.17",
   "type": "module",
   "files": [
     "dist"
   ],
-  "main": "dist/oven2-umd.cjs",
-  "module": "dist/oven2.js",
+  "main": "dist/nextgen-umd.cjs",
+  "module": "dist/nextgen.js",
   "exports": {
     ".": {
-      "import": "./dist/oven2.js",
-      "require": "./dist/oven2-umd.cjs"
+      "import": "./dist/nextgen.js",
+      "require": "./dist/nextgen-umd.cjs"
     }
   },
   "scripts": {
@@ -27,10 +27,11 @@
     "@emotion/styled": "^11.11.5",
     "@fluentui/react-components": "^9.50.0",
     "@hookform/resolvers": "^3.3.4",
-    "@mui/icons-material": "^5.15.15",
+    "@mui/icons-material": "^5.15.19",
     "@mui/joy": "^5.0.0-beta.36",
-    "@mui/material": "^5.15.15",
+    "@mui/material": "^5.15.19",
     "@mui/styled-engine-sc": "^6.0.0-alpha.18",
+    "@mui/x-date-pickers": "^7.6.1",
     "@nextui-org/react": "^2.3.6",
     "@radix-ui/react-accordion": "^1.1.2",
     "@radix-ui/react-alert-dialog": "^1.0.5",
@@ -78,6 +79,7 @@
     "hotkeys-js": "^3.13.7",
     "jquery": "^3.7.1",
     "lucide-react": "^0.378.0",
+    "material-react-table": "^2.13.0",
     "primereact": "^10.6.5",
     "react-day-picker": "^8.10.1",
     "react-draggable": "^4.4.6",

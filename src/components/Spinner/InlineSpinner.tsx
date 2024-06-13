@@ -1,15 +1,23 @@
 // @ts-nocheck
-import React, { forwardRef, useEffect } from 'react'
+import React, { forwardRef, useEffect, useRef } from 'react'
 import { SpinnerDialog } from './SpinnerDialog'
 
 export const InlineSpinner = forwardRef( (props,ref) => {
 
     const { defaultOpen } = props
+    const rref = useRef({})
 
     useEffect( () => {
         if ( defaultOpen){
-            if ( ref.current ){
-                ref.open()
+            if ( ref ){
+                if ( ref.current ){
+                    ref.open()
+                }
+            }
+            else if ( rref ){
+                if ( rref.current ){
+                    rref.open()
+                }
             }
         }
     }, [defaultOpen])
@@ -20,7 +28,7 @@ export const InlineSpinner = forwardRef( (props,ref) => {
             {...props}
             inline
             open={true}
-            ref={ref}
+            ref={ref || rref }
         />
     )
 })

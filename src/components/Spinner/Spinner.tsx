@@ -40,7 +40,6 @@ export const Spinner = forwardRef( (props, ref ) => {
         if ( timeout ){ 
             setTimeout( () => {
                 $('#__uu773j12').addClass('animation-ease-in-out')
-                // $('#__uu773j12').css( 'height' , 'auto' ) 
                 $('#'+id).show()
             } , period || 20000 )
          }

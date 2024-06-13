@@ -1,0 +1,11 @@
+.main-theme{
+    --ag-border-radius: 12px !important;
+	--ag-wrapper-border-radius: 6px !important;
+	--ag-header-font-family: 'Roboto';
+	--ag-header-font-weight: 800;
+	--ag-header-font-size: 13px;
+	--ag-header-cell-hover-background-color: #e5e5e5;
+    --ag-border-radius: 12px ;
+    --ag-wrapper-border: solid 1px var(--ag-border-color);
+    
+}

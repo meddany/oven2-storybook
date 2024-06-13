@@ -15,12 +15,13 @@ import {
   } from "../../../ui/accordion"
 
 
-const vrs = cva(
+const vrs = cva(    
     'w-full relative rounded-[3px] flex pl-8 pr-2 items-center baseline-item-menu br-1 font-geist text-sm transition-all duration-150 ease-in-out' ,
     {
         variants : {
             size : {
                 sm : 'h-[30px]' ,
+                mid : 'h-[35px]' ,
                 lg : 'h-[40px]' ,
                 auto : 'h-auto' ,
             } ,
@@ -51,11 +52,9 @@ const PrimaryMenuItem = forwardRef( (props, ref ) => {
     const { seperator, danger , onChange , item , custom , border ,subItems, size , onClick ,  shortcut ,onExit , disabled , onHover ,type , label , className } = props;
     const [delayHandler, setDelayHandler] = useState(null)
     const [ cicon  , setCicon ] = useState(null)
-    
     function isOkHover(){
         return ['default' , 'checkbox' , 'switch' , 'accordion'].includes(type ) ? true : false
     }
-
     function handleOnMouseClick(e){
         if ( onChange ){
             if ( item.defaultChecked==undefined ){
@@ -95,17 +94,23 @@ const PrimaryMenuItem = forwardRef( (props, ref ) => {
         onExit ? onExit(e) : null
     }
 
+    const handleSwitchStateChange = (v) => {
+        if ( item.onChange ){
+            item.onChange(v)
+        }
+    }
+
     return (
         <>
             <div onMouseLeave={handleOnMouseLeave} onClick={handleOnMouseClick} onMouseEnter={handleOnMouseEnter} className={cn(vrs({size , disabled , danger , border ,hover : isOkHover() }) , className )}>
                 <div className='pointer-events-none -translate-x-6 absolute w-[15px] h-[15px] flex justify-center items-center' >
                     { cicon ? cicon : null }
                 </div>
-                { !custom ? <p className=' pointer-events-none select-none'>{capitalizeFirstLetter(label)}</p> : null }
+                { !custom ? <p className='text-nowrap pointer-events-none select-none mr-4'>{capitalizeFirstLetter(label)}</p> : null }
                 
                 {custom ? custom : null }
                 { shortcut && ! subItems  ? <p className='ml-auto pointer-events-none select-none text-xs tracking-widest text-muted-foreground'>{shortcut.toUpperCase()}</p> : null }
-                { item.type == 'switch' ? <div className='ml-auto pointer-events-auto'> <Switch disabled={item.disabled} defaultChecked={item.defaultChecked} onCheckedChange={(v)=>{item.checked=v}} /> </div>  : null }
+                { item.type == 'switch' ? <div className='ml-auto pointer-events-auto'> <Switch disabled={item.disabled} defaultChecked={item.defaultChecked} onCheckedChange={(v)=>{item.checked=v ; handleSwitchStateChange(v) }} /> </div>  : null }
                 { subItems  ? <ChevronRight size={16}  className='ml-auto pointer-events-none' /> : null }
             </div>
             { seperator  ? <Separator /> : null }
@@ -116,7 +121,6 @@ const PrimaryMenuItem = forwardRef( (props, ref ) => {
 
 export const MenuItem = forwardRef( (props , ref ) => {
     const { type ,item , pinned  }  = props 
-
     if ( type == 'default'){
         return <PrimaryMenuItem {...props} />
     }
@@ -206,7 +210,8 @@ const RadioGroup = forwardRef((props, ref ) => {
                         ...itemgp , 
                         ...pprops,
                         type : 'checkbox' ,
-                        checked : item.defaultChecked ? true : false
+                        checked : item.defaultChecked ? true : false ,
+                        label : item.label
                     }
                     return <PrimaryMenuItem key={index} {...t} item={t} type='checkbox' />
                 })

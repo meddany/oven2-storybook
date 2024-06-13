@@ -14,7 +14,7 @@ export default defineConfig({
   build : {
     minify : false , 
     lib : {
-      entry : path.resolve(__dirname , './src/components/nextgen/index.tsx'),
+      entry : path.resolve(__dirname , './src/components/index.tsx'),
       name : '@nextgen/react',
       fileName :  'nextgen'
     } ,

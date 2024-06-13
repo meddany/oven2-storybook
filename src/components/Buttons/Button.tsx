@@ -7,14 +7,15 @@ import {
     TooltipProvider,
     TooltipTrigger,
   } from "@/components/ui/tooltip"
-import React , { useRef , useState , useEffect, forwardRef } from 'react'
+import React , { useState , useEffect, forwardRef } from 'react'
 import { Button as ShButton } from '../ui/button'
 import '../global.css'
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
+import MenuItem from '@mui/material/MenuItem';
 
 const extrabuttonVariants = cva(
-    "active:opacity-50 font-Roboto text-white focus:outline outline-2 outline-offset-2 outline-blue-500 text-sm",
+    "active:opacity-50 font-Roboto text-white focus:outline outline-2 outline-offset-2 outline-blue-500 text-sm relative p-0 overflow-hidden",
     {
         variants : {
             variant : {
@@ -48,7 +49,7 @@ function IconButton(props){
     const { icon , label  } = props
     if ( icon && label ){
         return(
-            <div className='flex justify-between items-center'  >
+            <div className='flex justify-between items-center text-blue-500 '  >
                 <div className='pr-2' >
                     {icon}
                 </div>
@@ -112,21 +113,24 @@ export const TestButton = forwardRef( (props, ref ) => {
                             {...props}
                             ref={ref}
                             autoFocus={autoFocus}
-                            children={
-                                icon ? 
-                                    <div className="w-full h-full flex justify-center items-center">
-                                        <IconButton icon={icon} label={children} />
-                                    </div>
-                                    : 
-                                    children
-                            }
                             disabled={defaults.disable}
                             onClick={handleClick}
                             size={size}
                             className={cn(extrabuttonVariants({ variant , disableAfterClick , 
                                 size : size
-                             } ) , className , addClass  )}
-                        />
+                            } ) , className , addClass ,  )}
+                        >
+                            <MenuItem >
+                                {
+                                    icon ? 
+                                    <div className="w-full h-full flex justify-center items-center">
+                                        <IconButton icon={icon}  label={children} />
+                                    </div>
+                                    : 
+                                    children
+                                }
+                            </MenuItem>
+                        </ShButton>
                     </TooltipTrigger>
                     {
                         tooltip  ?

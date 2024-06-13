@@ -5,12 +5,12 @@ import { Label } from "../../components/ui/label"
 import { useRandomId } from '../utils/utils'
 
 export const Switch = forwardRef( (props , ref) => {
-    const { label } = props
+    const { label , onChange  } = props
     const rref = useRef()
     const id = useRandomId()
     return (
         <div ref={ref||rref} className="flex items-center space-x-2">
-            <Tswitch id={id} {...props} />
+            <Tswitch id={id}  onCheckedChange={onChange} {...props} />
             { label ? <Label htmlFor={id}>{label}</Label> : null }
         </div>
     )
