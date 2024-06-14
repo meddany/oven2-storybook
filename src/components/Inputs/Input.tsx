@@ -11,7 +11,7 @@ import { SwapIconButton } from '../Buttons/SwapIconButton'
 import { Eye , EyeOff , Info } from '@/components'
 
 const vrs = cva(
-    "rounded-sm font-geist border-[2px] text-[17px] focus-visible:ring-[2px] shadow-none" , 
+    "rounded-sm font-geist border-[2px] text-[14px] focus-visible:ring-[2px] shadow-none placeholder:text-[12px]" , 
     {
         variants : {
             invalid : {
@@ -109,16 +109,6 @@ export const AllInput = forwardRef((props, ref) => {
     const handleInput = (e)=>{
         const text = $(`input[name="${id2}"]`)[0].value
         setPreservedValue( text )
-        const element2 = $(`div[name="${id}"]`)[0]
-        if ( text ){
-            $(element2).find('.css-ii8jj5').addClass('has-text')
-            $(element2).find('.css-ii8jj4').addClass('has-text')
-        }
-        else{
-            $(element2).find('.css-ii8jj5').removeClass('has-text')
-            $(element2).find('.css-ii8jj4').removeClass('has-text')
-        }
-
         if ( type == 'email'){
             checkEmailType(text)
         }
@@ -136,48 +126,40 @@ export const AllInput = forwardRef((props, ref) => {
 
 
     return (
-        <div>
-            <div id={id} name={id} className='relative css-ii8jj3' >
-                <div className='relative flex items-center' >
-                    <p className='css-ii8jj4 opacity-0 font-geist text-[15px]'>{capitalizeFirstLetter(title||"")}</p>
-                    <p className='text-muted-foreground css-ii8jj5 font-geist text-[15px]'>{capitalizeFirstLetter(placeholder||title||"")}</p>
-                    
-                </div>
-                <div className='flex justify-center items-center'>
-                    <Input 
-                        {...props }
-                        defaultValue={defaultValue}
-                        ref={ref||rref}
-                        id={id2}
-                        name={id2}
-                        variant='secondary'
-                        className={cn(vrs({invalid,type,size}) , className )}
-                        onKeyUp={handleInput}
-                        placeholder=''
-                        type={ttype}
-                    />
-                    {
-                        type == 'password' ? 
-                            <div className='absolute right-[5px] h-full top-[4px]'>
-                                <SwapIconButton icon1={<EyeOff />} icon2={<Eye />} 
-                                    onClick={handleClick}
-                                    />
+        <div id={id} name={id} className='relative css-ii8jj3' >
+            <div>
+                <Input 
+                    {...props }
+                    defaultValue={defaultValue}
+                    ref={ref||rref}
+                    id={id2}
+                    name={id2}
+                    variant='secondary'
+                    className={cn(vrs({invalid,type,size}) , className )}
+                    onKeyUp={handleInput}
+                    placeholder={placeholder}
+                    type={ttype}
+                />
+                {
+                    type == 'password' ? 
+                        <div className='absolute right-[5px] h-full top-[3px]'>
+                            <SwapIconButton icon1={<EyeOff className='text-blue-500' />} icon2={<Eye className='text-blue-500' />} 
+                                onClick={handleClick}
+                                />
+                        </div>
+                    : null
+                }
+                {
+                    description ? 
+                        <div className='overflow-visible space-x-1 text-[12px] select-none relative h-full flex items-center text-nowrap'>
+                            <Info className='w-[15px] text-blue-500 ' />
+                            <div className='overflow-visible flex pr-2' >
+                                {extraInfo}
                             </div>
-                        : null
-                    }
-                    {
-                        description ? 
-                            <div className='overflow-visible left-0 top-[30px] space-x-1 text-[12px] select-none absolute h-full flex items-center text-nowrap'>
-                                <Info className='w-[15px] text-blue-500 ' />
-                                <div className='overflow-visible flex pr-2' >
-                                    {extraInfo}
-                                </div>
-                            </div>
-                        : null
-                    }
-                </div>
+                        </div>
+                    : null
+                }
             </div>
         </div>
-
     )
 })

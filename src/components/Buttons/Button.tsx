@@ -24,9 +24,9 @@ const extrabuttonVariants = cva(
                 minimal_border : "border border-input text-accent-foreground bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
                 minimal_no_border : "hover:bg-accent text-accent-foreground hover:text-accent-foreground",
                 secondary : 'text-blue-500' ,
-                icon : "text-blue-500 text-secondary-foreground shadow-sm hover:bg-secondary/80",
-                iconbg : "text-blue-500 bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
-                danger_icon : "text-blue-500 bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80 bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90"
+                icon : "text-blue-500 text-secondary-foreground hover:bg-secondary/80",
+                iconbg : "text-blue-500 bg-secondary text-secondary-foreground hover:bg-secondary/80",
+                danger_icon : "text-blue-500 bg-secondary text-secondary-foreground hover:bg-secondary/80 bg-destructive text-destructive-foreground hover:bg-destructive/90"
             },
             size : {
                 icon : 'w-[30px] h-[30px]'
@@ -49,7 +49,7 @@ function IconButton(props){
     const { icon , label  } = props
     if ( icon && label ){
         return(
-            <div className='flex justify-between items-center text-blue-500 '  >
+            <div className='flex justify-between items-center text-blue-500 shadow-none'  >
                 <div className='pr-2' >
                     {icon}
                 </div>
@@ -134,7 +134,7 @@ export const TestButton = forwardRef( (props, ref ) => {
                     </TooltipTrigger>
                     {
                         tooltip  ?
-                            <TooltipContent className="bg-muted rounded border-blue-600 border-[1.5px] text-muted-foreground shadow-lg" >
+                            <TooltipContent className="bg-muted rounded border-blue-600 border-[1.5px] text-muted-foreground shadow-lg z-50" >
                                 <p>{tooltip}</p>
                             </TooltipContent>
                             : null
