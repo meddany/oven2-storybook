@@ -10,7 +10,7 @@ import { SwapIconButton } from '../Buttons/SwapIconButton'
 import { Eye , EyeOff , Info } from '@/components'
 
 const vrs = cva(
-    "rounded-sm font-geist border-[2px] text-[14px] focus-visible:ring-[2px] placeholder:text-[12px]" , 
+    "rounded-sm font-geist border-[2px] text-[14px] shadow-sm focus-visible:ring-[2px] placeholder:text-[12px]" , 
     {
         variants : {
             invalid : {
@@ -134,7 +134,7 @@ export const AllInput = forwardRef((props, ref) => {
                     id={id2}
                     name={id2}
                     variant='secondary'
-                    className={cn(vrs({invalid,type,size}) , className )}
+                    className={cn(vrs({invalid,type,size}) , className , 'shadow-sm' )}
                     onKeyUp={handleInput}
                     placeholder={placeholder}
                     type={ttype}
