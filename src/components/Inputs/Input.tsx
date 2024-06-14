@@ -6,12 +6,11 @@ import { cn } from '@/lib/utils'
 import './styles.css'
 import { useRandomId } from '../utils/utils'
 import $ from 'jquery'
-import { capitalizeFirstLetter } from '../utils/utils'
 import { SwapIconButton } from '../Buttons/SwapIconButton'
 import { Eye , EyeOff , Info } from '@/components'
 
 const vrs = cva(
-    "rounded-sm font-geist border-[2px] text-[14px] focus-visible:ring-[2px] shadow-none placeholder:text-[12px]" , 
+    "rounded-sm font-geist border-[2px] text-[14px] focus-visible:ring-[2px] placeholder:text-[12px]" , 
     {
         variants : {
             invalid : {
