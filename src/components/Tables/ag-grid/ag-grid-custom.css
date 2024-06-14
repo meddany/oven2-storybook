@@ -238,5 +238,6 @@
     top: 0px;
     left: 0px;
     width: 100vw;
-    height: calc(100vh - 10px)
+    height: calc(100vh - 10px) ;
+    z-index: 60000;
 }

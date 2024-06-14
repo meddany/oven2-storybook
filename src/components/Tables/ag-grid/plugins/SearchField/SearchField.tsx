@@ -1,34 +1,33 @@
 // @ts-nocheck
 import React, { useRef, useState , useContext, memo } from 'react';
 import { ClickAwayListener } from '@mui/base/ClickAwayListener';
-import TextField from '@mui/material/TextField';
 import './styles.css';
 import TableGlobalContext from '../context/TableGlobalContext';
 import $ from 'jquery'
 import { Input } from '@/components'
 import SearchIcon from '@mui/icons-material/Search';
-import { Box } from '@mui/material';
 import Zoom from '@mui/material/Zoom';
 import { IconButton as CustomIconButton } from '../../../../Buttons/IconButton'
-import { callback } from '../../callbacks/callback';
+import './styles.css'
+import { useRandomId } from '@/components';
+
+const cs = useRandomId()
+
 
 const SearchField = () => {
 
     const inputRef = useRef(null);
-    const { ref : agGridRef , table } = useContext(TableGlobalContext);
+    const { ref : agGridRef } = useContext(TableGlobalContext);
     const [ show , setShow ] = useState(true)
     const [ searchText , setSearchText ] = useState('')
 
     function hideSearchBar() {
-        if (searchText == ''){setShow(false)}
+        if (searchText == ''){
+            setShow(false)
+            $('.'+cs).find('.css-ijr312').addClass('css-ijr312-hide')
+        }
         
     }
-    // const getTableSize = () => {
-    //     if ( table.api ){
-    //         return callback.getTableSize()
-    //     }
-    //     return 200
-    // } 
 
     const handleInputChange = (_,v) => {
         const searchTxt = v
@@ -36,25 +35,36 @@ const SearchField = () => {
         agGridRef.current.api.setQuickFilter(searchTxt);
     }
 
-    function showSearchBar(){ $(inputRef.current).show() ; setShow(true)}
+    function showSearchBar(){ 
+        $(inputRef.current).show() ; 
+        setShow(true) 
+        $('.'+cs).find('.css-ijr312').removeClass('css-ijr312-hide')
+    }
 
     function unmountSearchBar(){
         if ( show == false ){
             if (searchText != ''){return}
-            setTimeout(()=>{$(inputRef.current).hide()} , 300)
+            console.log($(inputRef.current).find('.css-ijr312'))
+            setTimeout( 
+                ()=>{
+                    $(inputRef.current).hide()
+                    $('.'+cs).find('.css-ijr312').addClass('css-ijr312-hide')
+                }    
+            , 300)
         }
     }
 
     return (
-        <div className='flex justify-center items-center '>
+        <div className={`flex justify-center items-center ${cs}`} >
             <ClickAwayListener onClickAway={hideSearchBar}>
-                <Box>
+                <div className='w-auto'>
                     <div className='flex items-center justify-center' >
                         <Zoom in={show} addEndListener={unmountSearchBar}>
-                            <div className='mr-1'>
+                            <div className='mr-1 css-ijr312'>
                                 <Input 
                                     placeholder = 'Search ...'
                                     onInputChange={handleInputChange}
+                                    className='w-[200px]'
                                 />
                             </div>
                         </Zoom>
@@ -64,7 +74,7 @@ const SearchField = () => {
                             title='Search'
                         />
                     </div>
-                </Box>
+                </div>
             </ClickAwayListener>
         </div>
     );

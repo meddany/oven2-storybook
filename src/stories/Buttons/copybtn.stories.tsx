@@ -11,7 +11,7 @@ export default {
 
 const Template= (args) => {
   return (
-    <div className='m-2.5' >
+    <div className='mx-2.5' >
       <CopyButton {...args} />
     </div>
   )

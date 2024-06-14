@@ -1,43 +1,61 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-  } from "@/components/ui/tooltip"
 import React , { useState , useEffect, forwardRef } from 'react'
 import { Button as ShButton } from '../ui/button'
 import '../global.css'
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 import MenuItem from '@mui/material/MenuItem';
+import { Tooltip }  from '@mui/material';
+import Zoom from '@mui/material/Zoom';
+import './styles.css'
+import { styled } from '@mui/material/styles';
+
+
+const ToBeStyledTooltip = ({ className, ...props }) => (
+    <Tooltip {...props} classes={{ tooltip: className }} />
+);
+
+const StyledTooltip = styled(ToBeStyledTooltip)(() => ({
+    backgroundColor: '#f5f5f9',
+    color: 'rgba(0, 0, 0, 0.87)',
+    border: '1px solid #dadde9',
+  }));
 
 const extrabuttonVariants = cva(
-    "active:opacity-50 font-Roboto text-white focus:outline outline-2 outline-offset-2 outline-blue-500 text-sm relative p-0 overflow-hidden",
+    "active:opacity-50 font-Roboto text-white focus:outline font-bold outline-2 outline-offset-2 outline-blue-500 text-sm relative p-0 overflow-visible z-[300] relative",
     {
         variants : {
             variant : {
                 danger : "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
-                danger_white_text : "bg-destructive text-white shadow-sm hover:bg-destructive/90",
-                minimal_border : "border border-input text-accent-foreground bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
+                danger_white_text : "bg-destructive text-white shadow-sm hover:bg-destructive/90 hover:text-destructive",
+                minimal_border : "border border-input text-accent-foreground bg-background hover:bg-accent hover:text-accent-foreground",
                 minimal_no_border : "hover:bg-accent text-accent-foreground hover:text-accent-foreground",
-                secondary : 'text-blue-500' ,
-                icon : "text-blue-500 text-secondary-foreground hover:bg-secondary/80",
+                secondary : 'text-blue-600 shadow-none' ,
+                icon : "text-blue-600",
+                iconbg : "",
+                danger_icon : "" ,
                 iconbg : "text-blue-500 bg-secondary text-secondary-foreground hover:bg-secondary/80",
-                danger_icon : "text-blue-500 bg-secondary text-secondary-foreground hover:bg-secondary/80 bg-destructive text-destructive-foreground hover:bg-destructive/90"
             },
             size : {
-                icon : 'w-[30px] h-[30px]'
+                icon : 'css-k2j3123'
             }
         },
         defaultVariants : {
-            variant : '' 
+            variant : 'minimal_border' 
         }
        
     },
 )
+
+const vrs2 = cva('focus:outline-blue outline-none focus:border-blue-600 focus:border-solid focus:border-2 focus:rounded-md !cursor-default' , {
+    variants : {
+        variant : {
+            icon : 'w-[30px] h-[30px] flex justify-center items-center relative' ,
+        }
+    }
+})
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
@@ -46,27 +64,32 @@ export interface ButtonProps
 }
 
 function IconButton(props){
+    // this for buttons which has icons inside.
     const { icon , label  } = props
     if ( icon && label ){
         return(
-            <div className='flex justify-between items-center text-blue-500 shadow-none'  >
-                <div className='pr-2' >
+            <div className='flex justify-between items-center text-blue-500 shadow-none'>
+                <div className='flex justify-center items-center'>
                     {icon}
                 </div>
-                {label}
+                <div>
+                    {label}
+                </div>
             </div>
         )
     }
     else {
         return(
-            <>
+            <div className=''>
                 {icon}
-            </>
+            </div>
         )
     }
 }
 
 export const TestButton = forwardRef( (props, ref ) => {
+
+    
     const { 
         variant  , 
         size, 
@@ -80,6 +103,7 @@ export const TestButton = forwardRef( (props, ref ) => {
         tooltip,
         className
     } = props;
+
 
     const [ defaults , setDefaults ] = useState({
         disable : disable ? disable : false ,
@@ -104,42 +128,41 @@ export const TestButton = forwardRef( (props, ref ) => {
         }
     }
     
-
     return (
-            <TooltipProvider>
-                <Tooltip>
-                    <TooltipTrigger asChild>
-                        <ShButton
-                            {...props}
-                            ref={ref}
-                            autoFocus={autoFocus}
-                            disabled={defaults.disable}
-                            onClick={handleClick}
-                            size={size}
-                            className={cn(extrabuttonVariants({ variant , disableAfterClick , 
+        <StyledTooltip 
+            title={tooltip} 
+            arrow
+            TransitionComponent={Zoom}
+            TransitionProps={{ timeout:200 }}
+        >
+            <ShButton
+                {...props}
+                ref={ref}
+                autoFocus={autoFocus}
+                disabled={defaults.disable}
+                onClick={handleClick}
+                size={size}
+                className={
+                        cn(extrabuttonVariants(
+                            { 
+                                variant , 
+                                disableAfterClick , 
                                 size : size
-                            } ) , className , addClass ,  )}
-                        >
-                            <MenuItem >
-                                {
-                                    icon ? 
-                                    <div className="w-full h-full flex justify-center items-center">
-                                        <IconButton icon={icon}  label={children} />
-                                    </div>
-                                    : 
-                                    children
-                                }
-                            </MenuItem>
-                        </ShButton>
-                    </TooltipTrigger>
+                            } 
+                    ) , className , addClass )
+                }
+            >
+                <MenuItem className={cn(vrs2({variant}) )} >
                     {
-                        tooltip  ?
-                            <TooltipContent className="bg-muted rounded border-blue-600 border-[1.5px] text-muted-foreground shadow-lg z-50" >
-                                <p>{tooltip}</p>
-                            </TooltipContent>
-                            : null
+                        icon ? 
+                        <div className="flex justify-center items-center w-full h-full">
+                            <IconButton icon={icon} label={children} />
+                        </div>
+                        : 
+                        children
                     }
-                </Tooltip>
-            </TooltipProvider>
+                </MenuItem>
+            </ShButton>
+        </StyledTooltip>
     )
 })

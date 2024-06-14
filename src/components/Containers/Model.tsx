@@ -10,7 +10,7 @@ import {
 import { ModelContext } from '../Contexts/ModelContext'
 
 const vrs = cva(
-    "h-full w-full flex items-center justify-center z-40  " ,
+    "h-full w-full flex items-center justify-center z-[300]" ,
     {
       variants : {
         variant : {

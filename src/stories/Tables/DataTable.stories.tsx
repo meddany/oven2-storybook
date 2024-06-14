@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React , { useRef , useEffect , useState } from 'react';
-import { DataTable } from '@/components';
+import { DataTable , IconButton , ShareIcon } from '@/components';
 import { data } from '@/components/playground-data/datatableitems'
 
 export default {
@@ -40,6 +40,9 @@ export const Basic = Template.bind({});
 Basic.args={
   tablename : 'Basic Table Name' ,
   menuItems : [] ,
+  toolbarBtns : [
+    <IconButton icon={<ShareIcon />} label='Thanks' />
+  ] ,
   enableMultiRowSelection: true ,
   autoRefresh : (callback) => {
     console.log('auto refresh triggered ...' , callback )

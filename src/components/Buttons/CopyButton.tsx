@@ -15,7 +15,7 @@ export const CopyButton = forwardRef( (props,ref) => {
             onClick={ () => {
                 navigator.clipboard.writeText(value)
                 setIcon(
-                    <CheckCheck className='text-blue-500' size={17} />
+                    <CheckCheck className='text-blue-600' size={16} />
                     )
                 setTimeout( () => {
                     setIcon( <Copy size={16} /> )
