@@ -22,6 +22,7 @@
   import '../../Containers/Sub_Components/custom-scrollbar.css'
   import './themes/main.css'
   import { InlineSpinner } from '@/components'
+  import { useTableApi } from './callbacks/callback';
 
 const themes = [
     {
@@ -69,6 +70,7 @@ export const DataTable = forwardRef((props ,callbackRef ) => {
   const [tablePreferencesEvent , setTablePreferencesEvent] = useState()
   const [ contextMenuEvent , setContextMenuEvent ] = useState(null)
   const updatedState = useRef({api : {} })
+  const [ test ] = useTableApi(gridRef)
   const [ options , setOptions ] = useState({
     enableMultiRowSelection : enableMultiRowSelection ? enableMultiRowSelection : false ,
     autoGenerateHeaders : true ,
@@ -97,6 +99,10 @@ export const DataTable = forwardRef((props ,callbackRef ) => {
     paginationPageSize : paginationPageSize ,
     onRefreshButtonDisable : props.onRefresh ? false : true 
   })
+
+  useEffect( () => {
+    console.warn('test updated ' , test )
+  } , [test])
 
   const updateTheme = (theme) => {
     setTheme(theme)

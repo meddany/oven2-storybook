@@ -37,14 +37,14 @@ const vrs = cva(
 )
 
 export const AllInput = forwardRef((props, ref) => {
-    const { placeholder, size , onInputChange ,description, inputRef ,title ,className, invalid , type ,defaultValue,value } = props;
+    const { placeholder, size , onInputChange ,description, inputRef ,className, invalid , type ,defaultValue,value } = props;
     const [ ttype , setTtype ] = useState(type)
     const [ extraInfo , setExtraInfo ] = useState(description)
     const [ timeout , setITimeout  ] = useState()
     const [ preservedValue , setPreservedValue ] = useState(defaultValue)
     const id = useRandomId()
     const id2 = useRandomId()
-    const rref= useRef()
+    const rref= useRef({})
 
     const handleClick = useCallback( (state) => {
         const ntype = state == 1 ? 'password' : 'text' 
@@ -118,6 +118,7 @@ export const AllInput = forwardRef((props, ref) => {
         }
     }
 
+
     useEffect(()=>{
         if ( defaultValue || value ){
             handleInput()
@@ -125,6 +126,7 @@ export const AllInput = forwardRef((props, ref) => {
     } , [defaultValue,value])
 
 
+    
     return (
         <div id={id} name={id} className='relative css-ii8jj3' >
             <div>
@@ -143,7 +145,7 @@ export const AllInput = forwardRef((props, ref) => {
                 {
                     type == 'password' ? 
                         <div className='absolute right-[5px] h-full top-[3px]'>
-                            <SwapIconButton icon1={<EyeOff className='text-blue-500' />} icon2={<Eye className='text-blue-500' />} 
+                            <SwapIconButton outline={false} icon1={<EyeOff className='text-blue-500' />} icon2={<Eye className='text-blue-500' />} 
                                 onClick={handleClick}
                                 />
                         </div>
@@ -153,7 +155,7 @@ export const AllInput = forwardRef((props, ref) => {
                     description ? 
                         <div className='overflow-visible space-x-1 text-[12px] select-none relative h-full flex items-center text-nowrap'>
                             <Info className='w-[15px] text-blue-500 ' />
-                            <div className='overflow-visible flex pr-2 font-[nokia_pure_textregular]' >
+                            <div className='overflow-visible flex pr-2 font-Roboto' >
                                 {extraInfo}
                             </div>
                         </div>

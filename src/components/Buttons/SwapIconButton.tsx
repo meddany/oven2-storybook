@@ -16,6 +16,7 @@ export const SwapIconButton =  forwardRef( (props, ref) => {
     return (
         <div ref={ref}>
             <IconButton 
+                { ...props }
                 icon={ icon ? icon : null }
                 tooltip={state}
                 onClick={() => {

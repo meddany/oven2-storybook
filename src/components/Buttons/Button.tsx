@@ -53,6 +53,9 @@ const vrs2 = cva('focus:outline-blue outline-none focus:border-blue-600 focus:bo
     variants : {
         variant : {
             icon : 'w-[30px] h-[30px] flex justify-center items-center relative' ,
+        } ,
+        outline : {
+            false : '!focus:outline-none'
         }
     }
 })
@@ -101,7 +104,8 @@ export const TestButton = forwardRef( (props, ref ) => {
         icon , 
         disableAfterClick ,
         tooltip,
-        className
+        className ,
+        outline
     } = props;
 
 
@@ -147,19 +151,20 @@ export const TestButton = forwardRef( (props, ref ) => {
                             { 
                                 variant , 
                                 disableAfterClick , 
-                                size : size
+                                size : size ,
+                                outline
                             } 
                     ) , className , addClass )
                 }
             >
-                <MenuItem className={cn(vrs2({variant}) )} >
+                <MenuItem className={cn(vrs2({variant , outline }) )} {...props.mui} >
                     {
                         icon ?  
                         <div className="flex justify-center items-center w-full h-full">
-                            <IconButton icon={icon} label={children.toString().toUpperCase()} />
+                            <IconButton icon={icon} label={children?.toString().toUpperCase()} />
                         </div>
                         : 
-                        children.toString().toUpperCase()
+                        children?.toString().toUpperCase()
                     }
                 </MenuItem>
             </ShButton>
