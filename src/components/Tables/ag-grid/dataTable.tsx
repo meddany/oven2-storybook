@@ -241,9 +241,13 @@ export const DataTable = forwardRef((props ,callbackRef ) => {
       }
       updatedState.current.api.data = props.dataset
       if ( gridRef.current.api ){
-        console.log(gridRef.current)
-        if ( ! gridRef.current.api.isDestroyed() ){
-          callback.restoreState()
+        try {
+          if ( ! gridRef.current.api.isDestroyed() ){
+            callback.restoreState()
+          }
+        }
+        catch(error){
+          // 
         }
       }
 
