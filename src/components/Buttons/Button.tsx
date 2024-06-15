@@ -154,12 +154,12 @@ export const TestButton = forwardRef( (props, ref ) => {
             >
                 <MenuItem className={cn(vrs2({variant}) )} >
                     {
-                        icon ? 
+                        icon ?  
                         <div className="flex justify-center items-center w-full h-full">
-                            <IconButton icon={icon} label={children} />
+                            <IconButton icon={icon} label={children.toString().toUpperCase()} />
                         </div>
                         : 
-                        children
+                        children.toString().toUpperCase()
                     }
                 </MenuItem>
             </ShButton>

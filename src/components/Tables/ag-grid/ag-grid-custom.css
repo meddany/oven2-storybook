@@ -237,7 +237,9 @@
     position: fixed;
     top: 0px;
     left: 0px;
-    width: 100vw;
-    height: calc(100vh - 10px) ;
+    width: calc(100vw) !important;
+    height: calc(100vh) !important;
     z-index: 60000;
+    background-color: #f8f8f8 !important;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px !important;
 }

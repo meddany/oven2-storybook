@@ -8,6 +8,7 @@ import { useRandomId } from '../utils/utils'
 import $ from 'jquery'
 import { SwapIconButton } from '../Buttons/SwapIconButton'
 import { Eye , EyeOff , Info } from '@/components'
+import '../fonts/nokia/nokia-fonts.css'
 
 const vrs = cva(
     "rounded-sm font-geist border-[2px] text-[14px] focus-visible:ring-[2px] placeholder:text-[12px]" , 
@@ -152,7 +153,7 @@ export const AllInput = forwardRef((props, ref) => {
                     description ? 
                         <div className='overflow-visible space-x-1 text-[12px] select-none relative h-full flex items-center text-nowrap'>
                             <Info className='w-[15px] text-blue-500 ' />
-                            <div className='overflow-visible flex pr-2' >
+                            <div className='overflow-visible flex pr-2 font-[nokia_pure_textregular]' >
                                 {extraInfo}
                             </div>
                         </div>
