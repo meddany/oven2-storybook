@@ -1,12 +1,18 @@
 // @ts-nocheck
-import { useState , forwardRef } from 'react';
+import { useState , forwardRef, useEffect } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import { Input } from '..';
 
 export const AutoComplete = forwardRef((props,ref) =>{
     
     const { options } = props;
-    const [ ops ] = useState(options||[])
+    const [ ops , setOpts ] = useState(options||[])
+
+    useEffect( () => {
+        if ( options ){
+            setOpts(options)
+        }
+    } , [options])
 
     return (
         <>

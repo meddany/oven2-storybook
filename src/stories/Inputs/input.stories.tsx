@@ -61,6 +61,20 @@ FrequencyInput.args = {
     onInputChange:(value,ref)=>{
         console.log('coming value is ' ,ref)
     }
-    
+};
+
+export const AutoCompleteInput = Template.bind({});
+AutoCompleteInput.args = {
+    invalid : false,
+    type: 'autocomplete',
+    description : "update auto complete ..",
+    size : 'sm' ,
+    options : [
+        "thanks"
+    ] ,
+    placeholder : 'auto compelete' , 
+    onInputChange:(value,ref)=>{
+        console.log('coming value is ' ,ref)
+    }
 };
 
