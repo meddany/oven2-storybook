@@ -24,7 +24,7 @@ const StyledTooltip = styled(ToBeStyledTooltip)(() => ({
   }));
 
 const extrabuttonVariants = cva(
-    "active:opacity-50 font-Roboto text-white focus:outline font-bold outline-2 outline-offset-2 outline-blue-500 text-sm relative p-0 overflow-visible z-[300] relative",
+    "active:opacity-50 font-Roboto text-white focus:outline font-bold outline-2 outline-offset-2 outline-blue-500 text-[14px] relative p-0 overflow-visible z-[300] relative",
     {
         variants : {
             variant : {
