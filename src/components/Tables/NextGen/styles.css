@@ -1,0 +1,29 @@
+.ag-horizontal-left-spacer{
+    width: 0px;
+    display: none;
+}
+
+.css-j2jo1l23{
+    height: calc(100% - 50px);
+}
+
+.css-771-full-screen{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 6000 !important;
+}
+
+.ng-aggrid-wrapper{
+    transition: all cubic-bezier(0.215, 0.610, 0.355, 1) ease-in-out;
+}
+
+.ag-row-selected{
+    color: white !important;
+}
+
+.css-klk212 , .ag-paging-panel{
+    background-color: var(--ag-header-background-color);
+}

@@ -170,14 +170,13 @@ export const PinnedMenuItem = forwardRef( (props, ref ) => {
                                     tooltip={item.label}
                                     icon={item.icon}
                                     className='ml-2'
-                                    variant='secondary'
                                     onClick={(e)=>{onClick(e,item)}}
                                 />
                             )
                         } )
                     }
                     </div>
-                    <Separator />
+                    <Separator className='my-[5px]' />
                 </>
             : null
             }

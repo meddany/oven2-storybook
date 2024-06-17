@@ -14,7 +14,7 @@ import { styled } from '@mui/material/styles';
 
 
 const ToBeStyledTooltip = ({ className, ...props }) => (
-    <Tooltip {...props} classes={{ tooltip: className }} />
+    <Tooltip {...props} enterDelay={200} classes={{ tooltip: className }} />
 );
 
 const StyledTooltip = styled(ToBeStyledTooltip)(() => ({
@@ -52,7 +52,7 @@ const extrabuttonVariants = cva(
 const vrs2 = cva('focus:outline-blue outline-none focus:border-blue-600 focus:border-solid focus:border-2 focus:rounded-md !cursor-default' , {
     variants : {
         variant : {
-            icon : 'w-[30px] h-[30px] flex justify-center items-center relative' ,
+            icon : 'w-[40px] h-[40px] flex justify-center items-center relative !rounded-lg hover:!bg-[#e5effd]' ,
         } ,
         outline : {
             false : '!focus:outline-none'
@@ -91,8 +91,6 @@ function IconButton(props){
 }
 
 export const TestButton = forwardRef( (props, ref ) => {
-
-    
     const { 
         variant  , 
         size, 

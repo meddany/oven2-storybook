@@ -5,7 +5,7 @@ import { Input } from '..';
 
 export const AutoComplete = forwardRef((props,ref) =>{
     
-    const { options } = props;
+    const { options , onSelectChange , defaultValue } = props;
     const [ ops , setOpts ] = useState(options||[])
 
     useEffect( () => {
@@ -28,12 +28,14 @@ export const AutoComplete = forwardRef((props,ref) =>{
                 },
                 }}
                 options={ops}
+                onChange={onSelectChange}
                 renderInput={(params) => (
                 <div ref={params.InputProps.ref}>
                     <Input 
                         {...params.inputProps}                
                         {...props}
                         inputRef={ref}
+                        defaultValue={defaultValue}
                     />
                 </div>
                 )}

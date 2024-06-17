@@ -1,3 +1,6 @@
+// @ts-nocheck
+import { convertNumberToArray , useRandomId  } from '../utils/utils'
+
 export const data = [
     {
         "athlete": "Michael Phelps",
@@ -103416,3 +103419,26 @@ export const data = [
     //     "total": 1
     // }
 ]
+
+export const generateCustomData = (size) => {
+    const items = convertNumberToArray(size)
+    const data = []
+    items.map ( item => {
+        data.push({
+            id : useRandomId() ,
+            name : useRandomId() ,
+            string : useRandomId() ,
+            string : useRandomId() ,
+            length : useRandomId() ,
+            array : [useRandomId() , useRandomId() ,useRandomId() ,useRandomId() , useRandomId() , useRandomId() ,useRandomId() ,useRandomId()] ,
+            checked : Math.random() >= 0.5 ,
+            width : useRandomId() ,
+            connection: useRandomId(),
+            birth : useRandomId(),
+            brand : useRandomId(),
+            address : useRandomId(),
+            location : useRandomId(),
+        })
+    })
+    return data
+}

@@ -1,12 +1,35 @@
 // @ts-nocheck
-import React, { forwardRef , useRef } from 'react'
+import React, { forwardRef , useEffect, useRef } from 'react'
 import { Panel } from './Panel'
 import { Model } from './Model'
 import { Button } from '..'
 
-export const DialogPanel = forwardRef( (props,ref) => {
-    const { children , header  , shortInfo ,close , collapsable } = props
+export interface DialogPanelProps {
+    children : any , 
+    header : string , 
+    shortInfo : string ,
+    close : boolean | string , 
+    collapsable : boolean,
+    ref?: object ,
+    defaultOpen: boolean
+}
+
+export const DialogPanel = forwardRef< HTMLDivElement ,DialogPanelProps>( (props,ref) => {
+    const { children , 
+        header  , 
+        shortInfo,
+        close , 
+        collapsable , 
+        defaultOpen=false
+    } = props
     const rref = useRef({})
+
+    useEffect( () => {
+        if ( defaultOpen ){
+            ref.current.open()
+        }
+    } , [defaultOpen,ref])
+
     return (
         <Model ref={ref ? ref : rref }>
             <div className=''>

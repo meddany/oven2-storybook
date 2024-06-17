@@ -117,6 +117,7 @@ export const DataTable = forwardRef((props ,callbackRef ) => {
   // ========================================================================
 
   function buildTable( ){
+    callback.autoApplyHeaders( props.dataset,options)
     onGridReady()
     updateTheme( defaultTheme  )
     callback.registerHoykeys()
@@ -126,32 +127,31 @@ export const DataTable = forwardRef((props ,callbackRef ) => {
     }
   }
 
-  useEffect( () => {
-    if ( props.dataset ){
-      console.log('updating dataset ...')
-      setShowTableSpinner(true)
-      preGridReady()
-      buildTable()
-      setShowTableSpinner(false)
+  function clearAndGarabageCollector(){
+    console.warn('reseting and clearing tables ...')
+    clearAllHotkeyRegister()
+    setMenuItems( prev => [] )
+    $(document).off('contextmenu' , callback.stopContextMenuDefaults )
+    if ( callback.autoRefreshInterval){
+      clearInterval(callback.autoRefreshInterval)
     }
-  } , [props.dataset])
+  }
 
   useEffect( () => {
     if ( ! props.dataset ){ return }
+    console.log('updating dataset ...')
     if ( props.options ){
       setOptions( prev => ({...prev , ...props.options}))
     }
     if ( props.menuItems ){
       global.updateMenuItems()
     }
+    setShowTableSpinner(true)
+    preGridReady()
+    buildTable()
+    setShowTableSpinner(false)
     return () => {
-      console.warn('reseting and clearing tables ...')
-      clearAllHotkeyRegister()
-      setMenuItems( prev => [] )
-      $(document).off('contextmenu' , callback.stopContextMenuDefaults )
-      if ( callback.autoRefreshInterval){
-        clearInterval(callback.autoRefreshInterval)
-      }
+      clearAndGarabageCollector()
     }
   } , [ props.dataset])
 
@@ -235,7 +235,6 @@ export const DataTable = forwardRef((props ,callbackRef ) => {
     setRowData(props.dataset ) 
     // Genreate the headers for the table automatically ( most of the cases this is required)
     if ( options.autoGenerateHeaders === true || props.autoGenerateHeaders === undefined) {
-      callback.autoApplyHeaders( props.dataset,options)
       if (!options.disableContextMenu){
         $(document).on('contextmenu', callback.api.mtable , callback.stopContextMenuDefaults )
       }
@@ -291,7 +290,7 @@ export const DataTable = forwardRef((props ,callbackRef ) => {
       return {
         flex: 3,
         resizable : true,
-        minWidth: 60,
+        minWidth: 150,
         filter: 'agSetColumnFilter',
         floatingFilter: false,
         sortable: true,
@@ -396,7 +395,6 @@ export const DataTable = forwardRef((props ,callbackRef ) => {
                   defaultColDef= {defaultColDef}
                   rowSelection = { options.enableMultiRowSelection ? 'multiple' : 'single' }
                   cellSeection = "multiple"
-                  autoSizeStrategy={{type : 'fitCellContents'}}
                   rowHeight = {options.rowHeight}
                   headerHeight={options.headerHeight}
                   ref={gridRef}

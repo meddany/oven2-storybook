@@ -23,8 +23,16 @@ const vrs = cva(
     }
 )
 
+export interface PanelProps {
+    children : any , 
+    closed : boolean , 
+    header : string, 
+    moreInfo : string, 
+    spinnerArgs : object , 
+    spinnerState : any,
+}
 
-export const Panel = forwardRef( (props, ref ) => {
+export const Panel = forwardRef<PanelProps>( (props, ref ) => {
     
     const { children , closed , header, moreInfo ,spinnerArgs , spinnerState , shortInfo , footer , collapsable, variant , close } = props;
     const panelRef = useRef()
