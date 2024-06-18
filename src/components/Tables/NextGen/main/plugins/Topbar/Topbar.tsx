@@ -1,12 +1,12 @@
 // @ts-nocheck
-import { useContext, useEffect, useState } from "react"
+import { useCallback, useContext, useEffect, useState } from "react"
 import { TableContext } from "../../main"
 import { IconButton } from "../../../../../Buttons/IconButton"
 import { LucideEllipsisVertical , FoldHorizontal , Fullscreen ,Download  , RotateCw  } from "lucide-react"
-
+import { hotkeyRegister , clearHotkeyRegister } from "@/components/utils/hotkeyregister"
 
 export const Topbar = (props) => {
-    const { updateCallback , updateEvent  } = props
+    const { updateCallback , updateEvent ,toolbarBtns=[]  } = props
     const { callback } = useContext(TableContext)
     const [ tableName , setTableName ] = useState()
     const [ isRefreshDisabled , setIsRefreshDisabled ]  = useState(false)
@@ -18,6 +18,21 @@ export const Topbar = (props) => {
         }
     } , [callback])
 
+    const switchFullscreen = useCallback( () => {
+        console.log('escape button clicked to exit full screen mode ...' , callback )
+        callback.tableRef.current.classList.remove('css-771-full-screen')
+        updateCallback( prev => ({...prev , fullscreen : false  }))
+    } , [callback])
+
+    useEffect( () => {
+        hotkeyRegister('escape' , () => {
+            switchFullscreen()
+        })
+        return () => {
+            clearHotkeyRegister('escape')
+            updateCallback( prev => ({...prev , fullscreen : false  }))
+        }
+    } , [callback.fullscreen])
 
     return (
         <div className="flex items-center h-auto w-full css-klk212 p-1">
@@ -26,7 +41,11 @@ export const Topbar = (props) => {
             </div>
 
             <div className="flex items-center space-x-2 mr-1 p-1">
-
+                {
+                    toolbarBtns.map( item => {
+                        return item
+                    })
+                }
                 <IconButton 
                     icon={<RotateCw />}
                     tooltip='Refresh'

@@ -1,5 +1,6 @@
 .css-show-sj212{
     height: 300px !important;
+    display: block;
 }
 .css-khh123{
     transition: all 100ms cubic-bezier(0.075, 0.82, 0.165, 1)

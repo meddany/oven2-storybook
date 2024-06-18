@@ -46,7 +46,7 @@ export function hotkeyRegister(hotkey ,action,  label) {
     return item
 }
 
-export function clearHotkeyRegister({ keys , handler } ) {
+export function clearHotkeyRegister({ keys } ) {
     hotkeys.unbind(keys);
 }
 

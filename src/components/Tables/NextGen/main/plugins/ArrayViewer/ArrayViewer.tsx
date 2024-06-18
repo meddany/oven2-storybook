@@ -38,7 +38,7 @@ export const ArrayViewer= forwardRef<HTMLAreaElement , ArrayViewerProps>( (props
     } , [callback.selectedCell])
 
     return(
-        <div ref={ref} className="css-khh123 overflow-auto w-full h-[0px] bg-[#fafafa] absolute bottom-0 left-0 z-10 border-gray-400  px-2 border-[1px] rounded-t-xl">
+        <div ref={ref} className="css-khh123 hidden overflow-auto w-full h-[0px] bg-[#fafafa] absolute bottom-0 left-0 z-10 border-gray-400  px-2 border-[1px] rounded-t-xl">
             <div className="w-full h-[40px] flex items-center font-Roboto font-bold border-b-[1px] border-gray-400 ">
                 <div className="flex w-full">
                     { header?.toUpperCase() }

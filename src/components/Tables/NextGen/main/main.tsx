@@ -39,6 +39,7 @@ export interface TableProps {
     onRefresh? : void | null ,
     enableContextMenu : boolean , 
     hidden : Array ,
+    toolbarBtns : Array ,
     headerMapper : [
         {
             key : string , 
@@ -59,13 +60,11 @@ export interface TableProps {
 export const Table = forwardRef<HTMLDivElement , TableProps> ( (props,ref) => {
 
     // =================================================================================
-
-
     const { 
         tid , 
         dataset=[] , 
         aggrid , 
-        enablePagination , 
+        enablePagination=true , 
         pageSize   ,
         rowHeight = 'sm' ,
         onCellClick= function(){} ,
@@ -78,6 +77,7 @@ export const Table = forwardRef<HTMLDivElement , TableProps> ( (props,ref) => {
         hidden=[] ,
         enableContextMenu = true,
         menuItems=[] ,
+        toolbarBtns=[]
     } = props
     const tref = useRef()
     const PanelDialogRef = useRef({})
@@ -154,7 +154,6 @@ export const Table = forwardRef<HTMLDivElement , TableProps> ( (props,ref) => {
         setTimeout( () => {callback.updateSingleCallbackKey('ready' , true )} , 1000)
     }  , [])
 
-
     useEffect( () => {
         if ( gridRef.current ){
             updateCallback( prev => (
@@ -194,7 +193,7 @@ export const Table = forwardRef<HTMLDivElement , TableProps> ( (props,ref) => {
     return (
         <TableContext.Provider value={{tref , ...props , gridRef , tid , callback , changeRowHeight  }}>
             <div data-tid={tid} onContextMenu={(e)=>{enableContextMenu ? e.preventDefault() : null }} ref={tref} className="ng-aggrid-wrapper w-full h-full light-minimal-theme custom-scroll-bar relative rounded-lg border-[1px] border-[#d0e6f6] border-solid pointer-events-auto" >
-                <Topbar updateCallback={updateCallback} updateEvent={setTablePreferencesEvent} />
+                <Topbar updateCallback={updateCallback} toolbarBtns={toolbarBtns} updateEvent={setTablePreferencesEvent} />
                 {/* contextmenu for table preferences */}
                 <ContextMenu 
                     items={{ items : TableMenuItems }}
@@ -220,8 +219,6 @@ export const Table = forwardRef<HTMLDivElement , TableProps> ( (props,ref) => {
                     <AgGridReact
                         tid={tid} 
                         ref={gridRef}
-                        suppressAnimationFrame={true}
-                        suppressColumnMoveAnimation={true}
                         rowData={dataset}
                         columnDefs={columnDefs}
                         pagination= {enablePagination}
@@ -235,16 +232,11 @@ export const Table = forwardRef<HTMLDivElement , TableProps> ( (props,ref) => {
                         onRowSelected={onRowSelected}
                         onCellClicked={onCellSelected}
                         onCellContextMenu= {enableContextMenu ? onCellContextMenu : null }
-                        // enableCellTextSelection = {true}
-                        // onGridReady={() => { 
-                        //     $(table.current).find('.ag-horizontal-left-spacer').remove()
-                        //     }}
                         onRowDoubleClicked={handleOnRowDoubleClicked}
                         { ... aggrid}
                         >
                     </AgGridReact>
                 </div>
-
             </div>
         </TableContext.Provider>
     )

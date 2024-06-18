@@ -45,11 +45,7 @@ export const CustomLabelCell = ( props ) => {
         )
     }
     
-    return(
-        <label>
-            {value}
-        </label>
-    )
+    return <div>{value}</div>
 
 }
 
@@ -79,13 +75,13 @@ export const useHeaders = (data,mapper,hidden=[]) => {
             const fn = [
                 {
                     cellRenderer: CustomRender ,
-                    width : 50 ,
+                    width : 80 ,
                     maxWidth : 50 , 
                     sortable: false , 
                     suppressHeaderMenuButton: true , 
                     headerCheckboxSelection: true,
                     headerCheckboxSelectionFilteredOnly: true , 
-                    pinned : true ,
+                    pinned : false ,
                     flex: true
                 }
             ]
@@ -108,7 +104,8 @@ export const useHeaders = (data,mapper,hidden=[]) => {
                     floatingFilter: false ,
                     width : widths[item] ,
                     hide: hidden.includes( item ) ? true : false ,
-                    cellRenderer : CustomLabelCell 
+                    cellRenderer : CustomLabelCell  ,
+                    resizable:true ,
 
                 }) )
             setHeaders( prev => fn )
