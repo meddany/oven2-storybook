@@ -17,7 +17,7 @@ export const useAutofit = (callback={}) => {
             setApplied(false)
         }
 
-    } , [callback])
+    } , [callback.ready])
 
     useEffect( () => {
         callback.autofitApplied = applied

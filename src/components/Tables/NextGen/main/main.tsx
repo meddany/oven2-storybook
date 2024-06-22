@@ -40,6 +40,8 @@ export interface TableProps {
     enableContextMenu : boolean , 
     hidden : Array ,
     toolbarBtns : Array ,
+    ready : boolean,
+    autoHideSpinner: boolean
     headerMapper : [
         {
             key : string , 
@@ -58,6 +60,10 @@ export interface TableProps {
 }
 
 export const Table = forwardRef<HTMLDivElement , TableProps> ( (props,ref) => {
+    
+    if ( ! ref ){
+        var ref = useRef()
+    }
 
     // =================================================================================
     const { 
@@ -75,16 +81,19 @@ export const Table = forwardRef<HTMLDivElement , TableProps> ( (props,ref) => {
         onRefresh ,
         headerMapper=[] ,
         hidden=[] ,
-        enableContextMenu = true,
+        enableContextMenu= true,
         menuItems=[] ,
+        ready,
+        autoHideSpinner=false ,
         toolbarBtns=[]
     } = props
     const tref = useRef()
     const PanelDialogRef = useRef({})
     const [ columnDefs ] = useHeaders(dataset,headerMapper,hidden)
+    const [ data , setData ] = useState([])
     const [ pageSizeArray ] = usePageSize(pageSize,dataset)
     const gridRef= useRef()
-    const [ callback , updateCallback ]  = useTableCallback(gridRef , ref , props , tref )
+    const [ callback , updateCallback ]  = useTableCallback(gridRef , ref , props , tref , data   )
     const [ rHeight , changeRowHeight ] = useRowHeight(rowHeight,updateCallback)
     const [ autofitApplied ] = useAutofit(callback)
     const [ showTableSpinner , setShowTableSpinner ] = useState(true)
@@ -96,6 +105,7 @@ export const Table = forwardRef<HTMLDivElement , TableProps> ( (props,ref) => {
     // =================================================================================
 
     const autoSizeAll = useCallback((skipHeader: boolean) => {
+        console.log('auto size all ..')
         const allColumnIds: string[] = [];
         if ( ! gridRef.current.api ){ return }
         gridRef.current!.api.getColumns()!.forEach((column) => {
@@ -132,27 +142,66 @@ export const Table = forwardRef<HTMLDivElement , TableProps> ( (props,ref) => {
         setTableBodyMenuEvent( event )
     } , [callback])
 
-    const onRowSelected = useCallback( (params) => {
-        onRowClick( params , params.data )
-    } , [gridRef])
+    useEffect(() => {
+        if ( ready ){
+            updateCallback( prev => ({...prev , ready : true }))
+        }
+        else if ( ready == false ) {
+            updateCallback( prev => ({...prev , ready : false }))
+        }
+    } , [ready])
+
+
+    const onRowSelected= (params) => {
+        const row = callback.getSelectedRow()
+        onRowClick( params , row )
+    }
+
+    function getTableData() {
+        const rowData: any[] = [];
+        gridRef.current.api!.forEachNode(function (node) {
+          rowData.push(node.data);
+        });
+        return rowData
+    }
+
+    const removeSelectedRows = useCallback( () => {
+        const rows = getSelectedRows()
+        gridRef.current.api.applyTransaction({remove: rows})
+        return getTableData()
+
+    } ,[callback.ready])
+
 
     const getSelectedRows = useCallback( () => {
         return gridRef.current.api.getSelectedRows() || []
-    } , [callback])
+    } , [callback.ready])
 
     const getSelectedRow = useCallback( () => {
         return gridRef.current.api.getSelectedRows()[0] || null
-    } , [callback])
+    } , [callback.ready])
 
     const handleOnRowDoubleClicked = useCallback( ( params ) => {
         onRowDoubleClicked( params , params.data )
     } , [dataset])
+
+    const reset = useCallback( () => {
+        if ( callback.ready){
+            setData(prev=>[])
+        }
+    } , [callback.ready])
 
     const onRefreshTrigger = useCallback( (callback) => {
         callback.updateSingleCallbackKey('ready' , false )
         onRefresh(callback)
         setTimeout( () => {callback.updateSingleCallbackKey('ready' , true )} , 1000)
     }  , [])
+
+    useEffect( () => {
+        if ( dataset ){
+            setData(dataset)
+        }
+    } , [dataset])
 
     useEffect( () => {
         if ( gridRef.current ){
@@ -164,13 +213,18 @@ export const Table = forwardRef<HTMLDivElement , TableProps> ( (props,ref) => {
                     getSelectedRows,
                     getSelectedRow ,
                     onRefreshTrigger ,
-                    PanelDialogRef
+                    PanelDialogRef,
+                    reset,
+                    removeSelectedRows,
+                    getTableData
                 }
             ))
         }
-    } , [gridRef])
+    } , [])
 
-    const onGridUpdated = useCallback( () => {
+
+
+    const onGridUpdated = useCallback( (params) => {
         if ( gridRef.current && dataset.length > 0 ){
             setTimeout( () => {
                 updateCallback( prev => ({...prev , ready : true }))
@@ -186,7 +240,11 @@ export const Table = forwardRef<HTMLDivElement , TableProps> ( (props,ref) => {
         else {
             setShowTableSpinner(true)
         }
-    } , [callback.ready])
+
+        if ( autoHideSpinner ){
+            setShowTableSpinner(false)
+        }
+    } , [callback.ready , autoHideSpinner ])
     
 
 
@@ -219,7 +277,8 @@ export const Table = forwardRef<HTMLDivElement , TableProps> ( (props,ref) => {
                     <AgGridReact
                         tid={tid} 
                         ref={gridRef}
-                        rowData={dataset}
+                        rowData={data}
+                        onSelectionChanged={onRowSelected}
                         columnDefs={columnDefs}
                         pagination= {enablePagination}
                         paginationPageSize={pageSize || 50 }
@@ -229,7 +288,6 @@ export const Table = forwardRef<HTMLDivElement , TableProps> ( (props,ref) => {
                         rowSelection = 'multiple'
                         cellSeection = "multiple"
                         onRowDataUpdated={onGridUpdated}
-                        onRowSelected={onRowSelected}
                         onCellClicked={onCellSelected}
                         onCellContextMenu= {enableContextMenu ? onCellContextMenu : null }
                         onRowDoubleClicked={handleOnRowDoubleClicked}

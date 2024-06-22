@@ -1,8 +1,10 @@
 // @ts-nocheck
 import { useCallback, useEffect, useState } from "react";
 
-export const useTableCallback=  (gridRef , ref , props ,tref ) => {
-    const [ callback , setCallback ] = useState({ready : false , fullscreen : false })
+export const useTableCallback=  (gridRef , ref , props ,tref ,dataset  ) => {
+    const [ callback , setCallback ] = useState({ready : false , fullscreen : false , dataset , props  })
+
+
     useEffect( () => {
         if (! gridRef ){ return }
         if ( gridRef.current ){
@@ -14,11 +16,11 @@ export const useTableCallback=  (gridRef , ref , props ,tref ) => {
         if ( callback ){
             ref.current = callback
         }
-    } , [callback,ref])
+    } , [callback.ready,ref])
 
     const updateSingleCallbackKey = useCallback( (key , value ) => {
         setCallback( prev => ({...prev , [key] : value}))
-    } , [callback]) 
+    } , [callback.ready]) 
 
     return  [callback , setCallback ]
 }

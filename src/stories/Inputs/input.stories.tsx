@@ -2,6 +2,8 @@
 
 import React, { useRef } from 'react';
 import { Input , Frequency , AutoComplete } from '@/components';
+import { useRandomId } from '@/components';
+import { convertNumberToArray } from '@/components/utils/utils';
 
 export default {
   title: 'Components/Input',
@@ -13,10 +15,11 @@ const Template =  (args) => {
     const ref = useRef()
     return (
         <div className='w-screen h-screen flex justify-center relative top-16'>
-            <div className='w-[300px]'>
+            <div className='w-[500px] relative'>
                 { args.type == 'frequency' ? <Frequency {...args} ref={ref} /> : null  }
                 { args.type == 'autocomplete' ? <AutoComplete {...args} ref={ref} /> : null }
-                { args.type == 'primary' ? <Input {...args} ref={ref} /> : <Input {...args} ref={ref} /> }
+                { args.type == 'select' ? <AutoComplete {...args} ref={ref} /> : null }
+                {/* { args.type == 'primary' ? <Input {...args} ref={ref} /> : <Input {...args} ref={ref} /> } */}
             </div>
         </div>
     )
@@ -77,4 +80,40 @@ AutoCompleteInput.args = {
         console.log('coming value is ' ,ref)
     }
 };
+
+export const AutoCompleteControlled = Template.bind({});
+AutoCompleteControlled.args = {
+    invalid : false,
+    type: 'autocomplete',
+    description : "update auto complete ..",
+    // value: 'thanks2' ,
+    defaultValue: 'thanks2' ,
+    options : function(){
+        return convertNumberToArray(300).map( item => useRandomId() )
+    }() ,
+    placeholder : 'Select Network Element' ,
+    onLoad : (ref) => {
+
+    } ,
+    onSelectChange: (e,v) => {
+        console.log('selection changed ' ,  e , v)
+    }
+};
+export const Select = Template.bind({});
+Select.args = {
+    invalid : false,
+    type: 'select',
+    description : "update auto complete ..",
+    defaultValue: 'thanks2' ,
+    options : function(){
+        return convertNumberToArray(300).map( item => useRandomId() )
+    }() ,
+    placeholder : 'Select Network Element' ,
+    onLoad : (ref) => {
+    } ,
+    onSelectChange: (e,v) => {
+        console.log('selection changed ' ,  e , v)
+    }
+};
+
 

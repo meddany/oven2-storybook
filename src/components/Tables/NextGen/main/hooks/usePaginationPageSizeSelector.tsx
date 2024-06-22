@@ -5,7 +5,6 @@ export const usePageSize = (pageSize,dataset=[]) => {
     const def = [10,50,100,200,500,1000,2000]
     const [ psize , setPsize ] = useState(def)
     useEffect( () => {
-        console.log(dataset.length)
         if ( pageSize ){
             if ( ! def.includes(pageSize) ){
                 setPsize(prev => ([...prev , pageSize]))

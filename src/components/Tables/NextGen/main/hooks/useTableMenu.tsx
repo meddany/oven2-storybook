@@ -2,6 +2,7 @@
 import { useState,useEffect, useCallback  } from "react"
 import { CopyIcon } from "lucide-react"
 import copy from 'copy-to-clipboard'
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 export const useTableMenu = (callback,menuItems=[]) => {
 
@@ -15,7 +16,7 @@ export const useTableMenu = (callback,menuItems=[]) => {
             }
         })
         return menuItems
-    } , [callback ,menuItems])
+    } , [callback.ready ,menuItems])
 
 
     useEffect( () => {
@@ -25,7 +26,7 @@ export const useTableMenu = (callback,menuItems=[]) => {
                 {
                     label : 'Copy' ,
                     pinned : true ,
-                    icon: <CopyIcon />,
+                    icon: <ContentCopyIcon fontSize="14px" />,
                     action: () => {
                         copy(callback.selectedCell)
                     } 
@@ -34,7 +35,7 @@ export const useTableMenu = (callback,menuItems=[]) => {
             ]
             ))
         }
-    } , [callback,menuItems] )
+    } , [callback.ready ,menuItems] )
 
 
     return [ items , setItems ]

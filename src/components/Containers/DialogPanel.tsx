@@ -8,19 +8,21 @@ export interface DialogPanelProps {
     children : any , 
     header : string , 
     shortInfo : string ,
-    close : boolean | string , 
+    defaultClose : boolean | string , 
     collapsable : boolean,
     ref?: object ,
-    defaultOpen: boolean
+    defaultOpen: boolean ,
+    closeButton : string
 }
 
 export const DialogPanel = forwardRef< HTMLDivElement ,DialogPanelProps>( (props,ref) => {
     const { children , 
         header  , 
         shortInfo,
-        close , 
+        closeButton='icon' , 
         collapsable , 
-        defaultOpen=false
+        defaultOpen=false,
+        defaultClose=true,
     } = props
     const rref = useRef({})
 
@@ -32,16 +34,16 @@ export const DialogPanel = forwardRef< HTMLDivElement ,DialogPanelProps>( (props
 
     return (
         <Model ref={ref ? ref : rref }>
-            <div className=''>
                 <Panel 
                     variant="dialog"
                     header={header ? header : 'Information'}
                     shortInfo = {shortInfo ? shortInfo : ''}
-                    close={close ? close : 'button'}
+                    closeButton={closeButton == 'icon' ? 'icon' : 'button'}
+                    defaultClose={defaultClose}
                     width = ''
                     collapsable={collapsable}
                     children={
-                        <div className='max-w-[calc(50vw)] max-h-[calc(100vh-200px)]' >
+                        <div className='max-w-[calc(50vw)] max-h-[calc(100vh-300px)]' >
                             {children}
                         </div>}
                     footer={
@@ -50,7 +52,6 @@ export const DialogPanel = forwardRef< HTMLDivElement ,DialogPanelProps>( (props
                         }} variant='minimal_border'>Close</Button>
                     }
                 />
-            </div>
         </Model>
       )
 })

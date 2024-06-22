@@ -24,7 +24,7 @@ const StyledTooltip = styled(ToBeStyledTooltip)(() => ({
   }));
 
 const extrabuttonVariants = cva(
-    "active:opacity-50 font-Roboto text-white focus:outline font-bold outline-2 outline-offset-2 outline-blue-500 text-[14px] relative p-0 overflow-visible z-[300] relative",
+    "active:opacity-50 font-Roboto text-white focus:outline font-bold outline-2 outline-offset-2 outline-blue-500 text-[13px] relative p-0 overflow-visible z-auto relative",
     {
         variants : {
             variant : {
@@ -32,7 +32,7 @@ const extrabuttonVariants = cva(
                 danger_white_text : "bg-destructive text-white shadow-sm hover:bg-destructive/90 hover:text-destructive",
                 minimal_border : "border border-input text-accent-foreground bg-background hover:bg-accent hover:text-accent-foreground",
                 minimal_no_border : "hover:bg-accent text-accent-foreground hover:text-accent-foreground",
-                secondary : 'text-blue-600 shadow-none' ,
+                secondary : 'text-blue-900 shadow-none weight-[500] outline-0' ,
                 icon : "text-blue-600",
                 iconbg : "",
                 danger_icon : "" ,
@@ -40,6 +40,9 @@ const extrabuttonVariants = cva(
             },
             size : {
                 icon : 'css-k2j3123'
+            } ,
+            border : {
+                true : 'border-blue-600 border-solid border-2 rounded-md '
             }
         },
         defaultVariants : {
@@ -49,15 +52,15 @@ const extrabuttonVariants = cva(
     },
 )
 
-const vrs2 = cva('focus:outline-blue outline-none focus:border-blue-600 focus:border-solid focus:border-2 focus:rounded-md !cursor-default' , {
+const vrs2 = cva('focus:outline-blue outline-none focus:outline-blue-600 focus:outline outline-offset-2 focus:outline-[2px] focus:rounded-xs !cursor-default' , {
     variants : {
         variant : {
             icon : 'w-[40px] h-[40px] flex justify-center items-center relative !rounded-lg hover:!bg-[#e5effd]' ,
         } ,
         outline : {
             false : '!focus:outline-none'
-        }
-    }
+        } ,
+    } ,
 })
 
 export interface ButtonProps
@@ -103,7 +106,8 @@ export const TestButton = forwardRef( (props, ref ) => {
         disableAfterClick ,
         tooltip,
         className ,
-        outline
+        outline,
+        border=false,
     } = props;
 
 
@@ -150,7 +154,8 @@ export const TestButton = forwardRef( (props, ref ) => {
                                 variant , 
                                 disableAfterClick , 
                                 size : size ,
-                                outline
+                                outline ,
+                                border
                             } 
                     ) , className , addClass )
                 }

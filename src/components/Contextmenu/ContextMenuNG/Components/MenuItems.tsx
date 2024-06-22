@@ -16,7 +16,7 @@ import {
 
 
 const vrs = cva(    
-    'w-full relative rounded-[3px] flex pl-8 pr-2 items-center baseline-item-menu br-1 font-geist text-sm transition-all duration-150 ease-in-out' ,
+    'w-full relative rounded-[3px] flex pl-8 pr-2 items-center baseline-item-menu br-1 font-geist text-[13px] transition-all duration-150 ease-in-out' ,
     {
         variants : {
             size : {
@@ -49,7 +49,7 @@ const vrs = cva(
 )
 
 const PrimaryMenuItem = forwardRef( (props, ref ) => {
-    const { seperator, danger , onChange , item , custom , border ,subItems, size , onClick ,  shortcut ,onExit , disabled , onHover ,type , label , className } = props;
+    const { seperator, danger , onChange , item , custom , border ,subItems, size='mid' , onClick ,  shortcut ,onExit , disabled , onHover ,type='default' , label , className } = props;
     const [delayHandler, setDelayHandler] = useState(null)
     const [ cicon  , setCicon ] = useState(null)
     function isOkHover(){
@@ -120,7 +120,11 @@ const PrimaryMenuItem = forwardRef( (props, ref ) => {
 })
 
 export const MenuItem = forwardRef( (props , ref ) => {
-    const { type ,item , pinned  }  = props 
+    const { 
+        type,
+        item , 
+        pinned  
+    }  = props 
     if ( type == 'default'){
         return <PrimaryMenuItem {...props} />
     }

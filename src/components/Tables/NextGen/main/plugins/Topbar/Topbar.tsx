@@ -4,6 +4,7 @@ import { TableContext } from "../../main"
 import { IconButton } from "../../../../../Buttons/IconButton"
 import { LucideEllipsisVertical , FoldHorizontal , Fullscreen ,Download  , RotateCw  } from "lucide-react"
 import { hotkeyRegister , clearHotkeyRegister } from "@/components/utils/hotkeyregister"
+import $ from 'jquery'
 
 export const Topbar = (props) => {
     const { updateCallback , updateEvent ,toolbarBtns=[]  } = props
@@ -20,7 +21,7 @@ export const Topbar = (props) => {
 
     const switchFullscreen = useCallback( () => {
         console.log('escape button clicked to exit full screen mode ...' , callback )
-        callback.tableRef.current.classList.remove('css-771-full-screen')
+        $(callback.tableRef.current).toggleClass('css-771-full-screen')
         updateCallback( prev => ({...prev , fullscreen : false  }))
     } , [callback])
 
@@ -57,12 +58,7 @@ export const Topbar = (props) => {
                     icon={<Fullscreen />}
                     tooltip='Fullscreen'
                     onClick={() => {
-                        if ( callback.fullscreen ){
-                            callback.tableRef.current.classList.remove('css-771-full-screen')
-                        }
-                        else {
-                            callback.tableRef.current.classList.add('css-771-full-screen')
-                        }
+                        $(callback.tableRef.current).toggleClass('css-771-full-screen')
                         updateCallback( prev => ({...prev , fullscreen : !callback.fullscreen  }))
                     }}
                 />

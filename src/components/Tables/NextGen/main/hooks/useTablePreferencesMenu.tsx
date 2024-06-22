@@ -65,7 +65,7 @@ export const useTablePreferencesMenu = (callback , changeRowHeight ) => {
             }
         ])
     }
-  } , [callback])
+  } , [callback.ready])
 
 
   return [ items ]

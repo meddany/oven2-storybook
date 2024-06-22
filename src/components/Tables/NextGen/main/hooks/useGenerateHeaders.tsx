@@ -45,7 +45,12 @@ export const CustomLabelCell = ( props ) => {
         )
     }
     
-    return <div>{value}</div>
+    return (
+        <div className="flex items-center">
+            <label>{value}</label>
+        </div>
+    )
+
 
 }
 

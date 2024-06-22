@@ -1,6 +1,6 @@
 // @ts-nocheck
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react'
-import { Input } from "../ui/input"
+import { Input , InputProps } from "../ui/input"
 import { cva } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 import './styles.css'
@@ -11,7 +11,7 @@ import { Eye , EyeOff , Info } from '@/components'
 import '../fonts/nokia/nokia-fonts.css'
 
 const vrs = cva(
-    "rounded-sm font-geist border-[2px] text-[14px] focus-visible:ring-[2px] placeholder:text-[12px]" , 
+    "rounded-sm font-geist border-[2px] text-[14px] focus-visible:ring-[2px] placeholder:text-[12px] z-auto" , 
     {
         variants : {
             invalid : {
@@ -36,8 +36,35 @@ const vrs = cva(
     }
 )
 
+export interface InputProps extends InputProps {
+    placeholder : string,
+    size:  string , 
+    onInputChange : void
+    description: string , 
+    inputRef : object  ,
+    className: string, 
+    invalid : string , 
+    type : string,
+    defaultValue: string,
+    value: string ,
+    onClick ,
+    onChange : void
+}
+
 export const AllInput = forwardRef((props, ref) => {
-    const { placeholder, size , onInputChange ,description, inputRef ,className, invalid , type ,defaultValue,value } = props;
+    const { 
+        placeholder, 
+        size , 
+        onInputChange=()=>{} ,
+        description, 
+        inputRef ,
+        className, 
+        invalid='' , 
+        type ,
+        defaultValue,
+        value ,
+        onChange=()=>{}
+    } = props;
     const [ ttype , setTtype ] = useState(type)
     const [ extraInfo , setExtraInfo ] = useState(description)
     const [ timeout , setITimeout  ] = useState()
@@ -51,9 +78,12 @@ export const AllInput = forwardRef((props, ref) => {
         setTtype(ntype)
     } , [])
 
+
     useEffect( ()=>{
         setExtraInfo(description)
     } , [])
+
+
 
     function updateDescription(status,reason){
         if ( ! ['invalid' , 'valid' ].includes(status) ){
@@ -125,7 +155,10 @@ export const AllInput = forwardRef((props, ref) => {
         }
     } , [defaultValue,value])
 
-
+    const handleChange2 = () => {
+        const text = $(`input[name="${id2}"]`)[0].value
+        onChange(inputRef , text )
+    }
     
     return (
         <div id={id} name={id} className='relative css-ii8jj3' >
@@ -141,6 +174,8 @@ export const AllInput = forwardRef((props, ref) => {
                     onKeyUp={handleInput}
                     placeholder={placeholder}
                     type={ttype}
+                    invalid={invalid.toString()}
+                    onChange={handleChange2}
                 />
                 {
                     type == 'password' ? 

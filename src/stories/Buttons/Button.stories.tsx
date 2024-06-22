@@ -51,6 +51,12 @@ Secondary.args={
   variant: 'secondary',
   tooltip: 'this is tooltip is ok ?'
 }
+export const SecondaryBorder = Template.bind({});
+SecondaryBorder.args={
+  variant: 'secondary',
+  tooltip: 'this is tooltip is ok ?',
+  border:true
+}
 
 export const MinimalNoBorder = Template.bind({});
 MinimalNoBorder.args={

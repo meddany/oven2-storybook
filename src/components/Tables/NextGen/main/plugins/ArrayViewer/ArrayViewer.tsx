@@ -4,12 +4,13 @@ import { ScrollArea } from "@/components/Containers/ScrollArea";
 import './styles.css'
 import { CloseButton } from "@/components/Buttons/CloseButton";
 import { Switch } from "@/components/Buttons/Switch";
+import Chip from '@mui/material/Chip';
 
 export interface ArrayViewerProps {
     header : string
 }
 
-export const ArrayViewer= forwardRef<HTMLAreaElement , ArrayViewerProps>( (props) => {
+export const ArrayViewer= forwardRef<HTMLAreaElement , ArrayViewerProps>( (props,ref2) => {
     
     const [ header , setHeader ] = useState('')
     const [ rows , setRows ] = useState([])
@@ -29,6 +30,11 @@ export const ArrayViewer= forwardRef<HTMLAreaElement , ArrayViewerProps>( (props
             const cell = callback.selectedCell 
             if ( Array.isArray( cell ) ){
                 setRows( cell )
+                ref.current.classList.add('css-show-sj212')
+            }
+            else if( cell?.toString().includes('[') && cell?.toString().includes(']')){
+                const data = JSON.parse(cell)
+                setRows(data)
                 ref.current.classList.add('css-show-sj212')
             }
             else{
@@ -59,12 +65,10 @@ export const ArrayViewer= forwardRef<HTMLAreaElement , ArrayViewerProps>( (props
                 </div>
             </div>
             <div className="spacing-y-2 relative ">
-                <ScrollArea className={'h-[255px] w-full overflow-auto flex p-2'}>
+                <ScrollArea className={'h-[255px] w-full overflow-auto flex p-2 space-x-2 space-y-2 flex-wrap'}>
                     {
                         rows.map( item => {
-                            return <div className="items-center h-[40px] space-x-1 space-y-1 hover:bg-slate-200 p-2 rounded-[5px] text-wrap overflow-auto">
-                                <label>{item}</label>
-                            </div>
+                            return <Chip label={<label className="!font-Roboto">{item}</label>} variant="outlined" className="hover:bg-[#e5effd] hover:!border-blue-500 " />
                         })
                     }
                 </ScrollArea>
