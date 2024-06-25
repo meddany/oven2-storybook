@@ -9,7 +9,6 @@ export default {
   component: IconButton,
   args : {
     tooltip : 'Whether to hide the content when the trigger becomes fully occluded.' ,
-    value: "Text to copy" ,
     onClick : (e,v) => {
       console.log(e,v)
     }
@@ -24,30 +23,27 @@ const Template= (args) => {
   )
 }
 
-export const SimpleIconBtn = Template.bind({});
-SimpleIconBtn.args={
+export const Primary = Template.bind({});
+Primary.args={
   icon: <ShareIcon /> ,
   tooltip : 'share' ,
+  variant: 'primary' ,
+  border: true , 
+  disable:false
 }
 
-
-export const DangerIcon = Template.bind({});
-DangerIcon.args={
-  icon: <ShareIcon size={16} /> ,
+export const Secondary = Template.bind({});
+Secondary.args={
+  icon: <ShareIcon /> ,
   tooltip : 'share' ,
-  variant : 'danger_white_text',
+  variant: 'secondary' ,
+  border: true , 
+  disable:false
+
 }
 
-export const Rounded = Template.bind({});
-Rounded.args={
-  icon: <img src={ShareIcon} alt='sd' /> ,
-  addClass: ['rounded-full']
-}
 
-export const RoundedDisable = Template.bind({});
-RoundedDisable.args={
-  icon: <img src={ShareIcon} alt='sd' /> ,
-  addClass: ['rounded-full'] ,
-  disable: true
-}
+
+
+
 

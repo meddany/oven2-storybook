@@ -99,7 +99,7 @@ export const AutoComplete = forwardRef<HTMLInputElement , AutocompeleteProps>((p
                     <Input 
                         {...props}
                         options={'data-options'}
-                        inputRef={ref}
+                        ref={ref}
                         value={unControlledValue}
                         onChange={ onChangeEvent }
                         placeholder={placeholder}

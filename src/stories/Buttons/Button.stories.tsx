@@ -37,36 +37,21 @@ export const DisableAfterClick = Template.bind({});
 DisableAfterClick.args={
   disableAfterClick: true,
 }
-export const Minimal = Template.bind({});
-Minimal.args={
-  variant: 'minimal_border',
+
+export const Primary = Template.bind({});
+Primary.args={
+  variant: 'primary',
+  tooltip: 'this is tooltip is ok ?',
+  border: true , 
 }
-export const TooltipButton = Template.bind({});
-TooltipButton.args={
-  variant: 'minimal_border',
-  tooltip: 'this is tooltip is ok ?'
-}
+
 export const Secondary = Template.bind({});
 Secondary.args={
   variant: 'secondary',
-  tooltip: 'this is tooltip is ok ?'
-}
-export const SecondaryBorder = Template.bind({});
-SecondaryBorder.args={
-  variant: 'secondary',
   tooltip: 'this is tooltip is ok ?',
-  border:true
+  border: true , 
 }
 
-export const MinimalNoBorder = Template.bind({});
-MinimalNoBorder.args={
-  variant: 'minimal_no_border',
-}
-export const AutoFocus = Template.bind({});
-AutoFocus.args={
-  variant:'minimal_no_border' ,
-  autoFocus : true , 
-}
 
 export const DangerButton = Template.bind({});
 DangerButton.args={
@@ -84,12 +69,8 @@ AddCustomClass.args={
   addClass: ['bg-yellow-400'] 
 }
 
-export const SmallSize = Template.bind({});
-SmallSize.args={
-  size:'lg'
-}
-
 export const ButtonWithIcon = Template.bind({});
 ButtonWithIcon.args={
+  variant:'secondary' ,
   icon: <img className='text-white' src={ShareIcon} alt='s' />
 }

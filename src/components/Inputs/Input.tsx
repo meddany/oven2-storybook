@@ -166,7 +166,7 @@ export const AllInput = forwardRef((props, ref) => {
                 <Input 
                     {...props }
                     defaultValue={defaultValue}
-                    ref={ref||rref}
+                    ref={ref}
                     id={id2}
                     name={id2}
                     variant='secondary'

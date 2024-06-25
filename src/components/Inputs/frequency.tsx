@@ -29,7 +29,7 @@ export const Frequency = forwardRef((props,ref) =>{
         type='number'
         className={'w-full'}
         onInputChange={handleOnChange}
-        ref={ref1}
+        ref={ref}
       />
   );
 })
