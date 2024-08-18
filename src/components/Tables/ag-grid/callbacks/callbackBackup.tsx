@@ -233,10 +233,10 @@ export const callback = {
     savePrefernces : () => {
         const tableName= callback.api.options.tableName
         const tid= callback.api.options.tid
-        const state = callback.api.updatedState.current.api.gridRef.api.getColumnState();
+        const state = callback.api.updatedState.current.api.gridRef.columnApi.getColumnState();
         window.localStorage.setItem(`_tState_${tableName}_${tid}`, JSON.stringify(state));
         // console.log('table saved!')
-        window.state = callback.api.updatedState.current.api.gridRef.api.getColumnState()
+        window.state = callback.api.updatedState.current.api.gridRef.columnApi.getColumnState()
     } ,
     
     // =================================================================================

@@ -5,6 +5,8 @@ import useMouseLocation from './hooks/useMouseLocation'
 import { MenuBox } from './Components/MenuBox'
 import { useRandomId } from '@/components/utils/utils'
 import $ from 'jquery'
+import { cn } from '@/lib/utils'
+import { ClickAwayListener } from '@mui/base/ClickAwayListener';
 
 export const ContextMenu = forwardRef( (props, ref ) => {
     const rref= useRef({})
@@ -15,12 +17,15 @@ export const ContextMenu = forwardRef( (props, ref ) => {
     const { items, event , fixedLocation } = props
 
     function handleMouseLocation(event){
-        event.preventDefault()
-        rref.close()
-        rref.open()
-        setTimeout(()=>{
-            setDocumentEvent(event)
-        } , 40)
+        if (rref.current.close){
+            event.preventDefault()
+            rref.close()
+            rref.open()
+            setTimeout(()=>{
+                setDocumentEvent(event)
+            } , 40)
+        }
+
     }
 
     useEffect( () => {
@@ -35,20 +40,28 @@ export const ContextMenu = forwardRef( (props, ref ) => {
         }
     } , [location])
 
+    const handleAwayClick = (event) => {
+       setDocumentEvent(null)
+       rref.close()
+    }
+
 
     return(
-        <Model hideOnContextMenu={true} bodyClick={true} ref={ref || rref } variant='transparent' >
-            <MenuBox 
-                ref={mainMenuRef} 
-                id={id} 
-                modelRef={rref} 
-                role='main' 
-                location={location} 
-                items={items} 
-                {...props} 
-                event={documentEvent} 
-                fixedLocation={fixedLocation}
+        <Model hideOnContextMenu={true} bodyClick={true} ref={ rref } variant='transparent' >
+            <ClickAwayListener onClickAway={handleAwayClick}>
+                <MenuBox 
+                    ref={mainMenuRef} 
+                    id={id} 
+                    modelRef={rref} 
+                    role='main' 
+                    location={location} 
+                    items={items} 
+                    {...props} 
+                    event={documentEvent} 
+                    fixedLocation={fixedLocation}
                 />
+                </ClickAwayListener>
         </Model>
+
     )
 })

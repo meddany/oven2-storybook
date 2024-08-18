@@ -16,10 +16,10 @@ const vrs = cva(
 )
 
 export const Body = forwardRef( (props, ref ) => {
-    const { className  , children , padding  } = props;
+    const { className  , children , padding , style={} } = props;
 
     return (
-        <div ref={ref} className={cn(vrs({ padding ,  })  , className  )} >
+        <div style={style} ref={ref} className={cn(vrs({ padding ,  })  , className  )} >
           {children}
         </div>
     )

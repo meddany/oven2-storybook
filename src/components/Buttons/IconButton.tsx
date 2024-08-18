@@ -8,12 +8,13 @@ import { StyledTooltip } from './Button';
 import Zoom from '@mui/material/Zoom';
 
 const vrs = cva(
-  "relative w-[40px] h-[40px] flex items-center justify-center hover:!bg-red-400 !p-0 !m-0 transition-all duration-75 ease-in-out",
+  "relative w-[40px] h-[40px] flex items-center justify-center !p-0 !m-0 transition-all duration-75 ease-in-out",
   {
     variants : {
       variant : {
         primary : '!rounded-md hover:!bg-[#e5effd] !text-blue-600',
         secondary : '!rounded-md hover:!bg-[#e5effd] !text-blue-600 hover:!text-blue-600  !bg-blue-500 !text-white',
+        ghost : '!bg-accent text-gray-500' ,
       } ,
       outline : {
         true : "focus:outline-2 outline-offset-2 focus:outline focus:outline-blue-500"
@@ -36,6 +37,8 @@ const vrs = cva(
 
 export const IconButton = forwardRef( (props, ref )=> {
 
+    const [ buttonIcon , setButtonIcon ] = useState()
+
     const { 
       variant, 
       tooltip='' ,
@@ -51,6 +54,12 @@ export const IconButton = forwardRef( (props, ref )=> {
       onClick(e,ref)
     }
 
+    useEffect( () => {
+      if ( icon ){
+        setButtonIcon(icon)
+      }
+    } , [icon])
+
     return (
       <StyledTooltip 
         title={tooltip} 
@@ -58,9 +67,9 @@ export const IconButton = forwardRef( (props, ref )=> {
         TransitionComponent={Zoom}
         TransitionProps={{ timeout:200 }}
       >
-          <MenuItem disabled={disable} ref={ref} className={ cn(vrs({variant,outline,border,disable}) , className )} onClick={handleOnClick}  >
+          <MenuItem disabled={disable} ref={ref} className={ cn(vrs({variant,outline,border,disable}) , '!cursor-default' , className )} onClick={handleOnClick}  >
             <div className='!w-full h-full flex items-center justify-center *:h-[20px] *:w-[20px]'>
-              {icon}
+              {buttonIcon}
             </div>
           </MenuItem>
       </StyledTooltip>

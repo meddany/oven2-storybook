@@ -5,11 +5,12 @@ import { IconButton } from './IconButton'
 import { X } from 'lucide-react';
 
 export const CloseButton = forwardRef( (props,ref) => {
-    const { onClick } = props;
+    const { onClick , outline=true} = props;
     return (
         <IconButton 
             ref={ref}
             tooltip='Close'
+            outline={outline}
             icon={<X />}
             onClick={ () => {
                 if ( onClick ){

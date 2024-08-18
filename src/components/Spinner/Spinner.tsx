@@ -32,7 +32,7 @@ const vrs = cva(
 )
 
 export const Spinner = forwardRef( (props, ref ) => {
-    const { variant , size , classNames , text , timeout , period } = props 
+    const { variant , size , className , text , timeout , period } = props 
     const { closeModel } = useContext(ModelContext)
     const id = useRandomId()
 
@@ -46,9 +46,9 @@ export const Spinner = forwardRef( (props, ref ) => {
     } , [])
 
     return (
-        <div  id={'__uu773j12'} className={cn(vrs({variant,size}) , 'h-auto' ,classNames )}  >
+        <div  id={'__uu773j12'} className={cn(vrs({variant,size}) , 'h-auto' ,className )}  >
             <div className={'css-kj2j1 w-[100%] h-[100%] flex relative justify-center items-center flex-wrap'} >
-                <ProgressSpinner style={{height : '70%' , width:'70%'}} strokeWidth="4" animationDuration='.8s' />
+                <ProgressSpinner style={{height : '70%' , width:'70%'}} strokeWidth="4" animationDuration='.8s'  />
                 <p className='mt-1 truncate' > {text || "Loading ..."}</p>
                 <Button onClick={closeModel} id={id} className=' hidden  w-[200px] h-[30px] text-blue-600' variant='secondary' >
                     Abort

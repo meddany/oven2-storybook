@@ -2,13 +2,17 @@
 import { useCallback, useContext, useEffect, useState } from "react"
 import { TableContext } from "../../main"
 import { IconButton } from "../../../../../Buttons/IconButton"
-import { LucideEllipsisVertical , FoldHorizontal , Fullscreen ,Download  , RotateCw  } from "lucide-react"
+import { LucideEllipsisVertical , FoldHorizontal ,FilterX , Fullscreen ,Download  , RotateCw  } from "lucide-react"
 import { hotkeyRegister , clearHotkeyRegister } from "@/components/utils/hotkeyregister"
 import $ from 'jquery'
+import { SubHeader } from "@/components/Paragraph/Headlines/Headline/MainHeader"
 
 export const Topbar = (props) => {
-    const { updateCallback , updateEvent ,toolbarBtns=[]  } = props
-    const { callback } = useContext(TableContext)
+    const { updateCallback , updateEvent ,toolbarBtns=[] , cell={} } = props
+    const { callback , 
+        gridRef , 
+        setFilterItems ,
+        isFilterApplied } = useContext(TableContext)
     const [ tableName , setTableName ] = useState()
     const [ isRefreshDisabled , setIsRefreshDisabled ]  = useState(false)
 
@@ -17,13 +21,13 @@ export const Topbar = (props) => {
             setTableName( callback.props.tableName )
             callback.props.onRefresh ? setIsRefreshDisabled(false) : setIsRefreshDisabled(true)
         }
-    } , [callback])
+    } , [callback.cell?.value])
 
     const switchFullscreen = useCallback( () => {
-        console.log('escape button clicked to exit full screen mode ...' , callback )
         $(callback.tableRef.current).toggleClass('css-771-full-screen')
         updateCallback( prev => ({...prev , fullscreen : false  }))
-    } , [callback])
+    } , [callback.fullscreen])
+
 
     useEffect( () => {
         hotkeyRegister('escape' , () => {
@@ -36,12 +40,38 @@ export const Topbar = (props) => {
     } , [callback.fullscreen])
 
     return (
-        <div className="flex items-center h-auto w-full css-klk212 p-1">
-            <div className="select-none font-geist text-nowrap w-full" >
-                {tableName}
+        <div className="flex items-center w-full css-klk212 border-b p-2 overflow-hidden h-[55px]">
+            <div className="select-none font-Roboto flex w-[calc(100%)-80px]" >
+                <span className="text-black text-nowrap border-r mr-4 pr-2 ">
+                    {tableName}
+                </span>
+                <div className="select-none font-Roboto text-black text-nowrap w-full flex" >
+                    <SubHeader  title={cell.value} className='capitalize'>{cell.header ? cell.header + " : " : ''}</SubHeader>
+                    <div className=" max-w-[300px] z-0 ml-2 text-gray-600 truncate" title={cell.value}>
+                        <SubHeader className='capitaliz'>{cell.value ? cell.value : ''}</SubHeader>
+                    </div>
+                </div>
             </div>
 
-            <div className="flex items-center space-x-2 mr-1 p-1">
+            <div className="flex items-center space-x-2 mr-1 p-1 border-l absolute right-0 css-klk212 z-10">
+                {
+                    isFilterApplied ? 
+                        <IconButton 
+                            icon={<FilterX color='gray' />}
+                            tooltip='Clear all filters.'
+                            onClick={()=>{
+                                setFilterItems(prev => {
+                                    prev.row.map( item => {
+                                        item.view = true
+                                    })
+                                    return prev
+                                })
+                                gridRef.current.api.setFilterModel(null)
+                            }}
+                        /> 
+                    :
+                        null
+                }
                 {
                     toolbarBtns.map( item => {
                         return item
@@ -88,6 +118,7 @@ export const Topbar = (props) => {
                         updateEvent(e)
                     }}
                 />
+
 
             </div>
         </div>

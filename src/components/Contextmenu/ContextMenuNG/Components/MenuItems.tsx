@@ -68,6 +68,7 @@ const PrimaryMenuItem = forwardRef( (props, ref ) => {
         }
 
         if ( onClick){
+            if ( item.type == 'custom'){return}
             onClick(e,item)
         }
     }
@@ -121,7 +122,7 @@ const PrimaryMenuItem = forwardRef( (props, ref ) => {
 
 export const MenuItem = forwardRef( (props , ref ) => {
     const { 
-        type,
+        type='default',
         item , 
         pinned  
     }  = props 
@@ -144,7 +145,10 @@ export const MenuItem = forwardRef( (props , ref ) => {
         return <RadioGroup pprops={props} itemgp={item} />
     }
     else if ( type == 'accordion' ){
-        return <PrimaryMenuItem {...props} size='auto' custom={<AccordionBox {...props} />} />
+        return 
+    }
+    else if ( type == 'custom' ){
+        return <PrimaryMenuItem {...props} size='auto' custom={item.custom} />
     }
 
 } )
@@ -190,7 +194,7 @@ export const PinnedMenuItem = forwardRef( (props, ref ) => {
 
 const AccordionBox = forwardRef( (props, ref ) => {
     return (
-        <Accordion defaultValue={props.item.defaultOpen ? "item-1" : ""} disabled={props.item.disabled} className='font-geist  p-0 m-0' type="single" collapsible className="w-full">
+        <Accordion defaultValue={props.item.defaultOpen ? "item-1" : ""} disabled={props.item.disabled} className='font-geist w-full p-0 m-0' type="single" collapsible>
             <AccordionItem className={'font-geist  p-0 m-0'} value="item-1">
                 <AccordionTrigger >{props.label}</AccordionTrigger>
                 <AccordionContent >

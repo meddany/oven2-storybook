@@ -1,8 +1,8 @@
 // @ts-nocheck
 
-import React, { useRef } from 'react';
-import { Input , Frequency , AutoComplete } from '@/components';
-import { useRandomId } from '@/components';
+import React, { useRef, useState } from 'react';
+import { Input , Frequency , AutoComplete , TextArea  } from '@/components';
+import { useRandomId , Button } from '@/components';
 import { convertNumberToArray } from '@/components/utils/utils';
 
 export default {
@@ -13,15 +13,30 @@ export default {
 
 const Template =  (args) => {
     const ref = useRef()
+    const [ label , setLabel ] = useState()
+
+    function handleLabel(){
+        setLabel( useRandomId() )
+    }
+
     return (
+        <>
+        <Button onClick={handleLabel}> SET RANDOM LABEL</Button>
         <div className='w-screen h-screen flex justify-center relative top-16'>
-            <div className='w-[500px] relative'>
+            
+            <div className='relative'>
                 { args.type == 'frequency' ? <Frequency {...args} ref={ref} /> : null  }
                 { args.type == 'autocomplete' ? <AutoComplete {...args} ref={ref} /> : null }
                 { args.type == 'select' ? <AutoComplete {...args} ref={ref} /> : null }
-                {/* { args.type == 'primary' ? <Input {...args} ref={ref} /> : <Input {...args} ref={ref} /> } */}
+                { args.type == 'text' ? <Input {...args} ref={ref} value={label} /> : null }
+                { args.type == 'password' ? <Input {...args} ref={ref} /> : null }
+                { args.type == 'email' ? <Input {...args} ref={ref} /> : null }
+                { args.type == 'number' ? <Input {...args} ref={ref} /> : null }
+                { args.type == 'multiple' ? <Input {...args} ref={ref} /> : null }
             </div>
         </div>
+        </>
+
     )
 }
 
@@ -45,6 +60,8 @@ Email.args = {
     size : 'lg'
 };
 
+
+
 export const Number = Template.bind({});
 Number.args = {
     placeholder : 'Enter your number..',
@@ -52,7 +69,7 @@ Number.args = {
     invalid : false,
     type: 'number',
     description : "set number",
-    size : 'sm'
+    size : 'sm' ,
 };
 
 export const FrequencyInput = Template.bind({});
@@ -66,6 +83,21 @@ FrequencyInput.args = {
     }
 };
 
+
+export const TextControlled = Template.bind({});
+TextControlled.args = {
+    description : "controlled input",
+    className: 'w-[400px]' ,
+    type: 'text' ,
+    value: 'next ...' , 
+    controlled:true,
+    onInputChange:(ref,value)=>{
+        console.log('coming value is ' ,value)
+    }
+};
+
+
+
 export const AutoCompleteInput = Template.bind({});
 AutoCompleteInput.args = {
     invalid : false,
@@ -78,6 +110,25 @@ AutoCompleteInput.args = {
     placeholder : 'auto compelete' , 
     onInputChange:(value,ref)=>{
         console.log('coming value is ' ,ref)
+    }
+};
+
+export const AutoCompleteInputNestted = Template.bind({});
+AutoCompleteInputNestted.args = {
+    invalid : false,
+    type: 'autocomplete',
+    description : "update auto complete ..",
+    size : 'sm' ,
+    nested:true,
+    loading:true,
+    accessKey: 'id' ,
+    options : [
+        { label : 'Ahmed' , id : 1 , placeholder : '23'},
+        { label : 'Mohamed' , id : 2 , placeholder : '24'},
+    ] ,
+    placeholder : 'auto compelete' , 
+    onSelectChange:(ref,v,item)=>{
+        console.log('coming value is ' , v , item )
     }
 };
 
@@ -99,6 +150,8 @@ AutoCompleteControlled.args = {
         console.log('selection changed ' ,  e , v)
     }
 };
+
+
 export const Select = Template.bind({});
 Select.args = {
     invalid : false,
@@ -114,6 +167,14 @@ Select.args = {
     onSelectChange: (e,v) => {
         console.log('selection changed ' ,  e , v)
     }
+};
+
+export const Multiple = Template.bind({});
+Multiple.args = {
+    multiple:true ,
+    type : 'multiple',
+    description : 'Multiple selection ..',
+    placeholder : 'Multiple selection ......'
 };
 
 

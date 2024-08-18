@@ -18,9 +18,10 @@ export const SwapIconButton =  forwardRef( (props, ref) => {
             <IconButton 
                 { ...props }
                 icon={ icon ? icon : null }
-                tooltip={state}
                 onClick={() => {
-                    icon == icon1 ? setIcon(icon2) : setIcon(icon1)
+                    setIcon( prev => {
+                        return stateIndex == 1 ? icon2 : icon1 
+                    } )
                     state == tooltip1 ? setState(tooltip2) : setState(tooltip1)
                     if( onClick ){
                         const nState = stateIndex == 1 ? 2 : 1

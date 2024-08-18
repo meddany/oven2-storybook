@@ -7,10 +7,8 @@ export default {
   title: 'Components/DataTable',
   component: DataTable,
   args: {
-    // dataset : 
   },
 }
-
 
 const Template = (args) => {
     const [ d , setD ] = useState([])
@@ -20,12 +18,12 @@ const Template = (args) => {
     useEffect ( () => {
       setTimeout( () => {
         console.log('will pass now dataset ...')
-        setD( prev => data)
+        setD( prev => generateCustomData(4000) )
       } , 1000)
     } , [] )
 
     return (
-        <>   
+        <div>   
             <div className='flex space-x-1'>
               <Button onClick={() => {
                 const s = h == 'sm' ? 'mid' : 'sm'
@@ -41,6 +39,10 @@ const Template = (args) => {
               }} >AutoFit</Button>
 
               <Button onClick={() => {
+                callback.current.gridRef.columncolumnApi.setColumnFilterModel("sport", { values: ["Swimming"] })
+              }} >Apply Filter</Button>
+
+              <Button onClick={() => {
                 const rows = callback.current.getSelectedRows()
                 const row = callback.current.getSelectedRow()
                 console.log('selected rows:', rows)
@@ -48,6 +50,7 @@ const Template = (args) => {
               }} >Selected Rows</Button>
 
             </div>
+
 
             <div className='w-[95vw] h-[95vh] relative' >
                 <DataTable  
@@ -59,6 +62,29 @@ const Template = (args) => {
                     enablePagination={true}
                     pageSize={50}
                     hidden={['country']}
+                    filter={
+                      [
+                        {
+                          column : 'age' ,
+                          filter : 'checkbox'
+                        } ,
+                        {
+                          column : 'athlete' ,
+                          filter : 'checkbox'
+                        } ,
+                      ]
+                    }
+                    multiple={false}
+                    formater={{
+                      year : (params) => {
+                        if (params.value == 2008){
+                          return <div className='bg-red-200 h-full'><p className='text-red-500'>{params.value}</p></div>
+                        }
+                        return params.value
+                      }
+                    }}
+                    viewAsArray={['array']}
+                    hideFromTable={['extras']}
                     headerMapper={[
                       {
                         key : 'age' ,
@@ -93,12 +119,12 @@ const Template = (args) => {
                     }}
                     onRefresh={() => {
                       console.log('refresh manually')
-                      const data = generateCustomData(5000)
+                      const data = generateCustomData(300)
                       setD( prev => data )
                     }}
                   />
             </div>
-        </>
+        </div>
     );
 }
 

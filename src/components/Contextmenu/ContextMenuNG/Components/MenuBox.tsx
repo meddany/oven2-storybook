@@ -12,7 +12,8 @@ import { cva } from 'class-variance-authority'
 import { MenuItem } from './MenuItems'
 import useBoxSize from '../hooks/useBoxSize'
 import { useRandomId } from '../../../utils/utils'
-import { Label } from '@radix-ui/react-label'
+// import { Label } from '@radix-ui/react-label'
+import { Label } from '@/components'
 
 const vrs = cva(
     "min-w-[240px] p-0 overflow-hidden" ,
@@ -36,11 +37,12 @@ const vrs = cva(
 export const MenuBox = forwardRef( (props, ref ) => {
 
     const menuRef = useRef()
-    const { variant , id ,items , location ,border , modelRef, role } = props;
+    const { variant , id ,items , location ,border , modelRef, role , fixedLocation } = props;
     const [data , setData] = useState([])
     const [ msize ] = useBoxSize(menuRef)
     const [ showSubMenu , setShowSubMenu] = useState( null )
     const [ subMenuLocation , setSubMenuLocation] = useState({x: 0, y: 0})
+    const [ mainMenuLocation , setMainMenuLocation] = useState()
     const [ subItems , setSubItems] = useState([])
     const [ title , setTitle ] = useState( null )
 
@@ -64,8 +66,22 @@ export const MenuBox = forwardRef( (props, ref ) => {
         }
     }
 
+    useEffect( () => {
+        if (fixedLocation){
+            setMainMenuLocation(fixedLocation)
+        }
+        else {
+            if ( location ){
+                setMainMenuLocation( location )
+            }
+        }
+    } , [location , fixedLocation])
 
     const locateMenuOnScreen = (loc) => {
+        console.log(loc)
+        if ( fixedLocation ){
+            return fixedLocation
+        }
         const menu = document.getElementById(id)
         if(!menu){return}
         const rect = menu.getBoundingClientRect();
@@ -88,7 +104,6 @@ export const MenuBox = forwardRef( (props, ref ) => {
                 y :  title && role == 'main' ? e.target.offsetTop + 70 : e.target.offsetTop
             } 
             const nloc = locateMenuOnScreen(loc)
-
             setSubMenuLocation(nloc)
             setSubItems( item.subItems )
             setShowSubMenu(true)
@@ -104,13 +119,18 @@ export const MenuBox = forwardRef( (props, ref ) => {
     }
 
     return (
-        <div ref={ref} id={id} className='shadow-lg bg-transparent absolute top-0 left-0' style={{transform : `translate(${location.x}px,${location.y}px)`, opacity: role == 'main' ? 0 : 1 }}>
+        <div ref={ref} id={id} className='shadow-lg bg-transparent absolute top-0 left-0' style={{transform : `translate(${mainMenuLocation?.x}px,${mainMenuLocation?.y}px)`, opacity: role == 'main' ? 0 : 1 }}>
             <div ref={menuRef} >
                 <Card className={cn(vrs({variant,border}))} >
                     <CardContent className='w-full p-1'>
                         {
                             role == 'main' ?
-                                title  ? <Label className='text-lg p-3 font-medium'>{title}</Label>  : null
+                                title  ? 
+                                <div className='w-full border-b'>
+                                    <Label className='text-lg p-3 font-medium'>{title}</Label>
+                                </div>
+                                : 
+                                null
                             : null
                         }
                         <PinnedMenuItem onClick={handleOnClick}  border={border} pinned={true} items={data ? data?.filter( item => item.pinned || item.pinned == 'both' ) : []} />

@@ -7,37 +7,39 @@ import { Headline } from '@/components';
 export default function ManageColumns(props) {
 
     const [ rows , setRows ] = useState([])
-    const { callback } = props
+    const { 
+        callback,
+        hideFromTable=[]
+     } = props
 
     useEffect( () => {
         if ( callback.ready  ){
-            const state = callback.gridRef.api.getColumnState();
+            const state = callback.gridRef.columnApi.getColumnState();
             if (state){
                 setRows( state )
             }
         }
-    } , [callback])
+    } , [callback.ready])
 
     return (
         <div className='list-item max-w-[200px]'>
                 {
                     rows.map( (item , index ) => {
-                        
-                        if ( item.colId == '0'){
+                        if ( item.colId == '0' || hideFromTable.includes(item.colId)){
                             return
                         }
 
                         return(
                             <FormControlLabel 
-                            sx={{width : '100%'}}
-                            key={index} 
-                            control={<Checkbox 
-                                onChange={(e,c) => {
-                                    callback.gridRef.columnApi.setColumnVisible(item.colId, c);
+                                sx={{width : '100%'}}
+                                key={index} 
+                                control={<Checkbox 
+                                    onChange={(e,c) => {
+                                        callback.gridRef.columnApi.setColumnsVisible([item.colId],c);
 
-                                }}
-                                defaultChecked={! item.hide } />} label={<Headline>{item.colId}</Headline>} 
-                            />
+                                    }}
+                                    defaultChecked={! item.hide } />} label={<Headline>{item.colId}</Headline>} 
+                                />
                         )
                     })
                 }

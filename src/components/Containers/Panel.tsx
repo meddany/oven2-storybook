@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
-import React, { forwardRef , useState , useEffect , useContext, useCallback } from 'react'
-import {Card , CardHeader ,  CardTitle, CardDescription , CardContent , CardFooter } from "@/components/ui/card"
+import React, { forwardRef , useState , useEffect , useCallback } from 'react'
+import {Card , CardHeader ,  CardTitle, CardDescription , CardContent  } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import {  EyeOff , Eye    } from 'lucide-react';
 import { ScrollArea } from "@/components/ui/scroll-area"
@@ -10,6 +10,7 @@ import { cva } from 'class-variance-authority';
 import { PanelFooter } from './Sub_Components/PanelFooter'
 import { PanelHeader } from './Sub_Components/PanelHeader'
 import { InlineSpinner } from '../Spinner/InlineSpinner';
+import { MainHeader } from '../Paragraph/Headlines/Headline/MainHeader';
 import $ from 'jquery'
 import { cn } from '@/lib/utils';
 
@@ -72,19 +73,17 @@ export const Panel = forwardRef<PanelProps>( (props, ref ) => {
 
     return (
         <Card ref={panelRef} className={cn(vrsPanel({}) , className )} >
-            <CardHeader>
-                <div className='flex items-center'>
+                <div className='flex items-center min-h-[60px] p-4 py-3'>
                     <CardTitle className='relative w-full' >
-                        { header }
+                        <MainHeader>{ header }</MainHeader>
                         { shortInfo ? <CardDescription className='font-geistlight font-medium' >{shortInfo}</CardDescription> : null }
                     </CardTitle>
                     <PanelHeader ref={panelRef} moreInfo={moreInfo} collapsable={collapsable} vrs={vrs} variant={variant} close={closeButton} iconsOrder={iconsOrder} tooltipOrder={tooltipOrder} />
                 </div>
-                <div className='mt-3 css-i231' ></div>
+                <div className='css-i231' ></div>
                 <Separator className={'css-i231'} />
-            </CardHeader>
-            <CardContent className='css-i231 overflow-y-hidden px-3'>
-                <ScrollArea className={`h-[calc(100%-200px)] w-full px-[20px]` }>
+            <CardContent className='css-i231 overflow-y-hidden p-2'>
+                <ScrollArea className={`h-[calc(100%-200px)] w-full px-[10px] relative` }>
                     {children}
                     <InlineSpinner {...spinnerArgs || {}} defaultOpen={spinnerState} ref={spinnerRef} />
                 </ScrollArea>

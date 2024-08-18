@@ -9,6 +9,15 @@ import {
 } from "@/components/ui/alert-dialog"
 import { ModelContext } from '../Contexts/ModelContext'
 
+export interface ModelProps {
+    children , 
+    bodyClick : boolean, 
+    className : string , 
+    variant :string , 
+    inline :boolean, 
+    hideOnContextMenu : boolean
+}
+
 const vrs = cva(
     "h-full w-full flex items-center justify-center z-[300]" ,
     {
@@ -27,7 +36,7 @@ const vrs = cva(
     }
 )
 
-export const Model = forwardRef( (props, ref ) => {
+export const Model = forwardRef<HTMLDivElement , ModelProps >( (props, ref ) => {
   const [ open , setOpen ] = useState( false )
   const { children , bodyClick, className , variant , inline , hideOnContextMenu } = props;
 

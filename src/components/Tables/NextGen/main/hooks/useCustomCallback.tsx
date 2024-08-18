@@ -2,7 +2,7 @@
 import { useCallback, useEffect, useState } from "react";
 
 export const useTableCallback=  (gridRef , ref , props ,tref ,dataset  ) => {
-    const [ callback , setCallback ] = useState({ready : false , fullscreen : false , dataset , props  })
+    const [ callback , setCallback ] = useState({ready : false , fullscreen : false , dataset , props, lastRowNode : null   })
 
 
     useEffect( () => {
@@ -20,7 +20,7 @@ export const useTableCallback=  (gridRef , ref , props ,tref ,dataset  ) => {
 
     const updateSingleCallbackKey = useCallback( (key , value ) => {
         setCallback( prev => ({...prev , [key] : value}))
-    } , [callback.ready]) 
+    } , [callback.ready, callback.cell?.value]) 
 
     return  [callback , setCallback ]
 }

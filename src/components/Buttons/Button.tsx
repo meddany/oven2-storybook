@@ -22,12 +22,17 @@ export const StyledTooltip = styled(ToBeStyledTooltip)(() => ({
   }));
 
 const extrabuttonVariants = cva(
-    "active:opacity-50 tracking-wide h-[40px] border-[0px] uppercase rounded-[2px] px-[15px] font-Roboto text-[14px] relative shadow-none cursor-default",
+    "active:opacity-50 tracking-wide h-[40px] border-[0px] uppercase rounded-[2px] px-[15px] font-geist pt-1 text-[14px] relative shadow-none cursor-default",
     {
         variants : {
             variant : {
-                primary : 'bg-blue-600 text-blue-200',
+                primary : 'bg-blue-600 text-blue-200 ',
+                transparent : 'bg-transparent text-blue-200 border-[2px] border-blue-500',
                 secondary : 'text-blue-900 focus:border-2 focus:border-[2px] focus:border-blue-500' ,
+                danger : 'text-red-900 bg-destructive focus:border-2 focus:border-[2px] focus:border-blue-500 hover:bg-accent hover:text-destructive' ,
+                danger2 : 'text-destructive focus:border-2 focus:border-[2px] focus:border-blue-500 hover:bg-accent hover:text-destructive' ,
+                green : 'text-green-900 bg-green-400 focus:border-2 focus:border-[2px] focus:border-blue-500 hover:bg-accent hover:text-green-900' ,
+                ghost : 'bg-accent text-gray-500' ,
             },
             border : {
                 true : 'border-blue-800 border-solid border-[2px]'

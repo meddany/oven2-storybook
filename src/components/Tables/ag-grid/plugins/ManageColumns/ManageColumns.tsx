@@ -12,7 +12,7 @@ function ManageColumns(props) {
 
     useEffect( () => {
         if ( props.table ){
-            const state = props.table.gridRef.api.getColumnState();
+            const state = props.table.gridRef.columnApi.getColumnState();
             if (state){
                 setRows( state )
             }

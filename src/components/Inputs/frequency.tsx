@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { useRef , forwardRef } from 'react';
+import { useRef , forwardRef , useState  } from 'react';
 import { getWholeSpectrum } from '../utils/optics'
 import { AutoComplete } from '..';
 
@@ -8,13 +8,26 @@ const options = getWholeSpectrum()
 export const Frequency = forwardRef((props,ref) =>{
 
   const { onInputChange } = props;  
-  const ref1= useRef({})
+  const ref1 = ref || useRef({})
+  const [ description , setDescription ] = useState({
+    state : null , 
+    message : null
+  })
+
   const handleOnChange = (ref,value) => {
     if ( ! options.includes(value)){
-      ref1.current.api.updateDescription( 'invalid' , "Frequency is invalid.")
-      return
-  }
-  ref1.current.api.updateDescription('valid' , 'Frequency is valid.')
+        setDescription({
+          state : 'invalid' ,
+          message : "Frequency is invalid"
+        })
+        return
+    }
+    
+    setDescription({
+      state : 'valid' ,
+      message : "Frequency is valid"
+    })
+
     if (onInputChange){
       onInputChange(ref,value)
     }
@@ -28,8 +41,9 @@ export const Frequency = forwardRef((props,ref) =>{
         placeholder='Select Frequency - 6.25 Granuality'
         type='number'
         className={'w-full'}
-        onInputChange={handleOnChange}
-        ref={ref}
+        onSelectChange={handleOnChange}
+        tmpDescription={description}
+        ref={ref1}
       />
   );
 })

@@ -1,10 +1,6 @@
 // @ts-nocheck
 import { forwardRef, useEffect , useRef, useState } from "react";
-import { ScrollArea } from "@/components/Containers/ScrollArea";
-import './styles.css'
-import { CloseButton } from "@/components/Buttons/CloseButton";
-import { Switch } from "@/components/Buttons/Switch";
-import Chip from '@mui/material/Chip';
+import { CopyButton } from "@/components/Buttons/CopyButton";
 
 export interface ArrayViewerProps {
     header : string
@@ -12,68 +8,80 @@ export interface ArrayViewerProps {
 
 export const ArrayViewer= forwardRef<HTMLAreaElement , ArrayViewerProps>( (props,ref2) => {
     
-    const [ header , setHeader ] = useState('')
-    const [ rows , setRows ] = useState([])
-    const { callback } = props;
-    const ref =  useRef()
-    const [ disableView , setDisableView ] = useState(false)
+    const { 
+        viewAsArray=[],
+        cell={},
+        callback
+     } = props;
 
-    useEffect( () => {
-        if ( callback.ready){
-            setHeader( callback.selectedHeader )
+
+    function updateDetailsSection(rows){
+        const rowNode = callback?.gridRef.api.getSelectedNodes()
+        callback.updateSingleCallbackKey('lastRowNode' , rowNode )
+        if ( callback.lastRowNode){
+            callback?.gridRef?.api?.getDisplayedRowAtIndex(callback?.lastRowNode[0]['rowIndex']).setExpanded(false)
         }
-    } , [callback])
-
-    useEffect( () => {
-        if ( callback.ready ){
-            if ( disableView ){ return }
-            const cell = callback.selectedCell 
-            if ( Array.isArray( cell ) ){
-                setRows( cell )
-                ref.current.classList.add('css-show-sj212')
-            }
-            else if( cell?.toString().includes('[') && cell?.toString().includes(']')){
-                const data = JSON.parse(cell)
-                setRows(data)
-                ref.current.classList.add('css-show-sj212')
-            }
-            else{
-                ref.current.classList.remove('css-show-sj212')
-            }
-        }
-    } , [callback.selectedCell])
-
-    return(
-        <div ref={ref} className="css-khh123 hidden overflow-auto w-full h-[0px] bg-[#fafafa] absolute bottom-0 left-0 z-10 border-gray-400  px-2 border-[1px] rounded-t-xl">
-            <div className="w-full h-[40px] flex items-center font-Roboto font-bold border-b-[1px] border-gray-400 ">
-                <div className="flex w-full">
-                    { header?.toUpperCase() }
-                </div>
-                <div className="flex justify-center items-center mr-2">
-                    <div className="w-[150px]">
-                        <Switch 
-                            label="Disable View"
-                            onChange={(v)=>{ setDisableView(v) }}
-                            defaultChecked={disableView}
-                        />
-                    </div>
-
-                    <CloseButton 
-                        tooltip="Close"
-                        onClick={() => {ref.current.classList.remove('css-show-sj212')}}
-                    />
-                </div>
-            </div>
-            <div className="spacing-y-2 relative ">
-                <ScrollArea className={'h-[255px] w-full overflow-auto flex p-2 space-x-2 space-y-2 flex-wrap'}>
+        callback.updateSingleCallbackKey('expandedDetailsContent' , {
+            ...props , 
+            content : 
+                <div className="w-full h-fit max-h-[50vh] overflow-auto px-2 space-y-1 relative ">
                     {
-                        rows.map( item => {
-                            return <Chip label={<label className="!font-Roboto">{item}</label>} variant="outlined" className="hover:bg-[#e5effd] hover:!border-blue-500 " />
+                        rows?.map( (row,index) => {
+                            return(
+                                <div className="rounded border px-1 py-2 font-Roboto hover:bg-accent flex relative [&_.cssu7hg]:hover:visible">
+                                    <div className="w-full text-[18px] truncate text-wrap px-4" key={index}>{row}</div>
+                                    <CopyButton outline={false} value={row} className={'cssu7hg invisible w-[20px] h-[20px] relative right-4'}/>
+                                </div>
+
+                                
+                            )
                         })
                     }
-                </ScrollArea>
-            </div>
 
-        </div>
+                </div>
+        } )
+        callback?.gridRef?.api?.getDisplayedRowAtIndex(rowNode[0]['rowIndex']).setExpanded(true)
+    }
+
+    function clearLastRowIExpand(){
+        if ( callback.lastRowNode){
+            callback?.gridRef?.api?.getDisplayedRowAtIndex(callback?.lastRowNode[0]['rowIndex']).setExpanded(false)
+        }
+    }
+
+    useEffect( () => {
+        if ( cell.value ){
+            if ( viewAsArray.includes(cell.header)){
+                if ( Array.isArray( cell ) ){
+                    if ( cell.value.length == 0){
+                        return
+                    }
+                    updateDetailsSection(cell.values)
+                }
+                else if( cell?.toString().at(0) == '[' && cell.toString().at(-1) == ']' ){
+                    try{
+                        const data = JSON.parse(cell.value )
+                        if ( data.length == 0){
+                            return
+                        }
+                        updateDetailsSection(data)
+                    }
+                    catch(error){
+                        console.warn('maybe bug, cell.value didnt JSON.Parse ' , error)
+                    }
+                    
+                }
+                else{
+                    clearLastRowIExpand(null)
+                }
+            }
+            else{
+                clearLastRowIExpand(null)
+            }
+        }
+    } , [cell.value])
+
+    return(
+        <></>
     )
 } )

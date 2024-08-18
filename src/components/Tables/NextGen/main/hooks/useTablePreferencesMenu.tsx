@@ -5,10 +5,10 @@ import { Rows4 , FoldHorizontal , Download , Grid2x2CheckIcon} from 'lucide-reac
 import CsvIcon from '../src/CSV.png'
 import ExcelIcon from '../src/excell.png'
 
-export const useTablePreferencesMenu = (callback , changeRowHeight ) => {
+export const useTablePreferencesMenu = (callback , changeRowHeight , rHeight ) => {
   const [ items , setItems ] = useState([])
   useEffect( () => {
-    if ( callback.ready){
+    if ( rHeight ){
         setItems([
             {
                 label : "Change Rows Height" ,
@@ -16,8 +16,7 @@ export const useTablePreferencesMenu = (callback , changeRowHeight ) => {
                 size : 'sm' ,
                 icon: <Rows4 className='text-blue-600' /> ,
                 action : () => {
-                    const oldSizeAsString= callback.rowHeightStr
-                    const newSize = oldSizeAsString == 'sm' ? 'mid' : 'sm'
+                    const newSize = rHeight == 30 ? 'mid' : 'sm'
                     changeRowHeight(newSize)
                 }
             },
@@ -65,7 +64,7 @@ export const useTablePreferencesMenu = (callback , changeRowHeight ) => {
             }
         ])
     }
-  } , [callback.ready])
+  } , [callback.ready,rHeight])
 
 
   return [ items ]

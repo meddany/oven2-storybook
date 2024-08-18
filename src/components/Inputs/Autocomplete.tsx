@@ -3,7 +3,9 @@ import React, { useState , forwardRef, useEffect, useCallback, useRef } from 're
 import { Input  } from '..';
 import { cn } from '@/lib/utils';
 import { InputProps } from './Input'
-import $ from 'jquery'
+import $ from 'jquery';
+import { Spinner } from '../../components/Spinner/Spinner'
+import { ScrollArea } from '..';
 import { CheckIcon } from '..';
 import { 
     Command,
@@ -19,6 +21,7 @@ import {
     PopoverTrigger,
   } from "../ui/popover"
 
+  
 export interface AutocompeleteProps extends InputProps {
     onSelectChange? : void 
     options? : object ,
@@ -44,16 +47,21 @@ export const AutoComplete = forwardRef<HTMLInputElement , AutocompeleteProps>((p
         className='',
         placeholder='' ,
         autoScroll=true,
-        type
+        nested=false ,
+        loading=true,
+        type,
+        accessKey='label',
+        autoHideLoading=true,
+        tmpDescription={},
     } = props;
 
     const [ defaultHasLoaded , setDefaultHasLoaded ] = useState(false)
     const [ unControlledValue , setUncontrolledValue ] = useState('')
     const [open, setOpen] = React.useState(false)
     const [ boxWidth , setBoxWidth ] = useState(250)
-    const [ listProp , setListProp ] = useState({})
-    
+    const [ spinLoading , setSpinLoading ] = useState(loading)
     const wRef= useRef()
+
 
     useEffect( () => {
         if ( ! defaultHasLoaded ){
@@ -73,12 +81,16 @@ export const AutoComplete = forwardRef<HTMLInputElement , AutocompeleteProps>((p
         }
     } , [wRef])
 
-    const onChangeEvent = useCallback( (v) => {
+    const onChangeEvent = useCallback( (v , object ) => {
         if ( ! value ){
             setUncontrolledValue(v)
+            if ( ref?.current ){
+                ref.current.value = v
+            }
         }
-        onSelectChange(wRef,v)
-    } , [])
+        wRef.props = props
+        onSelectChange(wRef, v , object)
+    } , [options])
 
     const scrollToView= useCallback( () => {
         if ( unControlledValue ){
@@ -91,21 +103,32 @@ export const AutoComplete = forwardRef<HTMLInputElement , AutocompeleteProps>((p
         }
     } , [unControlledValue])
 
+    useEffect( () => {
+        if ( options  && autoHideLoading ){
+            if ( options.length > 0){
+                setSpinLoading(false)
+            }
+        }
+    } , [options])
 
     return (
-        <div ref={wRef} className={cn('w-full h-full relative z-[2000]' , className )}>
+        <div ref={wRef} className={cn('w-full h-full relative z-[20]' , className )}>
             <Popover open={open} onOpenChange={setOpen} className='w-full'>
                 <PopoverTrigger asChild>
                     <Input 
                         {...props}
                         options={'data-options'}
                         ref={ref}
+                        controlled
                         value={unControlledValue}
                         onChange={ onChangeEvent }
                         placeholder={placeholder}
                         onClick={autoScroll ? scrollToView : () => {}}
                         type={type ? 'auto-complete' : 'select'}
                         readOnly={type == 'select' ? true : false }
+                        tmpDescription={tmpDescription}
+                        loading={spinLoading}
+                        className='w-full'
                     />
                 </PopoverTrigger>
                 <PopoverContent className='p-2 z-[2000]' style={{width : boxWidth+"px"}} >
@@ -114,33 +137,35 @@ export const AutoComplete = forwardRef<HTMLInputElement , AutocompeleteProps>((p
                             search ? <CommandInput placeholder="Search..." className='w-full text-accent-foreground font-geist'/> : null
                         }
                     <CommandList>
-                        <CommandEmpty>No result.</CommandEmpty>
+                        <CommandEmpty>{loading ? <div className='w-full h-full flex justify-items-center'><Spinner /></div> :"No result." }</CommandEmpty>
                         <CommandGroup>
                             {
                                 options.map( (item,index) => {
-                                    const isSelected = unControlledValue == item ? true : false 
+                                    const oItem = nested ? item : { label : item }
+                                    const label = oItem[accessKey]
+                                    const isSelected = unControlledValue == label ? true : false 
                                     return(
                                         <CommandItem
                                             key={index}
-                                            data-id={"__"+item}
-                                            className={cn( `__${item} `+
-                                                'my-[3px] transition-all ease-in-out duration-75 w-[calc(100%-0px)] rounded-[0px] z-[400]  font-geist hover:outline-[2px] hover:outline-blue-500 ' , 
+                                            data-id={"__"+label}
+                                            className={cn( `__${label} `+
+                                                'my-[3px] transition-all ease-in-out duration-75 w-[calc(100%-0px)] rounded-[0px] z-[400]  font-geist hover:outline-[3px] hover:outline-blue-500 ' , 
                                                 isSelected ? 'outline-[2px] outline-accent text-black px-2' : null
                                             )}
-                                            value={item}
+                                            value={label}
                                             children={
                                                 isSelected ? 
                                                 <div className='space-x-2 flex items-center justify-center'>
                                                     <div className='rounded-3xl bg-accenttext-blue-500 w-[20px] aspect-square flex items-center justify-center'>
                                                         <CheckIcon size={14} />
                                                     </div>
-                                                    <label>{ item }</label>
+                                                    <label>{ label }</label>
                                                 </div> 
                                                 : 
-                                                <label>{ item }</label>
+                                                <label>{ label }</label>
                                             }
                                             onSelect={(currentValue) => {
-                                                onChangeEvent(currentValue)
+                                                onChangeEvent(currentValue , item )
                                                 setOpen(false)
                                             }}
                                         />
