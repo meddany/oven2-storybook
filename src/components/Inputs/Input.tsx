@@ -1,4 +1,5 @@
 // @ts-nocheck
+
 import React, { forwardRef, useEffect, useRef, useState } from 'react'
 import { Input , InputProps } from "../ui/input"
 import { cva } from 'class-variance-authority'
@@ -14,7 +15,7 @@ import { Textarea } from '../ui/textarea'
 import { TinnyHelp } from '../Help/TinnyHelp'
 
 const vrs = cva(
-    "rounded-sm font-geist border-[2px] text-[14px] focus-visible:ring-[2px] placeholder:text-[12px] z-auto" , 
+    "rounded-sm font-Roboto border-[2px] text-gray-700 text-[14px] focus-visible:ring-[2px] placeholder:text-[12px] z-auto" , 
     {
         variants : {
             invalid : {
@@ -37,24 +38,22 @@ const vrs = cva(
 export interface InputProps extends InputProps {
     placeholder : string,
     size:  string , 
-    onInputChange : void
     description: string , 
-    inputRef : object  ,
+    inputRef : object ,
     className: string, 
     invalid : string , 
     type : string,
     defaultValue: string,
     value: string ,
-    onClick ,
-    onChange : void ,
-    multiple: boolean ,
+    onClick,
+    onChange : void,
+    multiple: boolean,
 }
 
 export const AllInput = forwardRef((props, ref) => {
     const { 
         placeholder, 
         size , 
-        onInputChange=()=>{} ,
         description, 
         inputRef ,
         className, 
@@ -63,9 +62,9 @@ export const AllInput = forwardRef((props, ref) => {
         defaultValue,
         multiple=false,
         loading=false,
-        value ,
+        value=undefined ,
         controlled=false,
-        tmpDescription={},
+        tmpdescription={},
         onChange=()=>{}
     } = props;
 
@@ -74,165 +73,151 @@ export const AllInput = forwardRef((props, ref) => {
     const [ timeout , setITimeout  ] = useState()
     const id = useRandomId()
     const id2 = useRandomId()
-    const [ inputValue , setValue ] = useState()
+    const [ inputValue , setValue ] = useState('')
     const ref2= useRef()
-    const [ defaultSize , SetDefaultSize ] = useState(100)
-    const handleClick = (state) => {
-        const ntype = state == 1 ? 'password' : 'text'
-        setTtype(prev => ntype )
-    }
 
-    useEffect( () => {
-        if ( controlled ){
+    useEffect(() => {
+        if (controlled) {
             setValue(value)
         }
-    } , [controlled,value])
+    }, [controlled, value])
 
-    useEffect( ()=>{
+    const handleClick = (state) => {
+        const ntype = state === 1 ? 'password' : 'text'
+        setTtype(ntype)
+    }
+
+    useEffect(() => {
         setExtraInfo(description)
-    } , [])
+    }, [description])
 
-
-    useEffect( () => {
-        if ( tmpDescription.state ){
-            updateDescription(tmpDescription.state , tmpDescription.message)
+    useEffect(() => {
+        if (tmpdescription.state) {
+            updateDescription(tmpdescription.state , tmpdescription.message)
         }
-    } , [tmpDescription])
+    }, [tmpdescription])
 
-    function updateDescription(status,reason){
-        if ( ! ['invalid' , 'valid' ].includes(status) ){
+    function updateDescription(status, reason) {
+        if (!['invalid', 'valid'].includes(status)) {
             throw new Error('Invalid status, must be invalid or valid.')
         }
-        if ( status == 'invalid'){
-            setExtraInfo(<p className='font-geist text-destructive' >{reason}</p>)
-            if(timeout){
+        if (status === 'invalid') {
+            setExtraInfo(<p className='font-Roboto text-destructive'>{reason}</p>)
+            if (timeout) {
                 clearTimeout(timeout)
             }
-        }
-        else if ( status == 'valid'){
-            setExtraInfo(<p className='font-geist text-green-600' >{reason}</p>)
-            if(timeout){
+        } else if (status === 'valid') {
+            setExtraInfo(<p className='font-Roboto text-green-600'>{reason}</p>)
+            if (timeout) {
                 clearTimeout(timeout)
             }
-            const t = setTimeout( () => {
+            const t = setTimeout(() => {
                 setExtraInfo(description)
-            } , 15000)
+            }, 15000)
             setITimeout(t)
         }
     }
 
-    function checkEmailType(text){
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if ( text == ''){setExtraInfo(description)}
-        else if (!emailRegex.test(text)) {
-            updateDescription( 'invalid' , 'Not a valid email address...')
-        }
-        else {
-            updateDescription('valid' , "valid email address")
-        }
-    }
-
-
-    const handleInput = (e)=>{
-        const text = $(`#${id2}`)[0].value
-        if ( type == 'email'){
-            checkEmailType(text)
-        }
-        if ( onInputChange ){
-            onInputChange(ref,text)
-        }
-    }
-
-
-    useEffect(()=>{
-        if ( defaultValue || value ){
-            handleInput()
-        }
-    } , [defaultValue,value])
-
-    const handleChange2 = () => {
-        const element = $(`#${id2}`)[0]
-        const text = element.value
-        if ( multiple){
-            const scrollHeight = element.scrollHeight
-            const scrollTop = element.scrollTop
-            if ( scrollTop > 0 ){
-                element.style.height= scrollHeight + scrollTop + 'px'
+    function checkEmailType(text) {
+        try {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+            if (text === '') {
+                setExtraInfo(description)
+            } else if (!emailRegex.test(text)) {
+                updateDescription('invalid', 'Not a valid email address...')
+            } else {
+                updateDescription('valid', "Valid email address")
             }
         }
-        setValue( text )
-        onChange(inputRef , text )
+        catch(error) {
+            ''
+        }
     }
-    
+
+    const handleInput = (e,customValue) => {
+        const text = customValue ? customValue :  $(`#${id2}`)[0].value
+        if (type === 'email') {
+            checkEmailType(text)
+        }
+        if (onChange) {
+            onChange(ref, text)
+        }
+    }
+
+    const handleChange2 = (e) => {
+        const element = e.target
+        const text = element.value
+        if (multiple) {
+            const scrollHeight = element.scrollHeight
+            const scrollTop = element.scrollTop
+            if (scrollTop > 0) {
+                element.style.height = scrollHeight + scrollTop + 'px'
+            }
+        }
+        setValue(text)
+        onChange(inputRef, text)
+    }
+
+    useEffect( () => {
+        if ( defaultValue ) {
+            setValue(defaultValue)
+        }
+    } , [defaultValue])
+
     return (
-        <div id={id} name={id} className='relative css-ii8jj3'  ref={ref2}>
-            <div className='w-full relative'>
-                <div className={cn(vrs({invalid,type,size}) , 'border-none relative flex items-center h-full' )} >
-                    {
-                       ! multiple ? 
-                       <Input 
-                            {...props }
-                            defaultValue={defaultValue}
+        <div id={id} name={id} className='relative css-ii8jj3' ref={ref2}>
+            <div className='w-full relative '>
+                <div className={cn(vrs({ invalid, type, size }), 'border-none relative flex items-center h-full')}>
+                    {!multiple ? 
+                        <Input 
+                            {...props}
                             multiple
                             ref={ref}
                             id={id2}
                             name={id2}
                             variant='secondary'
-                            className={cn(vrs({invalid,type,size}) , className  )}
+                            className={cn(vrs({ invalid, type, size }) , type == 'password' ? 'pr-[35px]' : null , className)}
                             onKeyUp={handleInput}
-                            placeholder={ loading ? '' : placeholder }
+                            placeholder={ loading ? '' : placeholder}
                             type={ttype}
                             invalid={invalid.toString()}
                             onChange={handleChange2}
-                            value={ controlled ? inputValue : null }
                         /> 
                         : 
                         <Textarea 
-                            {...props }
-                            defaultValue={defaultValue}
                             multiple
                             ref={ref}
                             id={id2}
                             name={id2}
                             variant='secondary'
-                            className={cn(vrs({invalid,type,size}) , className , 'overflow-hidden'  )}
+                            className={cn(vrs({ invalid, type, size }), className, 'overflow-hidden')}
                             onKeyUp={handleInput}
-                            placeholder={ loading ? '' : placeholder }
+                            placeholder={loading ? '' : placeholder}
                             type={ttype}
                             invalid={invalid.toString()}
                             onChange={handleChange2}
-                            value={ controlled ? inputValue : null }
+                            value={inputValue}
                         />
-                        
                     }
-
-
-                    {
-                        type == 'password' ? 
-                            <div className='absolute right-[0px] h-full  border-l-[2px] border-solid border-accent' >
-                                <SwapIconButton 
-                                    outline={false} 
-                                    icon1={<EyeOff className='text-blue-500' />} 
-                                    icon2={<Eye className='text-blue-500' />} 
-                                    className='self-center h-[35px]'
-                                    onClick={handleClick}
-                                />
-                            </div>
-                        : null
-                    }
-                </div>
-                {
-                    description ? 
-                        <TinnyHelp info={ loading ? 'Loading...' : extraInfo } />
-                    : null
-                }
-                {
-                    loading ? 
-                        <div className='absolute top-[3px] left-2'>
-                            <Spinner text=' ' className='w-[30px] h-[30px]' />
+                    {type === 'password' && (
+                        <div className='absolute right-[0px] h-full border-l-[2px] border-solid border-accent'>
+                            <SwapIconButton 
+                                outline={false} 
+                                icon1={<EyeOff className='text-blue-500' />} 
+                                icon2={<Eye className='text-blue-500' />} 
+                                className='self-center'
+                                onClick={handleClick}
+                                ripple={false}
+                            />
                         </div>
-                    : null
-                }
+                    )}
+                </div>
+                {description && <TinnyHelp info={ loading == 'true' ? 'Loading...' : extraInfo} />}
+                { loading == 'true' && (
+                    <div className='absolute top-[3px] left-2'>
+                        <Spinner text=' ' className='w-[30px] h-[30px]' />
+                    </div>
+                )}
             </div>
         </div>
     )

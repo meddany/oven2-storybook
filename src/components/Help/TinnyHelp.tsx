@@ -8,7 +8,7 @@ import {
     HoverCardTrigger,
   } from "@/components/ui/hover-card"
 
-const vrs = cva('overflow-visible flex pr-2 font-Roboto text-gray-500 capitalize', {
+const vrs = cva('overflow-visible flex pr-2 font-Roboto text-gray-500', {
     variants : {
         size : {
             'sx' : 'text-[8px]' ,
@@ -41,7 +41,7 @@ export const TinnyHelp = (props) => {
             {
                 more ? 
                 <HoverCardContent>
-                {more}
+                    {more}
                 </HoverCardContent> : null
             }
 

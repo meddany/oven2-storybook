@@ -126,7 +126,7 @@ export const MenuItem = forwardRef( (props , ref ) => {
         item , 
         pinned  
     }  = props 
-    if ( type == 'default'){
+    if ( type == 'default' && !item.pinned){
         return <PrimaryMenuItem {...props} />
     }
     else if ( pinned ){

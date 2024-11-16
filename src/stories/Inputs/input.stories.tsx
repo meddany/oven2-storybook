@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 import React, { useRef, useState } from 'react';
-import { Input , Frequency , AutoComplete , TextArea  } from '@/components';
+import { Input , Frequency , AutoComplete } from '@/components';
 import { useRandomId , Button } from '@/components';
 import { convertNumberToArray } from '@/components/utils/utils';
 
@@ -16,25 +16,26 @@ const Template =  (args) => {
     const [ label , setLabel ] = useState()
 
     function handleLabel(){
-        setLabel( useRandomId() )
+        const label = useRandomId()
+        console.log('set random label to ' , label)
+        setLabel(label)
     }
 
     return (
         <>
-        <Button onClick={handleLabel}> SET RANDOM LABEL</Button>
-        <div className='w-screen h-screen flex justify-center relative top-16'>
-            
-            <div className='relative'>
-                { args.type == 'frequency' ? <Frequency {...args} ref={ref} /> : null  }
-                { args.type == 'autocomplete' ? <AutoComplete {...args} ref={ref} /> : null }
-                { args.type == 'select' ? <AutoComplete {...args} ref={ref} /> : null }
-                { args.type == 'text' ? <Input {...args} ref={ref} value={label} /> : null }
-                { args.type == 'password' ? <Input {...args} ref={ref} /> : null }
-                { args.type == 'email' ? <Input {...args} ref={ref} /> : null }
-                { args.type == 'number' ? <Input {...args} ref={ref} /> : null }
-                { args.type == 'multiple' ? <Input {...args} ref={ref} /> : null }
+            <Button onClick={handleLabel}> SET RANDOM LABEL</Button>
+            <div className='w-screen h-screen flex justify-center relative top-16'>
+                <div className='relative'>
+                    { args.type == 'frequency' ? <Frequency {...args} ref={ref} /> : null  }
+                    { args.type == 'autocomplete' ? <AutoComplete {...args} ref={ref} /> : null }
+                    { args.type == 'select' ? <AutoComplete {...args} ref={ref} /> : null }
+                    { args.type == 'text' ? <Input {...args} ref={ref} value={label} /> : null }
+                    { args.type == 'password' ? <Input {...args} ref={ref} /> : null }
+                    { args.type == 'email' ? <Input {...args} ref={ref} /> : null }
+                    { args.type == 'number' ? <Input {...args} ref={ref} /> : null }
+                    { args.type == 'multiple' ? <Input {...args} ref={ref} /> : null }
+                </div>
             </div>
-        </div>
         </>
 
     )
@@ -78,7 +79,7 @@ FrequencyInput.args = {
     type: 'frequency',
     description : "Set frequency from select box.",
     size : 'sm' ,
-    onInputChange:(value,ref)=>{
+    onChange:(value,ref)=>{
         console.log('coming value is ' ,ref)
     }
 };
@@ -90,8 +91,9 @@ TextControlled.args = {
     className: 'w-[400px]' ,
     type: 'text' ,
     value: 'next ...' , 
+    defaultValue: 'Default value is placed here.' ,
     controlled:true,
-    onInputChange:(ref,value)=>{
+    onChange:(ref,value)=>{
         console.log('coming value is ' ,value)
     }
 };
@@ -108,7 +110,7 @@ AutoCompleteInput.args = {
         "thanks"
     ] ,
     placeholder : 'auto compelete' , 
-    onInputChange:(value,ref)=>{
+    onChange:(value,ref)=>{
         console.log('coming value is ' ,ref)
     }
 };
@@ -127,7 +129,7 @@ AutoCompleteInputNestted.args = {
         { label : 'Mohamed' , id : 2 , placeholder : '24'},
     ] ,
     placeholder : 'auto compelete' , 
-    onSelectChange:(ref,v,item)=>{
+    onChange:(ref,v,item)=>{
         console.log('coming value is ' , v , item )
     }
 };
@@ -146,7 +148,7 @@ AutoCompleteControlled.args = {
     onLoad : (ref) => {
 
     } ,
-    onSelectChange: (e,v) => {
+    onChange: (e,v) => {
         console.log('selection changed ' ,  e , v)
     }
 };
@@ -164,7 +166,7 @@ Select.args = {
     placeholder : 'Select Network Element' ,
     onLoad : (ref) => {
     } ,
-    onSelectChange: (e,v) => {
+    onChange: (e,v) => {
         console.log('selection changed ' ,  e , v)
     }
 };

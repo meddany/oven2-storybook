@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 import { InputProps } from './Input'
 import $ from 'jquery';
 import { Spinner } from '../../components/Spinner/Spinner'
-import { ScrollArea } from '..';
+import '../Containers/Sub_Components/ScrolBarStyle.css'
 import { CheckIcon } from '..';
 import { 
     Command,
@@ -23,7 +23,7 @@ import {
 
   
 export interface AutocompeleteProps extends InputProps {
-    onSelectChange? : void 
+    onChange? : void 
     options? : object ,
     defaultValue? : string ,
     value?: string ,
@@ -40,7 +40,7 @@ export const AutoComplete = forwardRef<HTMLInputElement , AutocompeleteProps>((p
     
     const { 
         options=[] , 
-        onSelectChange=()=>{} , 
+        onChange=()=>{} , 
         defaultValue=null ,
         value=null,
         search=true,
@@ -52,7 +52,7 @@ export const AutoComplete = forwardRef<HTMLInputElement , AutocompeleteProps>((p
         type,
         accessKey='label',
         autoHideLoading=true,
-        tmpDescription={},
+        tmpdescription={},
     } = props;
 
     const [ defaultHasLoaded , setDefaultHasLoaded ] = useState(false)
@@ -89,7 +89,7 @@ export const AutoComplete = forwardRef<HTMLInputElement , AutocompeleteProps>((p
             }
         }
         wRef.props = props
-        onSelectChange(wRef, v , object)
+        onChange(wRef, v , object)
     } , [options])
 
     const scrollToView= useCallback( () => {
@@ -109,7 +109,7 @@ export const AutoComplete = forwardRef<HTMLInputElement , AutocompeleteProps>((p
                 setSpinLoading(false)
             }
         }
-    } , [options])
+    } , [options , autoHideLoading ])
 
     return (
         <div ref={wRef} className={cn('w-full h-full relative z-[20]' , className )}>
@@ -119,26 +119,25 @@ export const AutoComplete = forwardRef<HTMLInputElement , AutocompeleteProps>((p
                         {...props}
                         options={'data-options'}
                         ref={ref}
-                        controlled
                         value={unControlledValue}
                         onChange={ onChangeEvent }
                         placeholder={placeholder}
                         onClick={autoScroll ? scrollToView : () => {}}
                         type={type ? 'auto-complete' : 'select'}
                         readOnly={type == 'select' ? true : false }
-                        tmpDescription={tmpDescription}
-                        loading={spinLoading}
+                        tmpdescription={tmpdescription}
+                        loading={spinLoading.toString()}
                         className='w-full'
                     />
                 </PopoverTrigger>
-                <PopoverContent className='p-2 z-[2000]' style={{width : boxWidth+"px"}} >
+                <PopoverContent className='p-[5px] z-[301]' style={{width : boxWidth+"px"}} >
                     <Command>
                         {
                             search ? <CommandInput placeholder="Search..." className='w-full text-accent-foreground font-geist'/> : null
                         }
                     <CommandList>
                         <CommandEmpty>{loading ? <div className='w-full h-full flex justify-items-center'><Spinner /></div> :"No result." }</CommandEmpty>
-                        <CommandGroup>
+                        <CommandGroup className='!custom-scroll-bar1'>
                             {
                                 options.map( (item,index) => {
                                     const oItem = nested ? item : { label : item }
@@ -149,7 +148,7 @@ export const AutoComplete = forwardRef<HTMLInputElement , AutocompeleteProps>((p
                                             key={index}
                                             data-id={"__"+label}
                                             className={cn( `__${label} `+
-                                                'my-[3px] transition-all ease-in-out duration-75 w-[calc(100%-0px)] rounded-[0px] z-[400]  font-geist hover:outline-[3px] hover:outline-blue-500 ' , 
+                                                'my-[5px] transition-all ease-in-out duration-75 w-[calc(100%-0px)] h-[25px] z-[300] font-geist rounded-full pt-[10px] hover:outline-[2px] hover:outline-blue-500 ' , 
                                                 isSelected ? 'outline-[2px] outline-accent text-black px-2' : null
                                             )}
                                             value={label}

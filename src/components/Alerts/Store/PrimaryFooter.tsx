@@ -75,14 +75,11 @@ export const PrimaryFooter = (props) => {
         }
     } , [countDown,countDownAccept])
 
-    console.log(acceptButtonParams.variant)
-
     return (
-        <div className='flex justify-end absolute bottom-0 items-center h-[60px] w-full px-2 space-x-2 z-auto bg-white'>
-            <div className='w-full relative flex-wrap flex'>
+            <div className='w-full relative flex-wrap flex items-end justify-end gap-x-2 pb-2 '>
                 {
                     confirm ? 
-                    <Button  variant={acceptButtonParams.variant || 'ghost'} onClick={()=>{handleOnClick(queue);onDecline(props)}} >
+                    <Button  variant={declineButtonParams.variant || 'ghost'} onClick={()=>{handleOnClick(queue);onDecline(props)}} >
                     {
                         autoDecline ? `${declineLabel}(${countDown}) `: declineLabel
                     }
@@ -95,20 +92,22 @@ export const PrimaryFooter = (props) => {
                     }
                 </Button>
 
-                <div className='relative '>
-                    {
-                        queue.length > 5 ? <Checkbox onChange={(e) => {
-                            setSkipAllNextMessages(e.target.checked)
-                        }} label={`Skip all next messages(${queue.length})`} /> : null
-                    }
+                <div className='relative w-ful'>
                     {
                         extraButtons.map ( item => {
                             return item
                         })
                     }
                 </div>
+
+                <div className="absolute left-0 top-0" >
+                    {   
+                        queue.length > 5 ? <Checkbox onChange={(e) => {
+                            setSkipAllNextMessages(e.target.checked)
+                        }} label={`Skip all next messages(${queue.length})`} /> : null
+                    }
+                </div>
             </div>
-        </div>
     )
 }
 

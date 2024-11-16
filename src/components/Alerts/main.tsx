@@ -32,11 +32,7 @@ export const Alert = forwardRef<HTMLDivElement , AlertProps>( (props,ref) => {
     return(
         <AlertsContext.Provider value={{ queue : queue }}>
             <div ref={ref}>
-                <Draggable positionOffset={{ x: '-50%', y: '-50%' }} handle='.drag-handler-box'>
-                    <div className='absolute top-[50%] left-[50%] z-[999]' >
-                        <AlertRouter />
-                    </div>
-                </Draggable>
+                <AlertRouter />
             </div>
         </AlertsContext.Provider>
     )

@@ -21,7 +21,7 @@ export const PanelHeader = forwardRef( (props, ref ) => {
         }
         {
             close == 'icon' ? 
-            <CloseButton onClick={()=>{
+            <CloseButton outline={false} onClick={()=>{
                 closeModel()
             }} /> 
             : null

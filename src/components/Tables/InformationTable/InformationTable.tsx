@@ -57,8 +57,8 @@ export default function InformationTableMui(props) {
         <Table  size={size}>
           <TableHead>
             <TableRow sx={{background : style.background}}>
-              <TableCell  sx={{borderRight : style.borderRight , color : style.color  }} align="left">Header</TableCell>
-              <TableCell sx={{color : style.color }} align="left">Value</TableCell>
+              <TableCell  className='!font-verdana' sx={{borderRight : style.borderRight , color : style.color  }} align="left">Item</TableCell>
+              <TableCell className='!font-verdana' sx={{color : style.color }} align="left">Value</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

@@ -32,7 +32,7 @@ export const PrimaryHeader = (props) => {
         <div className={cn(vrs({success,alert,error,confirm}) , '')} >
             <div className='flex relative w-full'>
                 <div className='w-full'>
-                    <h1 className='text-2xl pt-1 w-full pl-4 select-none font-Roboto'>{ header || "Confirmation"} </h1>
+                    <h1 className='text-2xl pt-1 w-full select-none font-aptos font-normal '>{ header || "Confirmation"} </h1>
                 </div>
                 <Tooltip >
                     <div className='drag-handler-box ml-[10px] flex justify-center items-center h-full'>

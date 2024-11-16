@@ -9,7 +9,7 @@ export default {
   title: 'Components/Button',
   component: Button,
   args: {
-    children : 'CLICK HERE',
+    children : 'click here',
     disable : false ,
     disableAfterClick: false ,
     autoFocus : false ,
@@ -50,6 +50,11 @@ Secondary.args={
   variant: 'secondary',
   tooltip: 'this is tooltip is ok ?',
   border: true , 
+}
+
+export const Ghost = Template.bind({});
+Ghost.args={
+  variant: 'ghost',
 }
 
 

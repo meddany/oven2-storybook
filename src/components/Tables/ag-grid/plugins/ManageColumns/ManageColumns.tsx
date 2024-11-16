@@ -12,7 +12,7 @@ function ManageColumns(props) {
 
     useEffect( () => {
         if ( props.table ){
-            const state = props.table.gridRef.columnApi.getColumnState();
+            const state = props.table.gridRef.api.getColumnState();
             if (state){
                 setRows( state )
             }
@@ -34,7 +34,7 @@ function ManageColumns(props) {
                             key={index} 
                             control={<Checkbox 
                                 onChange={(e,c) => {
-                                    props.table.gridRef.columnApi.setColumnVisible(item.colId, c);
+                                    props.table.gridRef.api.setColumnVisible(item.colId, c);
 
                                 }}
                                 defaultChecked={! item.hide } />} label={<Headline>{item.colId}</Headline>} 

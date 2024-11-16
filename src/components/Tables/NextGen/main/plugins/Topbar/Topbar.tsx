@@ -8,7 +8,13 @@ import $ from 'jquery'
 import { SubHeader } from "@/components/Paragraph/Headlines/Headline/MainHeader"
 
 export const Topbar = (props) => {
-    const { updateCallback , updateEvent ,toolbarBtns=[] , cell={} } = props
+    const { 
+        updateCallback , 
+        updateEvent ,
+        toolbarBtns=[] ,
+        onRefresh=() => {} ,
+        cell={}
+    } = props
     const { callback , 
         gridRef , 
         setFilterItems ,
@@ -81,7 +87,7 @@ export const Topbar = (props) => {
                     icon={<RotateCw />}
                     tooltip='Refresh'
                     disable={isRefreshDisabled}
-                    onClick={() => {callback.onRefreshTrigger(callback)}}
+                    onClick={() => {onRefresh(callback)}}
                 />
 
                 <IconButton 
@@ -92,8 +98,6 @@ export const Topbar = (props) => {
                         updateCallback( prev => ({...prev , fullscreen : !callback.fullscreen  }))
                     }}
                 />
-
-                
 
                 <IconButton 
                     icon={<FoldHorizontal />}

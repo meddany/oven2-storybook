@@ -29,7 +29,6 @@ export default defineConfig({
         "react-toastify" ,
         "react-toastify/dist/ReactToastify.css" , 
         '@emotion/react',
-        '@emotion/styled',
         '@mui/lab',
         '@mui/icons-material',
         '@mui/material',

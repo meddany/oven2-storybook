@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
-import React , {useEffect, useRef,useState } from 'react';
+import React , {useEffect,useState } from 'react';
 import { Body , Frame , Switch, Tabs } from '@/components';
-import { useRandomId } from '@/components';
 
 export default {
   title: 'Components/Tabs',

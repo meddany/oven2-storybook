@@ -15,7 +15,7 @@ export const useApi = (props) => {
         alert=false,
         debug=false,
         config={},
-        socketioParams={}
+        socketioParams={},
     } = props;
 
     const socketioInstance = useMemo( () => {return io(baseUrl || 'http://localhost:5173' , {...socketioParams} ) } , [baseUrl])
@@ -34,6 +34,7 @@ export const useApi = (props) => {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     token: token,
+                    Authentication : token ,
                 }
             }) 
             
@@ -103,7 +104,7 @@ export const useApi = (props) => {
             instance.socketio=socketioInstance
             return instance
         }
-    , [baseUrl,token,pushToast,spinner,alert,debug])
+    , [baseUrl,token,debug])
 
         
     return instance

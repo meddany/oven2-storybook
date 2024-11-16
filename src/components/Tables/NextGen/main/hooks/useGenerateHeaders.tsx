@@ -3,7 +3,7 @@ import { useEffect, useState ,useCallback, useContext, useRef, useMemo   } from 
 import { Checkbox } from '@mui/material';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
-import { CheckIcon,X  } from "lucide-react";
+import { CheckIcon,X , Square, SquareCheck} from "lucide-react";
 import { CustomCheckboxFilter } from "./useCheckboxFilter";
 
 export const CustomRender = (props) => {
@@ -22,7 +22,11 @@ export const CustomRender = (props) => {
     
     return (
         <div className="w-full h-full flex justify-start items-center">
-            <Checkbox icon={<RadioButtonUncheckedIcon />} checkedIcon={<RadioButtonCheckedIcon sx={{color : 'white'}} />} checked={checked} size="small" />
+            <Checkbox 
+                icon={<Square className='text-gray-200' />} 
+                checkedIcon={<SquareCheck className='text-white' />} 
+                checked={checked} size="small"
+            />
         </div>
     )
 }
@@ -34,20 +38,20 @@ export const CustomLabelCellContent = ( props , formater ) => {
     }
     if ( value?.toString() === 'true'  ){
         return(
-            <div>
+            <div title={value?.toString()}>
                 <CheckIcon className="text-green-500" />
             </div>
         )
     }
     if ( value?.toString() === 'false' ){
         return(
-            <div>
+            <div title={value?.toString()}>
                 <X className="text-red-500" />
             </div>
         )
     }
     return (
-        <div className="flex items-center w-full relative h-full">
+        <div  title={value?.toString()} className="flex items-center w-full relative h-full">
             <label>{value}</label>
         </div>
     )
@@ -68,6 +72,8 @@ export const CustomLabelCell = ( props , formater ) => {
 
 export const useHeaders = (data,mapper,hidden=[],hideFromTable=[],formater={},filterItems , setFilterItems,filter,groupBy=false) => {
     const [ headers , setHeaders ] = useState([])
+    const hideFromTable2 = ['view' , ...hideFromTable]
+    
     function getFilteredData(key ){
         const f = data.map( item => {
             setFilterItems(prev => getUniqueArray([...prev , {key : key , item : item[key] , view : true }]) )
@@ -89,7 +95,7 @@ export const useHeaders = (data,mapper,hidden=[],hideFromTable=[],formater={},fi
     };
 
     function getFilterType(column){
-        for ( let key in filter ){
+        for ( const key in filter ){
             const item = filter[key];
             if ( item.column == column &&  item?.filter == 'checkbox'){
                 return CustomCheckboxFilter
@@ -145,11 +151,9 @@ export const useHeaders = (data,mapper,hidden=[],hideFromTable=[],formater={},fi
                     }() ,
                     filter: getFilterType(item) , 
                     floatingFilter: false ,
-                    width : 250 ,
-                    filterParams: {
-                        // values : getFilteredData(item),
-                    },
-                    hide: hidden.includes( item ) ? true : hideFromTable.includes(item) ? true : false ,
+                    minWidth : 250 ,
+                    flex:1,
+                    hide: hidden.includes( item ) ? true : hideFromTable2.includes(item) ? true : false ,
                     cellRenderer : (params) => { return CustomLabelCell(params , formater[item])}  ,
                     resizable:true ,
                 }) )

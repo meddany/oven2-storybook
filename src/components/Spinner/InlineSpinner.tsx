@@ -21,7 +21,6 @@ export const InlineSpinner = forwardRef( (props,ref) => {
             }
         }
     }, [defaultOpen])
-
     
     return (
         <SpinnerDialog 

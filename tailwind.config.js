@@ -77,6 +77,8 @@ module.exports = {
         geist: ['geistregular'],
         Roboto: ['Roboto'],
         geistlight: ['geistlight'],
+        aptos: ['Aptos'],
+        verdana: ['Verdana' , 'verdana'],
       }
     },
   },

@@ -14,8 +14,6 @@ export const CustomCheckboxFilter = (props) => {
     const {
         api ,
         colDef,
-        getValue,
-        model,
     } = props;
 
     const field = colDef.field;

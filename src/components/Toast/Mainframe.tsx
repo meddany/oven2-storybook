@@ -1,13 +1,15 @@
+/* eslint-disable */
 // @ts-nocheck
-import { forwardRef } from "react";
+import { forwardRef, useEffect } from "react";
 import { ToasterSideColor } from "./ToasterSideColor";
 import { CircleCheckBig , CircleAlert , TriangleAlert  } from "lucide-react";
 import { cva } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 import CircularProgress from '@mui/joy/CircularProgress';
+import toast from 'react-hot-toast';
 
 
-const vrs2 = cva('min-w-[300px] rounded-lg' , {
+const vrs2 = cva('rounded-lg min-h-[25px]' , {
     variants : {
         mode : {
             dark : 'bg-[#333741] border-[#696f7b]',
@@ -60,15 +62,17 @@ const ToasterBody = (props) => {
     const { item } = props;
     const {
         buttons=[],
-        mode='dark'
+        mode='dark' ,
+        params
     } = props;
 
     const handleDismiss= () => {
-        item.dismiss()
+        toast.dismiss(params.id)
+        toast.remove(params.id)
     }
 
     return(
-        <div className="min-w-[200px] h-auto">
+        <div key={"_tb_"+params.id} className="min-w-[200px] h-auto">
             <div className={cn(vrs2({ header : mode }), 
             "font-geist capitalize"
             )}
@@ -89,7 +93,13 @@ const ToasterBody = (props) => {
             <div className="flex my-1 space-x-1">
                 {
                     buttons.map( button => {
-                        return button(item)
+                        return (
+                            <div key={"__"+params.id} >
+                                {
+                                    button(item , params )
+                                }
+                            </div>
+                        )
                     })
                 }
             </div>
@@ -99,7 +109,18 @@ const ToasterBody = (props) => {
 
 
 export const Mainframe = forwardRef( (props, ref ) => {
-    const { item , mode='dark' } = props
+    const { item , mode='dark' , params } = props
+
+    useEffect(  () => {
+        if ( item.type ){
+            item.params=params
+            item.dismiss = toast.dismiss
+            item.toast = toast
+        }
+        return () => {
+            toast.remove(params.id)
+        }
+    }, [item])
 
     return(
         <div className={cn(vrs2({mode}))}>

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 import React from 'react';
-import { Panel , Frame , Body } from '@/components'
+import { Panel , Frame , Body , Input } from '@/components'
 import {longtext} from '../../components/playground-data/longtext'
 
 
@@ -10,7 +10,7 @@ export default {
   component: Panel,
   args: {
     header : 'Notifications',
-    shortInfo : 'Showing notifications from panel',
+    // shortInfo : 'Showing notifications from panel',
     children: longtext,
   },
 }
@@ -19,7 +19,17 @@ const Template= (args) => (
     <div className='relative w-full h-40'>
         <Frame>
             <Body padding={true}>
-                <Panel {...args} />
+                <Panel {...args}  spinnerState={false}>
+                    <div className='w-full p-4' >
+                        <Input variant='primary' 
+                            placeholder='Enter your password..'
+                            title= 'Password' 
+                            type ='password'
+                            description ='Keep remember your password'
+                            size = 'lg'
+                            />
+                    </div>
+                </Panel>
             </Body>
         </Frame>
         
@@ -56,7 +66,8 @@ export const PanelCollapsableDefaultClosed = Template.bind({});
 PanelCollapsableDefaultClosed.args = {
     height: '100px',
     collapsable: true , 
-    closed: true
+    closed: true ,
+    description: 'Hello from JS world'
 }
 
 export const PanelWithSpinner = Template.bind({});
@@ -65,7 +76,6 @@ PanelWithSpinner.args = {
     collapsable: true , 
     closed: false ,
     spinnerState: true,
-    className : 'bg-black' ,
     spinnerArgs: {
         variant: 'primary',
         timeout : true,

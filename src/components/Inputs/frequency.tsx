@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { useRef , forwardRef , useState  } from 'react';
+import { useRef , forwardRef , useState, useEffect  } from 'react';
 import { getWholeSpectrum } from '../utils/optics'
 import { AutoComplete } from '..';
 
@@ -7,7 +7,7 @@ const options = getWholeSpectrum()
 
 export const Frequency = forwardRef((props,ref) =>{
 
-  const { onInputChange } = props;  
+  const { onChange } = props;  
   const ref1 = ref || useRef({})
   const [ description , setDescription ] = useState({
     state : null , 
@@ -28,8 +28,8 @@ export const Frequency = forwardRef((props,ref) =>{
       message : "Frequency is valid"
     })
 
-    if (onInputChange){
-      onInputChange(ref,value)
+    if (onChange){
+      onChange(ref,value)
     }
   }
 
@@ -41,8 +41,8 @@ export const Frequency = forwardRef((props,ref) =>{
         placeholder='Select Frequency - 6.25 Granuality'
         type='number'
         className={'w-full'}
-        onSelectChange={handleOnChange}
-        tmpDescription={description}
+        onChange={handleOnChange}
+        tmpdescription={description}
         ref={ref1}
       />
   );

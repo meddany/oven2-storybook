@@ -11,5 +11,5 @@ export const useStore = (props={}) => {
         return data[key]
     }
 
-    return {update,get,data,setVariable}
+    return [data , update , get , setVariable]
 }

@@ -31,12 +31,13 @@ export const PropertiesItem = (props) => {
         value='' ,
         border=false,
         copy=true,
+        copyValue=null,
     } = props
 
     return (
         <div className={cn(vrs({variant , border , copy }) , className )}>
             <div className='absolute -right-[8px] z-40 -top-2 css9231 delay-75 invisible scale-[.65] ease-in-out transition-all duration-75'>
-                <CopyButton value={value} outline={false} />
+                <CopyButton value={copyValue ? copyValue : value} outline={false} />
             </div>
             <div className='mr-[20px]'>
                 <p className={'select-none text-gray-500 text-[12px] font-Roboto'}>{header}</p>

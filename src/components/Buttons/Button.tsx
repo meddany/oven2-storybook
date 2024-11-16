@@ -22,7 +22,7 @@ export const StyledTooltip = styled(ToBeStyledTooltip)(() => ({
   }));
 
 const extrabuttonVariants = cva(
-    "active:opacity-50 tracking-wide h-[40px] border-[0px] uppercase rounded-[2px] px-[15px] font-geist pt-1 text-[14px] relative shadow-none cursor-default",
+    "active:opacity-50 tracking-wide h-[35px] border-[0px] rounded-[2px] px-[10px] font-aptos pt-0 text-[14px] capitalize relative shadow-none cursor-default",
     {
         variants : {
             variant : {
@@ -33,12 +33,18 @@ const extrabuttonVariants = cva(
                 danger2 : 'text-destructive focus:border-2 focus:border-[2px] focus:border-blue-500 hover:bg-accent hover:text-destructive' ,
                 green : 'text-green-900 bg-green-400 focus:border-2 focus:border-[2px] focus:border-blue-500 hover:bg-accent hover:text-green-900' ,
                 ghost : 'bg-accent text-gray-500' ,
+                dangerghost : 'text-destructive focus:border-2 focus:border-[2px] focus:border-blue-500 bg-accent hover:bg-[#fafafa] hover:text-destructive' ,
             },
             border : {
-                true : 'border-blue-800 border-solid border-[2px]'
+                true : 'border-blue-600 border-solid border-[2px]' ,
+                ghost : 'border-gray-200 border-solid border-[2px]'
             } ,
             disable : {
                 true : '!cursor-not-allowed z-auto'
+            } ,
+            hover : {
+                true :'hover:border-blue-600' ,
+                ghost :'hover:border-gray-300'
             }
         },
         defaultVariants : {

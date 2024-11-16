@@ -1,3 +1,4 @@
+/* eslint-disable */
 // @ts-nocheck
 import React, { createContext, forwardRef,useMemo,useEffect, useRef , useCallback, useState   } from "react";
 import { AgGridReact, AgGridReactProps } from 'ag-grid-react'
@@ -47,6 +48,7 @@ export interface TableProps {
     onRefresh? : void | null ,
     enableContextMenu : boolean , 
     hidden : Array ,
+    autoSizeStrategy: string,
     toolbarBtns : Array ,
     ready : boolean,
     multiple : boolean,
@@ -92,6 +94,7 @@ export const Table = forwardRef<HTMLDivElement , TableProps> ( (props,ref) => {
         onRefresh ,
         headerMapper=[] ,
         hidden=[] ,
+        autoSizeStrategy="sizeColumnsToFit",
         enableContextMenu= true,
         multiple=true,
         className={},
@@ -124,16 +127,17 @@ export const Table = forwardRef<HTMLDivElement , TableProps> ( (props,ref) => {
     const [ filterEventChanged , setFilterEventChanged] = useState(0)
     const [ isFilterApplied , setIsFilterApplied] = useState(false)
 
+
     // =================================================================================
 
     const autoSizeAll = useCallback((skipHeader: boolean) => {
         console.log('auto size all ..')
         const allColumnIds: string[] = [];
         if ( ! gridRef.current.api ){ return }
-        gridRef.current!.columnApi.getColumns()!.forEach((column) => {
+        gridRef.current!.api.getColumns()!.forEach((column) => {
           allColumnIds.push(column.getId());
         });
-        gridRef.current!.columnApi.autoSizeColumns(allColumnIds, skipHeader);
+        gridRef.current!.api.autoSizeColumns(allColumnIds, skipHeader);
     } , [callback.ready]);
 
     const exportAsCsv = useCallback( () => {
@@ -226,7 +230,7 @@ export const Table = forwardRef<HTMLDivElement , TableProps> ( (props,ref) => {
         callback.updateSingleCallbackKey('ready' , false )
         onRefresh(callback)
         setTimeout( () => {callback.updateSingleCallbackKey('ready' , true )} , 1000)
-    }  , [])
+    }  , [onRefresh])
 
     useEffect( () => {
         if ( dataset ){
@@ -306,10 +310,17 @@ export const Table = forwardRef<HTMLDivElement , TableProps> ( (props,ref) => {
                 }
         }>
             <div data-tid={tid} onContextMenu={(e)=>{enableContextMenu ? e.preventDefault() : null }} ref={tref} className={cn(
-                "ng-aggrid-wrapper w-full h-full light-minimal-theme custom-scroll-bar relative rounded-lg border-[1px] border-[#d0e6f6] border-solid pointer-events-auto" ,
+                "ng-aggrid-wrapper w-full h-full light-minimal-theme custom-scroll-bar overflow-auto relative rounded-lg border-[1px] border-[#d0e6f6] border-solid pointer-events-auto" ,
                 className
             )} >
-                <Topbar updateCallback={updateCallback} cell={cell} toolbarBtns={toolbarBtns} updateEvent={setTablePreferencesEvent} callback={callback} />
+                <Topbar 
+                    updateCallback={updateCallback} 
+                    cell={cell} 
+                    toolbarBtns={toolbarBtns} 
+                    updateEvent={setTablePreferencesEvent} 
+                    callback={callback} 
+                    onRefresh={onRefreshTrigger}
+                />
                 
                 <ContextMenu 
                     items={{ items : TableMenuItems }}
@@ -321,7 +332,9 @@ export const Table = forwardRef<HTMLDivElement , TableProps> ( (props,ref) => {
                     event={tableBodyMenuEvent}
                 />
                 <DialogPanel 
-                    children={<ManageColumns callback={callback} hideFromTable={hideFromTable} />}
+                    children={
+                        <ManageColumns callback={callback} hideFromTable={hideFromTable} />
+                    }
                     header={'Columns Panel'}
                     collapsable={false}
                     ref={PanelDialogRef}
@@ -330,12 +343,12 @@ export const Table = forwardRef<HTMLDivElement , TableProps> ( (props,ref) => {
 
                 {/* <CustomGrouping dataset={dataset} setData={setData} groupBy={groupBy} /> */}
 
-                <div className="css-j2jo1l23 w-full h-full relative flex flex-col">
+                <div className="w-full h-[calc(100%-60px)] relative flex flex-col">
                     { showTableSpinner ?  <InlineSpinner variant='white' defaultOpen={true} /> : false }
                     <AgGridReact
                         tid={tid} 
                         reactiveCustomComponents
-                        className="w-full h-full relative"
+                        className="w-full h-fit relative"
                         ref={gridRef}
                         rowData={data}
                         onSelectionChanged={onRowSelected}
@@ -343,6 +356,7 @@ export const Table = forwardRef<HTMLDivElement , TableProps> ( (props,ref) => {
                         pagination= {enablePagination}
                         paginationPageSize={pageSize || 50 }
                         paginationPageSizeSelector={pageSizeArray}
+                        autoSizeStrategy={autoSizeStrategy}
                         headerHeight={40}
                         // masterDetail={true}
                         // detailRowAutoHeight={true}
@@ -367,7 +381,7 @@ export const Table = forwardRef<HTMLDivElement , TableProps> ( (props,ref) => {
                         // { ... aggrid}
                         >
                     </AgGridReact>
-{/* 
+                    {/* 
                     <ArrayViewer 
                         viewAsArray={viewAsArray}
                         callback={callback}

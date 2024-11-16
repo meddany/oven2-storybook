@@ -38,6 +38,8 @@ export const ShadcnTabs = forwardRef( (props,ref) => {
         center=false ,
     }  = props
 
+
+    
     useEffect( () => {
         tabs.map( tab => {
             if ( tab.default ){
@@ -53,7 +55,7 @@ export const ShadcnTabs = forwardRef( (props,ref) => {
                     {
                         tabs.map( (tab,index) => {
                             return(
-                                <TabItem  key={tab.label} setDefaultTab={setDefaultTab} outline={outline} tab={tab} index={index} onChange={onChange} />
+                                <TabItem  key={tab.value || useRandomId()} setDefaultTab={setDefaultTab} defaultTab={defaultTab} outline={outline} tab={tab} index={index} onChange={onChange} />
                             )
                         })
                     }
@@ -62,24 +64,22 @@ export const ShadcnTabs = forwardRef( (props,ref) => {
             </div>
             {
                     body ? 
-                    <div className="w-full h-full relative border-solid border border-gray-200 p-2 mt-1 rounded bg-[#fafafa]">
+                    <div className="w-full h-full relative border-solid border border-gray-200 p-1 rounded bg-[#fafafa]">
                     {
                         tabs.map( (tab) => {
                             const id = useRandomId()
                             tab.tabs = tabs
                             tab.props= props
                             return(
-                                <TabsContent key={tab.value} id={id} value={tab.value}>
+                                <TabsContent key={"__"+tab.value || useRandomId()} id={id} value={tab.value} className="m-0 p-0">
                                     {tab.content}
                                 </TabsContent>
                             )
                         })
                     }
                 </div>
-
                 : null
             }
-
         </Tabs>
     )
 })

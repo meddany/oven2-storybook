@@ -19,12 +19,13 @@ export interface ModelProps {
 }
 
 const vrs = cva(
-    "h-full w-full flex items-center justify-center z-[300]" ,
+    "flex items-center justify-center z-[300]" ,
     {
       variants : {
         variant : {
           transparent : 'bg-transparent' ,
           blur : 'bg-blur' ,
+          dimmed : 'bg-[#191a1e] bg-opacity-75' ,
         } ,
         inline : {
           true : 'absolute'
@@ -38,7 +39,14 @@ const vrs = cva(
 
 export const Model = forwardRef<HTMLDivElement , ModelProps >( (props, ref ) => {
   const [ open , setOpen ] = useState( false )
-  const { children , bodyClick, className , variant , inline , hideOnContextMenu } = props;
+  const { 
+    children , 
+    bodyClick, 
+    className , 
+    variant , 
+    inline , 
+    hideOnContextMenu 
+  } = props;
 
   function handleClose(){
     setOpen(false)
@@ -55,7 +63,7 @@ export const Model = forwardRef<HTMLDivElement , ModelProps >( (props, ref ) => 
       ref.close = handleClose
       ref.current.isOpen = open
     }
-  } , [ref])
+  } , [open, ref])
 
   function handleWrapperClose(e){
     if ( e.target.classList.contains('custom-click-away') && bodyClick ){
@@ -72,10 +80,10 @@ export const Model = forwardRef<HTMLDivElement , ModelProps >( (props, ref ) => 
 
   return (
     <ModelContext.Provider value={{openModel : hanldeOpen , closeModel : handleClose , ref , props}}>
-        <AlertDialog  open={open}>
+        <AlertDialog open={open} >
           <AlertDialogOverlay 
-            onContextMenu={handleContextMenu}
-            onClick={handleWrapperClose} className={cn(vrs({variant,inline}) , 'custom-click-away flex justify-center items-center top-0 left-0' ,className )} 
+              onContextMenu={handleContextMenu}
+              onClick={handleWrapperClose} className={cn(vrs({variant,inline}) , 'custom-click-away flex justify-center items-center' , className )} 
             >
             {children}
           </AlertDialogOverlay>

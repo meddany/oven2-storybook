@@ -63,7 +63,7 @@ const SearchField = () => {
                             <div className='mr-1 css-ijr312'>
                                 <Input 
                                     placeholder = 'Search ...'
-                                    onInputChange={handleInputChange}
+                                    onChange={handleInputChange}
                                     className='w-[200px]'
                                 />
                             </div>

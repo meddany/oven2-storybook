@@ -31,3 +31,9 @@ export const getWholeSpectrum = () => {
     return result;
 }
   
+
+export function convertTimestampToDate(timestamp){
+    const date = new Date(timestamp * 1000);
+    return date.toLocaleString(); 
+}    
+  

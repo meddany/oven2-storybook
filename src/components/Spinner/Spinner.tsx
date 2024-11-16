@@ -15,12 +15,12 @@ const vrs = cva(
     {
         variants : {
             variant : {
-                blur : 'bg-blur text-white font-geist',
-                primary : 'transparent font-geist ',
-                white : 'bg-white font-geist',
+                blur : 'bg-blur text-white',
+                primary : 'transparent text-gray-300',
+                white : 'bg-white',
             },
             size : {
-                'small' : "w-[100px] h-[100px]" ,
+                'small' : "w-[130px] h-[150px]" ,
                 'large' : "w-[200px] h-[200px]" ,
             }
         } ,
@@ -48,7 +48,7 @@ export const Spinner = forwardRef( (props, ref ) => {
     return (
         <div  id={'__uu773j12'} className={cn(vrs({variant,size}) , 'h-auto' ,className )}  >
             <div className={'css-kj2j1 w-[100%] h-[100%] flex relative justify-center items-center flex-wrap'} >
-                <ProgressSpinner style={{height : '70%' , width:'70%'}} strokeWidth="4" animationDuration='.8s'  />
+                <ProgressSpinner style={{'height' : '80px' , width : '80px'}} strokeWidth="1" animationDuration='.8s'  />
                 <p className='mt-1 truncate' > {text || "Loading ..."}</p>
                 <Button onClick={closeModel} id={id} className=' hidden  w-[200px] h-[30px] text-blue-600' variant='secondary' >
                     Abort

@@ -1,3 +1,4 @@
+/* eslint-disable */
 // @ts-nocheck
 import React , {useRef,useState } from 'react';
 import { Body , Frame , Toast, Button } from '@/components';
@@ -13,20 +14,22 @@ const Template = (args) => {
 
     const handleClick1 = (mode,light) => {
         setItem({
-            header : mode  ,
-            body : `Object created with id ${useRandomId()}`,
+            // header : mode  ,
+            body : `Object created with id ${useRandomId()} triggered with id  ${useRandomId()}`,
             type : mode ,
             mode : light ,
-            icons : true,
-            duration: 5000 ,
-            buttons : [
-                (item) => {
-                    return <Button className={'!max-w-120px h-[30px]'} variant='primary' onClick={item.dismiss} >DISMISS</Button>
-                }
-            ]
+            // icons : true,
+            // duration: 5000 ,
+            // buttons : [
+            //     (item ) => {
+            //         console.log(item)
+            //         return <Button className={'!max-w-120px h-[30px]'} variant='primary' onClick={item.dismiss} >DISMISS</Button>
+            //     }
+            // ]
         })
     }
 
+    
     return (
         <Frame>
             <Body padding>

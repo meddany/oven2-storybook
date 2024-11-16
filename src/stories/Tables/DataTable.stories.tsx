@@ -58,6 +58,7 @@ const Template = (args) => {
                     tid={12}
                     tableName='Nextgen Table ...'
                     dataset={d}
+                    toolbarBtns={[]}
                     ref={callback}
                     enablePagination={true}
                     pageSize={50}

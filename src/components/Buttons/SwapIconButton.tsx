@@ -6,7 +6,13 @@ export const SwapIconButton =  forwardRef( (props, ref) => {
     const [ icon , setIcon ] = useState([])
     const [ state , setState ] = useState('')
     const [ stateIndex , setStateIndex ] = useState(1)
-    const { icon1 , icon2 , tooltip1 , tooltip2 , onClick } = props;
+    const { icon1 ,
+         icon2 , 
+        tooltip1 , 
+        tooltip2 , 
+        onClick , 
+        ripple=true
+     } = props;
 
     useEffect( () => {
         setIcon(icon1)
@@ -18,6 +24,7 @@ export const SwapIconButton =  forwardRef( (props, ref) => {
             <IconButton 
                 { ...props }
                 icon={ icon ? icon : null }
+                ripple={ripple}
                 onClick={() => {
                     setIcon( prev => {
                         return stateIndex == 1 ? icon2 : icon1 

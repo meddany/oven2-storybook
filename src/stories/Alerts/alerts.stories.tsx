@@ -11,7 +11,6 @@ export default {
   },
 } 
 
-const s = useRandomId();
 const b = `
 151.98.30.91]-[DEBUG]:  
             =========================
@@ -19,7 +18,7 @@ const b = `
                 -stdout =
                 -stderr = } | awk -F' '{print }' : -c: line 0: unexpected EOF while looking for matching''
 `
-
+const c = 'Hello form asdads'
 const Template = (args) => {
     const ref = useRef()
     const [ dialog , setDialog ] = useState({})
@@ -27,12 +26,12 @@ const Template = (args) => {
     const handleOnClick= (extra) => {
         setDialog({ 
             id : useRandomId() ,
-            body : "Please consider this as a long message because we are trying to check the actual width ???",
+            body : b,
             autoDecline :false,
             type : extra.type,
             autoAccept : true ,
-            // acceptButtonParams : { variant : 'primary'} ,
-            // declineButtonParams : { variant : 'primary'} ,
+            acceptButtonParams : { variant : 'ghost'} ,
+            declineButtonParams : { variant : 'primary'} ,
             extraButtons : [
                 // <Button>TEST</Button>
             ] ,

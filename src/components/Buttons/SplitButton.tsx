@@ -4,13 +4,8 @@ import { cn } from '@/lib/utils'
 import { Button } from '..';
 import { IconButton } from '..';
 import {ChevronDown} from 'lucide-react'
-import { cva } from '..';
 import { ContextMenu } from '..';
 
-const vrs = cva('pr-2' , {
-    variants : {
-    } ,
-})
 
 export const SplitButton = (props) => {
     const [ event , setEvent ] = useState(null)
@@ -25,26 +20,27 @@ export const SplitButton = (props) => {
         menuItems=[],
         onClick=()=>{},
         buttonProps={
-            variant:'ghost'
+            variant:'primary'
         },
         iconProps={
             outline : false,
-            variant:'ghost'
+            variant:'primary'
         }
     } = props;
 
     return (
-        <div ref={ref} className={cn('relative flex items-center w-fit h-full' , className )}>
+        <div ref={ref} className={cn('relative flex items-center h-[35px] overflow-hidden' , className )}>
             <Button {...buttonProps} disable={disabled} className='relative' onClick={onClick}>
                 {children}
             </Button>
             {
                 split ? <div className='relative right-0  w-[1px] ml-[1px]'> </div> : null
             }
+
             <IconButton
                 {...iconProps}
                 onClick={(event) => {
-                    let coords = ref.current.getBoundingClientRect();
+                    const coords = ref.current.getBoundingClientRect();
                     setLocation({x:coords.x ,y: coords.y + coords.height + 5})
                     setEvent(event)
                 }}

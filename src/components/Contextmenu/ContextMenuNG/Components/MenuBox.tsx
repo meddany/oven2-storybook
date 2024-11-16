@@ -133,35 +133,41 @@ export const MenuBox = forwardRef( (props, ref ) => {
                                 null
                             : null
                         }
-                        <PinnedMenuItem onClick={handleOnClick}  border={border} pinned={true} items={data ? data?.filter( item => item.pinned || item.pinned == 'both' ) : []} />
-                            <div className='w-full h-auto' >
-                                <ScrollArea className='relative max-h-[70vh] overflow-auto' >
-                                    { data ? 
-                                        data.map( ( item , index ) => {
-                                            const id = useRandomId()
-                                            return <MenuItem 
-                                                        menuRef={menuRef} 
-                                                        key={index} 
-                                                        type={item.type}
-                                                        size={item.size} 
-                                                        label={item.label} 
-                                                        onClick={handleOnClick} 
-                                                        onHover={(e)=>{handleOnHover(e,item)}} 
-                                                        seperator={item.seperator} 
-                                                        disabled={item.disabled}
-                                                        shortcut={item.shortcut}
-                                                        subItems={item.subItems}
-                                                        msize={msize}
-                                                        item={item}
-                                                        border={border}
-                                                        id={id}
-                                                        danger={item.danger}
-                                                        icon={item.icon}
-                                                    />
-                                        } ) : null
-                                    }
-                                </ScrollArea>
-                            </div>
+                        <PinnedMenuItem 
+                            onClick={handleOnClick}  
+                            border={border} 
+                            pinned={true} 
+                            items={data ? data?.filter( item => item.pinned || item.pinned == 'both' ) : []} 
+                        />
+                        
+                        <div className='w-full h-auto' >
+                            <ScrollArea className='relative max-h-[70vh] overflow-auto' >
+                                { data ? 
+                                    data.map( ( item , index ) => {
+                                        const id = useRandomId()
+                                        return <MenuItem 
+                                                    menuRef={menuRef} 
+                                                    key={index} 
+                                                    type={item.type}
+                                                    size={item.size} 
+                                                    label={item.label} 
+                                                    onClick={handleOnClick} 
+                                                    onHover={(e)=>{handleOnHover(e,item)}} 
+                                                    seperator={item.seperator} 
+                                                    disabled={item.disabled}
+                                                    shortcut={item.shortcut}
+                                                    subItems={item.subItems}
+                                                    msize={msize}
+                                                    item={item}
+                                                    border={border}
+                                                    id={id}
+                                                    danger={item.danger}
+                                                    icon={item.icon}
+                                                />
+                                    } ) : null
+                                }
+                            </ScrollArea>
+                        </div>
                     </CardContent>
                 </Card>
             </div>

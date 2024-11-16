@@ -1,14 +1,13 @@
 //@ts-nocheck
 import React , { useState , useEffect, forwardRef } from 'react'
-import { Button as ShButton } from '../ui/button'
-import { cva, type VariantProps } from "class-variance-authority"
+import { cva } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 import { MenuItem } from '@mui/material'
 import { StyledTooltip } from './Button';
 import Zoom from '@mui/material/Zoom';
 
 const vrs = cva(
-  "relative w-[40px] h-[40px] flex items-center justify-center !p-0 !m-0 transition-all duration-75 ease-in-out",
+  "relative w-[35px] h-[35px] flex items-center justify-center !p-0 !m-0 transition-all duration-75 ease-in-out",
   {
     variants : {
       variant : {
@@ -17,7 +16,7 @@ const vrs = cva(
         ghost : '!bg-accent text-gray-500' ,
       } ,
       outline : {
-        true : "focus:outline-2 outline-offset-2 focus:outline focus:outline-blue-500"
+        true : "focus:outline-2 outline-offset-1 focus:outline focus:outline-blue-500"
       },
       border : {
         true : "!border-[2px] !border-solid !border-blue-600 "
@@ -47,6 +46,7 @@ export const IconButton = forwardRef( (props, ref )=> {
       outline,
       border,
       disable,
+      ripple=true,
       onClick=()=>{}
     } = props;
 
@@ -67,8 +67,8 @@ export const IconButton = forwardRef( (props, ref )=> {
         TransitionComponent={Zoom}
         TransitionProps={{ timeout:200 }}
       >
-          <MenuItem disabled={disable} ref={ref} className={ cn(vrs({variant,outline,border,disable}) , '!cursor-default' , className )} onClick={handleOnClick}  >
-            <div className='!w-full h-full flex items-center justify-center *:h-[20px] *:w-[20px]'>
+          <MenuItem disableRipple={!ripple} disabled={disable} ref={ref} className={ cn(vrs({variant,outline,border,disable}) , '!cursor-default' , className )} onClick={handleOnClick}  >
+            <div className='!w-full !h-full flex items-center justify-center *:h-[20px] *:w-[20px]'>
               {buttonIcon}
             </div>
           </MenuItem>
